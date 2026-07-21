@@ -15,7 +15,8 @@ export async function connectDB() {
   const MONGODB_URI = process.env.MONGODB_URI
 
   if (!MONGODB_URI) {
-    throw new Error('❌ MONGODB_URI missing in environment variables')
+    console.error('❌ MONGODB_URI missing in environment variables')
+    return null
   }
 
   if (cached.conn) {
