@@ -3,47 +3,60 @@ import { connectDB } from "@/lib/mongodb";
 import Project from "@/models/Project";
 import ProjectDetailClient from "./ProjectDetailClient";
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const decodedId = decodeURIComponent(id);
-  await connectDB();
-  
-  const project = await Project.findOne({ 
-    $or: [
-      { slug: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
-      { title: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
-      { slug: { $regex: new RegExp('^' + decodedId.replace(/ /g, '-') + '$', 'i') } },
-      { _id: decodedId.match(/^[0-9a-fA-F]{24}$/) ? decodedId : null }
-    ] 
-  }).lean() as any;
+  try {
+    const conn = await connectDB();
+    if (!conn) return { title: "Project | G Digital India" };
 
-  if (!project) return { title: "Project Not Found" };
+    const project = await Project.findOne({
+      $or: [
+        { slug: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
+        { title: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
+        { slug: { $regex: new RegExp('^' + decodedId.replace(/ /g, '-') + '$', 'i') } },
+        { _id: decodedId.match(/^[0-9a-fA-F]{24}$/) ? decodedId : null }
+      ]
+    }).lean() as any;
 
-  return {
-    title: project.metaTitle || `${project.title} | Portfolio | G Digital India`,
-    description: project.metaDescription || (project.description && project.description.replace(/<[^>]*>?/gm, '').substring(0, 160)),
-    keywords: project.metaKeywords || project.category,
-  };
+    if (!project) return { title: "Project Not Found" };
+
+    return {
+      title: project.metaTitle || `${project.title} | Portfolio | G Digital India`,
+      description: project.metaDescription || (project.description && project.description.replace(/<[^>]*>?/gm, '').substring(0, 160)),
+      keywords: project.metaKeywords || project.category,
+    };
+  } catch {
+    return { title: "Project | G Digital India" };
+  }
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const decodedId = decodeURIComponent(id);
-  await connectDB();
+  let initialProject = null;
 
-  const projectData = await Project.findOne({ 
-    $or: [
-      { slug: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
-      { title: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
-      { slug: { $regex: new RegExp('^' + decodedId.replace(/ /g, '-') + '$', 'i') } },
-      { _id: decodedId.match(/^[0-9a-fA-F]{24}$/) ? decodedId : null }
-    ] 
-  }).lean();
-
-  const initialProject = projectData ? JSON.parse(JSON.stringify(projectData)) : null;
+  try {
+    const conn = await connectDB();
+    if (conn) {
+      const projectData = await Project.findOne({
+        $or: [
+          { slug: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
+          { title: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
+          { slug: { $regex: new RegExp('^' + decodedId.replace(/ /g, '-') + '$', 'i') } },
+          { _id: decodedId.match(/^[0-9a-fA-F]{24}$/) ? decodedId : null }
+        ]
+      }).lean();
+      initialProject = projectData ? JSON.parse(JSON.stringify(projectData)) : null;
+    }
+  } catch (err) {
+    console.error('⚠️ Project detail: DB fetch failed:', (err as Error).message);
+  }
 
   return (
-    <ProjectDetailClient 
+    <ProjectDetailClient
       initialProject={initialProject}
       idOrSlug={id}
     />

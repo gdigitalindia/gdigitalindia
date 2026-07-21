@@ -2,13 +2,19 @@ import { connectDB } from "@/lib/mongodb";
 import Project from "@/models/Project";
 import ProjectsPageClient from "./ProjectsPageClient";
 
-export const revalidate = 60; 
+export const dynamic = 'force-dynamic';
 
 export default async function ProjectsPage() {
-  await connectDB();
-  
-  const data = await Project.find().sort({ order: 1 }).lean();
-  const projects = JSON.parse(JSON.stringify(data));
+  let projects: any[] = [];
+  try {
+    const conn = await connectDB();
+    if (conn) {
+      const data = await Project.find().sort({ order: 1 }).lean();
+      projects = JSON.parse(JSON.stringify(data));
+    }
+  } catch (err) {
+    console.error('⚠️ Projects page: DB fetch failed:', (err as Error).message);
+  }
 
   return <ProjectsPageClient initialProjects={projects} />;
 }

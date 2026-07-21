@@ -3,38 +3,48 @@ import { connectDB } from "@/lib/mongodb";
 import Page from "@/models/Page";
 import { Metadata } from "next";
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
-  await connectDB();
-  const page = await Page.findOne({ slug: "refund-policy" }).lean() as any;
-  return {
-    title: page?.metaTitle || "Refund Policy | G Digital India",
-    description: page?.metaDescription || "Read our refund policy for G Digital India services.",
-    keywords: page?.metaKeywords || "refund policy, G Digital India",
-  };
+  try {
+    const conn = await connectDB();
+    if (!conn) throw new Error('No DB');
+    const page = await Page.findOne({ slug: "refund-policy" }).lean() as any;
+    return {
+      title: page?.metaTitle || "Refund Policy | G Digital India",
+      description: page?.metaDescription || "Read our refund policy for G Digital India services.",
+      keywords: page?.metaKeywords || "refund policy, G Digital India",
+    };
+  } catch {
+    return { title: "Refund Policy | G Digital India", description: "Read our refund policy." };
+  }
 }
 
 export default async function RefundPolicy() {
-  await connectDB();
-  
-  let page = await Page.findOne({ slug: "refund-policy" }).lean();
-
-  if (!page) {
-    // Seed initial data if not present
-    page = await Page.create({
-      slug: "refund-policy",
-      title: "Refund Policy",
-      content: `
-        <h2>1. Refund Eligibility</h2>
-        <p>We want our customers to be fully satisfied with our digital marketing services. Refunds are processed based on the specific service agreement milestones.</p>
-        <h2>2. Refund Process</h2>
-        <p>To request a refund, you must contact us via email with a detailed explanation of your dissatisfaction within 30 days of payment.</p>
-        <h2>3. Non-Refundable Services</h2>
-        <p>Third-party spends (e.g., Google Ads, Meta Ads, domain purchases) are strictly non-refundable.</p>
-      `,
-    });
+  let safePage: any = { title: 'Refund Policy', content: '<p>Please check back later.</p>' };
+  try {
+    const conn = await connectDB();
+    if (conn) {
+      let page = await Page.findOne({ slug: "refund-policy" }).lean();
+      if (!page) {
+        page = await Page.create({
+          slug: "refund-policy",
+          title: "Refund Policy",
+          content: `
+            <h2>1. Refund Eligibility</h2>
+            <p>We want our customers to be fully satisfied with our digital marketing services. Refunds are processed based on the specific service agreement milestones.</p>
+            <h2>2. Refund Process</h2>
+            <p>To request a refund, you must contact us via email with a detailed explanation of your dissatisfaction within 30 days of payment.</p>
+            <h2>3. Non-Refundable Services</h2>
+            <p>Third-party spends (e.g., Google Ads, Meta Ads, domain purchases) are strictly non-refundable.</p>
+          `,
+        });
+      }
+      safePage = JSON.parse(JSON.stringify(page));
+    }
+  } catch (err) {
+    console.error('⚠️ Refund Policy: DB fetch failed:', (err as Error).message);
   }
-
-  const safePage = JSON.parse(JSON.stringify(page));
 
   return (
     <main style={{ minHeight: "100vh", background: "#0a0a0a", color: "#fff", paddingTop: "150px", paddingBottom: "100px" }}>

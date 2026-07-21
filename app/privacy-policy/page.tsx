@@ -3,38 +3,48 @@ import { connectDB } from "@/lib/mongodb";
 import Page from "@/models/Page";
 import { Metadata } from "next";
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
-  await connectDB();
-  const page = await Page.findOne({ slug: "privacy-policy" }).lean() as any;
-  return {
-    title: page?.metaTitle || "Privacy Policy | G Digital India",
-    description: page?.metaDescription || "Read our privacy policy to understand how we handle your data.",
-    keywords: page?.metaKeywords || "privacy policy, G Digital India",
-  };
+  try {
+    const conn = await connectDB();
+    if (!conn) throw new Error('No DB');
+    const page = await Page.findOne({ slug: "privacy-policy" }).lean() as any;
+    return {
+      title: page?.metaTitle || "Privacy Policy | G Digital India",
+      description: page?.metaDescription || "Read our privacy policy to understand how we handle your data.",
+      keywords: page?.metaKeywords || "privacy policy, G Digital India",
+    };
+  } catch {
+    return { title: "Privacy Policy | G Digital India", description: "Read our privacy policy." };
+  }
 }
 
 export default async function PrivacyPolicy() {
-  await connectDB();
-  
-  let page = await Page.findOne({ slug: "privacy-policy" }).lean();
-
-  if (!page) {
-    // Seed initial data if not present
-    page = await Page.create({
-      slug: "privacy-policy",
-      title: "Privacy Policy",
-      content: `
-        <h2>1. Information We Collect</h2>
-        <p>We collect personal information that you voluntarily provide to us when you express an interest in obtaining information about us or our services.</p>
-        <h2>2. How We Use Your Information</h2>
-        <p>We use the information we collect to provide, maintain, and improve our services, to process transactions, and to send related communications.</p>
-        <h2>3. Information Security</h2>
-        <p>We implement appropriate technical and organizational security measures designed to protect the security of any personal information we process.</p>
-      `,
-    });
+  let safePage: any = { title: 'Privacy Policy', content: '<p>Please check back later.</p>' };
+  try {
+    const conn = await connectDB();
+    if (conn) {
+      let page = await Page.findOne({ slug: "privacy-policy" }).lean();
+      if (!page) {
+        page = await Page.create({
+          slug: "privacy-policy",
+          title: "Privacy Policy",
+          content: `
+            <h2>1. Information We Collect</h2>
+            <p>We collect personal information that you voluntarily provide to us when you express an interest in obtaining information about us or our services.</p>
+            <h2>2. How We Use Your Information</h2>
+            <p>We use the information we collect to provide, maintain, and improve our services, to process transactions, and to send related communications.</p>
+            <h2>3. Information Security</h2>
+            <p>We implement appropriate technical and organizational security measures designed to protect the security of any personal information we process.</p>
+          `,
+        });
+      }
+      safePage = JSON.parse(JSON.stringify(page));
+    }
+  } catch (err) {
+    console.error('⚠️ Privacy Policy: DB fetch failed:', (err as Error).message);
   }
-
-  const safePage = JSON.parse(JSON.stringify(page));
 
   return (
     <main style={{ minHeight: "100vh", background: "#0a0a0a", color: "#fff", paddingTop: "150px", paddingBottom: "100px" }}>

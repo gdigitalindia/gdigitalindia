@@ -1,25 +1,4 @@
-import About from "./components/About/About";
-// import Counters from "./components/Counters/Counters";
-import Slider from "./components/Slider/Slider";
-import Services from "./components/Services/Services";
-import Projects from "./components/Projects/Projects";
-import Clients from "./components/Clients/Clients";
-import Testimonials from "./components/Testimonials/Testimonials";
-import BlogSection from "./components/Blog/Blog";
-import Reels from "./components/Reels/Reels";
-import Industries from "./components/Industries/Industries";
-import { connectDB } from "@/lib/mongodb";
-import SliderModel from "@/models/Slider";
-import SiteSettings from "@/models/SiteSettings";
-import AboutModel from "@/models/About";
-import ServiceCategory from "@/models/ServiceCategory";
-import ProjectModel from "@/models/Project";
-import BlogModel from "@/models/Blog";
-import IndustryModel from "@/models/Industry";
-import { Metadata } from "next";
-import { syncWebsiteServices } from "@/lib/dbInit";
-
-const defaultIndustries = [
+export const defaultIndustries = [
   {
     title: "Healthcare Digital Marketing & Patient Acquisition Solutions",
     slug: "healthcare",
@@ -101,9 +80,9 @@ const defaultIndustries = [
       <p>Whether you run an international school, a university, or a modern EdTech startup, our education marketing solutions focus on driving admissions and building institutional trust.</p>
       <h3>Key Services for Education Sector:</h3>
       <ul>
-        <li><strong>Admission Season Campaigns:</strong> Time-sensitive Google & social campaigns to capture student applications.</li>
-        <li><strong>Brand Awareness & PR:</strong> Promoting your academic achievements, infrastructure, and student success stories.</li>
-        <li><strong>Lead Nurturing Funnels:</strong> Retargeting & email marketing sequences to convert inquiries into admissions.</li>
+        <li><strong>Admission Season Campaigns:</strong> Time-sensitive Google &amp; social campaigns to capture student applications.</li>
+        <li><strong>Brand Awareness &amp; PR:</strong> Promoting your academic achievements, infrastructure, and student success stories.</li>
+        <li><strong>Lead Nurturing Funnels:</strong> Retargeting &amp; email marketing sequences to convert inquiries into admissions.</li>
       </ul>
     `,
     order: 3
@@ -170,7 +149,7 @@ const defaultIndustries = [
 
 
   <div>
-    <h3 class="ec-sec-title">Performance Marketing & Scale Packages</h3>
+    <h3 class="ec-sec-title">Performance Marketing &amp; Scale Packages</h3>
     <p class="ec-intro" style="margin-bottom: 25px;">Select the ideal performance package to scale your sales, optimized over a 3-month growth window:</p>
     <div class="ec-pricing-table">
       <!-- Starter Card -->
@@ -179,10 +158,10 @@ const defaultIndustries = [
         <div class="ec-price-val">₹30,000 <em>/ 3 Mos</em></div>
         <p class="ec-price-desc">Perfect for testing new products or starting ad channels.</p>
         <ul class="ec-price-features">
-          <li>Meta Ads & Catalog Setup</li>
+          <li>Meta Ads &amp; Catalog Setup</li>
           <li>Standard Retargeting Funnel</li>
           <li>Weekly Creative Hook Strategy</li>
-          <li class="disabled">WhatsApp Flow Builders & CTWA</li>
+          <li class="disabled">WhatsApp Flow Builders &amp; CTWA</li>
           <li class="disabled">Email Flows (Abandoned Cart, etc.)</li>
         </ul>
       </div>
@@ -194,11 +173,11 @@ const defaultIndustries = [
         <p class="ec-price-desc">Designed to scale existing sales and maximize your ROI.</p>
         <ul class="ec-price-features">
           <li>Meta Ads (Catalog, Advantage+)</li>
-          <li>Google Ads (PMax & Shopping)</li>
+          <li>Google Ads (PMax &amp; Shopping)</li>
           <li>Website Audit</li>
-          <li>Custom Lookalike & Custom Audiences</li>
+          <li>Custom Lookalike &amp; Custom Audiences</li>
           <li>Full Re-Marketing Campaigns</li>
-          <li class="disabled">WhatsApp Flow Builders & CTWA</li>
+          <li class="disabled">WhatsApp Flow Builders &amp; CTWA</li>
           <li class="disabled">Email Flows (Abandoned Cart, etc.)</li>
         </ul>
       </div>
@@ -208,12 +187,12 @@ const defaultIndustries = [
         <span class="ec-price-badge">RECOMMENDED</span>
         <h4 class="ec-price-title">PREMIUM</h4>
         <div class="ec-price-val">₹60,000 <em>/ 3 Mos</em></div>
-        <p class="ec-price-desc">All-inclusive performance scale with full WhatsApp & Email Automation.</p>
+        <p class="ec-price-desc">All-inclusive performance scale with full WhatsApp &amp; Email Automation.</p>
         <ul class="ec-price-features">
           <li>Full Meta Scale (Advantage+ Shopping)</li>
           <li>Full Google Ads Stack (PMax, Search, GMC)</li>
           <li>Instagram Engaged Remarketing</li>
-          <li>WhatsApp Automation & Flowbuilder</li>
+          <li>WhatsApp Automation &amp; Flowbuilder</li>
           <li>WhatsApp CTWA Broadcasting Ads</li>
           <li>Email Marketing Flows (Welcome, Loyalty)</li>
           <li>Abandoned Cart Recovery Automation</li>
@@ -258,140 +237,3 @@ const defaultIndustries = [
     order: 6
   }
 ];
-
-export async function generateMetadata(): Promise<Metadata> {
-  try {
-    const conn = await connectDB();
-    if (!conn) throw new Error('No DB');
-    const settings = await SiteSettings.findOne().lean() as any;
-    return {
-      title: settings?.metaTitle || "G Digital India | Best Digital Marketing Agency",
-      description: settings?.metaDescription || "We provide the best SEO, Web Design and PPC services.",
-      keywords: settings?.metaKeywords || "digital marketing, seo, web design",
-    };
-  } catch {
-    return {
-      title: "G Digital India | Best Digital Marketing Agency",
-      description: "We provide the best SEO, Web Design and PPC services.",
-    };
-  }
-}
-
-export const dynamic = 'force-dynamic';
-
-export default async function Home() {
-  let sliders: any[] = [], aboutData: any = null, categories: any[] = [], projects: any[] = [], blogs: any[] = [], industries: any[] = [];
-
-  try {
-    const conn = await connectDB();
-    if (conn) {
-      await syncWebsiteServices();
-
-      [sliders, aboutData, categories, projects, blogs] = await Promise.all([
-        SliderModel.find().lean(),
-        AboutModel.findOne().lean(),
-        ServiceCategory.find().sort({ order: 1, createdAt: -1 }).lean(),
-        ProjectModel.find().lean(),
-        BlogModel.find().sort({ date: -1 }).limit(4).lean()
-      ]);
-
-      industries = await IndustryModel.find().sort({ order: 1, createdAt: -1 }).lean();
-      if (industries.length === 0) {
-        await IndustryModel.insertMany(defaultIndustries);
-        industries = await IndustryModel.find().sort({ order: 1, createdAt: -1 }).lean();
-      } else {
-        // Smart dynamic sync: if existing records do not have structured features,
-        // migrate them automatically to structured arrays for immediate admin panel support!
-        for (const def of defaultIndustries) {
-          const existing = await IndustryModel.findOne({ slug: def.slug }).lean() as any;
-
-          // Force update ecommerce content to reflect pricing changes
-          if (existing && def.slug === 'ecommerce') {
-            await IndustryModel.findOneAndUpdate(
-              { slug: def.slug },
-              { $set: { content: def.content } }
-            );
-          }
-
-          if (existing && (!existing.features || existing.features.length === 0) && def.features && def.features.length > 0) {
-            await IndustryModel.findOneAndUpdate(
-              { slug: def.slug },
-              {
-                $set: {
-                  content: def.content,
-                  featuresTitle: def.featuresTitle,
-                  features: def.features,
-                  rankingsTitle: def.rankingsTitle,
-                  rankings: def.rankings,
-                  profilesTitle: def.profilesTitle,
-                  profiles: def.profiles,
-                  clientsTitle: def.clientsTitle,
-                  clients: def.clients
-                }
-              }
-            );
-          }
-        }
-        // Refresh local industries variable after sync
-        industries = await IndustryModel.find().sort({ order: 1, createdAt: -1 }).lean();
-      }
-    }
-  } catch (err) {
-    console.error('⚠️ Home page: DB fetch failed:', (err as Error).message);
-  }
-
-  // Serialization
-  const initialSliderData = sliders.length > 0 ? JSON.parse(JSON.stringify(sliders[0])) : null;
-  const initialAboutData = aboutData ? JSON.parse(JSON.stringify(aboutData)) : null;
-  const initialIndustriesData = JSON.parse(JSON.stringify(industries));
-  
-  const colors = ["#e8b86d", "#6d9fe8", "#e86d9f", "#6de8b8", "#b86de8", "#e8d06d"];
-  const initialServicesData = categories.map((cat: any, i: number) => ({
-    id: (i + 1).toString().padStart(2, '0'),
-    _id: cat._id.toString(),
-    slug: cat.slug || cat._id.toString(),
-    title: cat.title || cat.name || 'Untitled Category',
-    short: cat.name || cat.title || 'CAT',
-    desc: cat.description || '',
-    highlight: cat.highlight || '',
-    tags: cat.tags || [],
-    img: cat.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop",
-    color: colors[i % colors.length]
-  }));
-
-  const pjColors = ["#6de8b8", "#6d9fe8", "#e86d9f", "#b86de8"];
-  const initialProjectsData = projects.map((p: any, i: number) => {
-    const displayId = (i + 1).toString().padStart(2, '0');
-    const size = i % 4 === 0 ? 'large' : 'small';
-    const color = pjColors[i % pjColors.length];
-    return {
-      _originalId: p._id.toString(),
-      id: displayId,
-      size,
-      title: p.title || 'Untitled Project',
-      category: p.category || 'General',
-      desc: p.description || '',
-      img: p.image || '/images/project-img-1.jpg',
-      color,
-      stats: Array.isArray(p.stats) ? p.stats.map((s: any) => ({ val: s.value || '', label: s.label || '' })) : [],
-      tags: Array.isArray(p.technologies) && p.technologies.length > 0 ? p.technologies : [p.category || 'General'],
-    }
-  });
-
-  const initialBlogsData = JSON.parse(JSON.stringify(blogs));
-
-  return (
-    <>
-      <Slider initialData={initialSliderData} />
-      <About initialData={initialAboutData} />
-      {/* <Counters /> */}
-      <Services initialData={initialServicesData} />
-      <Projects initialData={initialProjectsData} />
-      <Industries initialData={initialIndustriesData} />
-      <Clients />
-      <Reels />
-      <Testimonials />
-      <BlogSection initialData={initialBlogsData} />
-    </>
-  );
-}

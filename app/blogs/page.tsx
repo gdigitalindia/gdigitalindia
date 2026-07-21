@@ -4,13 +4,19 @@ import { connectDB } from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import styles from "./blog-list.module.css";
 
-export const revalidate = 60; 
+export const dynamic = 'force-dynamic';
 
 export default async function BlogListPage() {
-  await connectDB();
-
-  const data = await Blog.find().sort({ createdAt: -1 }).lean();
-  const blogs = JSON.parse(JSON.stringify(data));
+  let blogs: any[] = [];
+  try {
+    const conn = await connectDB();
+    if (conn) {
+      const data = await Blog.find().sort({ createdAt: -1 }).lean();
+      blogs = JSON.parse(JSON.stringify(data));
+    }
+  } catch (err) {
+    console.error('⚠️ Blogs page: DB fetch failed:', (err as Error).message);
+  }
 
   return (
     <main className={styles.blogPage}>
@@ -41,8 +47,8 @@ export default async function BlogListPage() {
                 <Link href={`/blogs/${blog.slug}`} key={blog._id} className={styles.blogCard}>
                   <div className={styles.imageWrap}>
                     <Image
-                      src={blog.image}
-                      alt={blog.title}
+                      src={blog.image || "https://images.unsplash.com/photo-1432821596592-e2c18b78144f?w=600&auto=format&fit=crop"}
+                      alt={blog.title || "Blog Image"}
                       fill
                       className={styles.image}
                     />
