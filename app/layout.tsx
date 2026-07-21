@@ -34,23 +34,30 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await connectDB();
-  await syncWebsiteServices();
-  await syncOtherSolutions();
-  const [categories, services, packages] = await Promise.all([
-    ServiceCategory.find().sort({ order: 1, createdAt: -1 }).lean(),
-    Service.find().lean(),
-    Package.find().sort({ order: 1 }).lean()
-  ]);
+  let menuData: any[] = [];
+  let packageData: any[] = [];
 
-  const menuData = JSON.parse(JSON.stringify(
-    categories.map((cat: any) => ({
-      category: cat,
-      services: services.filter((s: any) => s.category === cat.name)
-    }))
-  ));
+  try {
+    await connectDB();
+    await syncWebsiteServices();
+    await syncOtherSolutions();
+    const [categories, services, packages] = await Promise.all([
+      ServiceCategory.find().sort({ order: 1, createdAt: -1 }).lean(),
+      Service.find().lean(),
+      Package.find().sort({ order: 1 }).lean()
+    ]);
 
-  const packageData = JSON.parse(JSON.stringify(packages));
+    menuData = JSON.parse(JSON.stringify(
+      categories.map((cat: any) => ({
+        category: cat,
+        services: services.filter((s: any) => s.category === cat.name)
+      }))
+    ));
+
+    packageData = JSON.parse(JSON.stringify(packages));
+  } catch (err) {
+    console.error('⚠️ DB unavailable during build, using empty defaults:', (err as Error).message);
+  }
 
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
