@@ -1,0 +1,56 @@
+
+/* Fonts are now handled via next/font in layout.tsx */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+img {
+  max-width: 100%;
+}
+
+a,
+a:hover,
+a:focus,
+a:visited,
+a:active {
+  text-decoration: none;
+}
+
+p,
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-playfair), serif;
+  background-color: #f6f6f6;
+}
+
+/* Strip unwanted inline styles from copy-pasted rich text content */
+[class*="content"] p[style*="background-color"], [class*="content"] span[style*="background-color"], [class*="content"] b[style*="background-color"],
+[class*="text"] p[style*="background-color"], [class*="text"] span[style*="background-color"], [class*="text"] b[style*="background-color"],
+[class*="faq"] p[style*="background-color"], [class*="faq"] span[style*="background-color"], [class*="faq"] b[style*="background-color"],
+[class*="desc"] p[style*="background-color"], [class*="desc"] span[style*="background-color"], [class*="desc"] b[style*="background-color"],
+[class*="offer"] p[style*="background-color"], [class*="offer"] span[style*="background-color"], [class*="offer"] b[style*="background-color"],
+.admin-preview-text p[style*="background-color"], .admin-preview-text span[style*="background-color"], .admin-preview-text b[style*="background-color"],
+.ql-editor p[style*="background-color"], .ql-editor span[style*="background-color"], .ql-editor b[style*="background-color"] {
+  background-color: transparent !important;
+}
+
+[class*="content"] p[style*="color:"], [class*="content"] span[style*="color:"], [class*="content"] b[style*="color:"],
+[class*="text"] p[style*="color:"], [class*="text"] span[style*="color:"], [class*="text"] b[style*="color:"],
+[class*="faq"] p[style*="color:"], [class*="faq"] span[style*="color:"], [class*="faq"] b[style*="color:"],
+[class*="desc"] p[style*="color:"], [class*="desc"] span[style*="color:"], [class*="desc"] b[style*="color:"],
+[class*="offer"] p[style*="color:"], [class*="offer"] span[style*="color:"], [class*="offer"] b[style*="color:"],
+.admin-preview-text p[style*="color:"], .admin-preview-text span[style*="color:"], .admin-preview-text b[style*="color:"],
+.ql-editor p[style*="color:"], .ql-editor span[style*="color:"], .ql-editor b[style*="color:"] {
+  color: inherit !important;
+}

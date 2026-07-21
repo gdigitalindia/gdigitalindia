@@ -1,0 +1,335 @@
+/* Navbar main */
+.navbar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Inter", sans-serif;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Center Links Glass Background */
+.navbar-links {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.1); /* transparent white */
+  backdrop-filter: blur(12px); /* blur effect */
+  -webkit-backdrop-filter: blur(12px); /* safari support */
+
+  padding: 20px 25px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Links styling */
+.navbar-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.navbar-links a:hover {
+  color: #ff6600;
+}
+
+/* Agar background video hai to text white karna zaruri hai */
+.navbar {
+  background: transparent;
+}
+
+/* Mega Menu Styles */
+.servicesDropdown {
+  position: relative;
+}
+
+.servicesLink {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: 0.3s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.servicesLink:hover {
+  color: #ff6600;
+}
+
+.dropdownIcon {
+  font-size: 10px;
+  transition: 0.3s;
+}
+
+.servicesDropdown:hover .dropdownIcon {
+  transform: rotate(180deg);
+}
+
+.megaMenu {
+  position: absolute;
+  top: 150%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 900px;
+  background: #000;
+  border-top: 2px solid #ff6600;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border-radius: 4px;
+  padding: 30px 40px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+/* On Desktop Hover */
+@media (min-width: 769px) {
+  .servicesDropdown:hover .megaMenu {
+    top: 100%;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.packageMenu {
+  width: 250px;
+  min-width: unset;
+  left: 0;
+  transform: none;
+}
+
+.megaMenuContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.megaMenuColumn {
+  flex: 1;
+  min-width: 200px;
+}
+
+.megaMenuCategory {
+  color: #ff6600;
+  font-size: 15px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255,102,0,0.3);
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+  margin-top: 0;
+}
+
+.megaMenuCategory a {
+  color: #ff6600;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.megaMenuCategory a:hover {
+  opacity: 0.8;
+}
+
+.megaMenuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.megaMenuList li a {
+  color: #fff;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: block;
+}
+
+.megaMenuList li a:hover {
+  color: #ff6600;
+}
+
+/* Logo */
+.navbar-logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2c1e1e;
+  letter-spacing: 2px;
+}
+
+/* Buttons */
+.navbar-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+/* Button Styles */
+.btn-outline {
+  padding: 10px 22px;
+  border: 2px solid #c46328;
+  color: #c46328;
+  border-radius: 25px;
+  background: transparent;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.btn-outline:hover {
+  background: #c46328;
+  color: white;
+}
+
+.btn-filled {
+  padding: 15px 40px;
+  border: none;
+  background: #c4833c;
+  color: white;
+  font-weight: bold;
+  border-radius: 25px;
+  font-size: 15px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.btn-filled:hover {
+  background: #a86320;
+  color: #fff;
+}
+
+/* Hamburger Toggler */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Desktop/Mobile Display Controls */
+.desktop-only {
+  display: flex;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .navbar-logo {
+    width: 150px;
+  }
+  
+  .navbar-logo img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: #353535;
+    padding: 20px;
+    display: none;
+    animation: slideDown 0.3s ease forwards;
+    border-top: 1px solid #ddd;
+    border-radius: 10px;
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .mobileMegaMenuOpen {
+    position: static;
+    transform: none;
+    width: 100%;
+    opacity: 1;
+    visibility: visible;
+    background: transparent;
+    box-shadow: none;
+    border-top: none;
+    padding: 10px 0 0 10px;
+  }
+
+  .megaMenuContainer {
+    flex-direction: column;
+  }
+
+  .megaMenuColumn {
+    margin-bottom: 20px;
+  }
+
+  .mobile-only {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-10%);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}

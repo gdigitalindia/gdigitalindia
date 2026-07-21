@@ -1,0 +1,167 @@
+.page {
+  background: #fdfaf7;
+  padding-bottom: 100px;
+}
+
+.hero {
+  background: #000;
+  padding: 120px 20px 80px;
+  text-align: center;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroTitle {
+  font-family: var(--font-playfair);
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.heroDesc {
+  color: var(--accent-orange);
+  font-size: 18px;
+  font-weight: 500;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.toggleContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 40px 0;
+}
+
+.toggleBtn {
+  padding: 8px 20px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.toggleBtnActive {
+  background: #fff7ed;
+  border-color: #ff6600;
+  color: #ff6600;
+}
+
+.grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ffccbc;
+  border-radius: 12px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+.cardPopular {
+  border-color: #ff6600;
+  box-shadow: 0 10px 30px rgba(255,102,0,0.1);
+}
+
+.planName {
+  font-family: var(--font-playfair);
+  font-size: 32px;
+  color: #ff6600;
+  margin-bottom: 20px;
+}
+
+.priceWrap {
+  margin-bottom: 30px;
+}
+
+.currency {
+  font-size: 24px;
+  vertical-align: top;
+  margin-right: 4px;
+}
+
+.amount {
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.period {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+  text-align: left;
+}
+
+.featureItem {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.featureItem::before {
+  content: '✔';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: #ff6600;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.ctaBtn {
+  width: 100%;
+  padding: 14px;
+  background: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.ctaBtn:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .heroTitle {
+    font-size: 36px;
+  }
+}

@@ -1,0 +1,543 @@
+/* ── SECTION SHELL ────────────────────────────── */
+.bl {
+  position: relative;
+  overflow: hidden;
+  background: #060608;
+  padding: 0 0 0;
+}
+
+/* ── BACKGROUND (mirrors About) ──────────────── */
+.bl-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bl-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.04;
+  mix-blend-mode: luminosity;
+}
+
+.bl-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #060608 0%, rgba(6,6,8,0.85) 50%, #060608 100%);
+}
+
+.bl-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
+}
+
+.bl-orb-1 {
+  width: 500px;
+  height: 500px;
+  top: -120px;
+  left: -160px;
+  background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+  animation: orbFloat 12s ease-in-out infinite;
+}
+
+.bl-orb-2 {
+  width: 420px;
+  height: 420px;
+  bottom: 100px;
+  right: -100px;
+  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+  animation: orbFloat 15s ease-in-out infinite reverse;
+}
+
+.bl-orb-3 {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #a855f7 0%, transparent 70%);
+  opacity: 0.08;
+  animation: orbFloat 18s ease-in-out infinite;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-28px) scale(1.04); }
+}
+
+.bl-orb-2 {
+  animation-name: orbFloat2;
+}
+@keyframes orbFloat2 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(24px) scale(1.03); }
+}
+
+.bl-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+
+/* ── WRAP ─────────────────────────────────────── */
+.bl-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 96px 32px 0;
+}
+
+/* ── EYEBROW (mirrors About) ──────────────────── */
+.bl-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.bl-eyebrow span {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  white-space: nowrap;
+}
+
+.bl-eyebrow-line {
+  height: 1px;
+  width: 60px;
+  background: linear-gradient(90deg, transparent, #a78bfa66, transparent);
+}
+
+/* ── HERO TEXT ────────────────────────────────── */
+.bl-hero-text {
+  text-align: center;
+  margin-bottom: 64px;
+  animation: fadeUp 0.7s ease 0.1s both;
+}
+
+.bl-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #f1f0ee;
+  margin: 0 0 20px;
+  letter-spacing: -0.03em;
+}
+
+.bl-title em {
+  font-style: italic;
+  background: linear-gradient(90deg, #a78bfa, #67e8f9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bl-tagline {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ── FEATURED POST ────────────────────────────── */
+.bl-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03);
+  text-decoration: none;
+  margin-bottom: 24px;
+  backdrop-filter: blur(10px);
+  transition: border-color 0.3s, transform 0.3s;
+  animation: fadeUp 0.8s ease 0.2s both;
+}
+
+.bl-featured:hover {
+  border-color: rgba(167,139,250,0.3);
+  transform: translateY(-3px);
+}
+
+.bl-featured:hover .bl-feat-img {
+  transform: scale(1.04);
+}
+
+.bl-feat-img-wrap {
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.bl-feat-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.bl-feat-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 40%, rgba(6,6,8,0.6));
+}
+
+/* Badge — same structure as About's years badge */
+.bl-feat-badge {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(6,6,8,0.8);
+  border: 1px solid rgba(167,139,250,0.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  backdrop-filter: blur(8px);
+}
+
+.bl-badge-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #a78bfa;
+  line-height: 1;
+}
+
+.bl-badge-txt {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
+.bl-cat-pill {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  background: rgba(167,139,250,0.12);
+  border: 1px solid rgba(167,139,250,0.25);
+  padding: 5px 12px;
+  border-radius: 6px;
+}
+
+.bl-feat-content {
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+
+.bl-feat-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #4b5563;
+  letter-spacing: 0.06em;
+}
+
+.bl-meta-dot {
+  font-size: 8px;
+  color: #a78bfa;
+}
+
+.bl-feat-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(20px, 2.5vw, 30px);
+  font-weight: 700;
+  color: #f1f0ee;
+  line-height: 1.25;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.bl-feat-excerpt {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #6b7280;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+.bl-feat-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.bl-feat-author {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #4b5563;
+  letter-spacing: 0.06em;
+}
+
+.bl-read-more {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #a78bfa;
+  text-transform: uppercase;
+  transition: letter-spacing 0.2s;
+}
+
+.bl-featured:hover .bl-read-more {
+  letter-spacing: 0.14em;
+}
+
+/* ── GRID CARDS ───────────────────────────────── */
+.bl-grid-posts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+
+.bl-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.bl-card:hover {
+  border-color: rgba(167,139,250,0.25);
+  transform: translateY(-4px);
+}
+
+.bl-card:hover .bl-card-img {
+  transform: scale(1.05);
+}
+
+.bl-card-img-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.bl-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.bl-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(6,6,8,0.7));
+}
+
+.bl-card-cat {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  background: rgba(6,6,8,0.75);
+  border: 1px solid rgba(167,139,250,0.2);
+  padding: 4px 10px;
+  border-radius: 5px;
+  backdrop-filter: blur(6px);
+}
+
+.bl-card-body {
+  padding: 22px 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.bl-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: #374151;
+  letter-spacing: 0.05em;
+}
+
+.bl-card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #e5e3df;
+  line-height: 1.35;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.bl-card-excerpt {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #4b5563;
+  margin: 0;
+  flex: 1;
+  overflow-wrap: break-word;
+}
+
+.bl-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: auto;
+}
+
+.bl-card-author {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: #374151;
+  letter-spacing: 0.05em;
+}
+
+.bl-card-arrow {
+  font-size: 14px;
+  color: #a78bfa;
+  transition: transform 0.2s;
+}
+
+.bl-card:hover .bl-card-arrow {
+  transform: translateX(4px);
+}
+
+/* ── CTA ──────────────────────────────────────── */
+.bl-cta-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 52px 0 0;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+
+.bl-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f1f0ee;
+  text-decoration: none;
+  padding: 15px 36px;
+  border: 1px solid rgba(167,139,250,0.35);
+  border-radius: 50px;
+  background: rgba(167,139,250,0.08);
+  backdrop-filter: blur(8px);
+  transition: background 0.25s, border-color 0.25s, transform 0.2s;
+}
+
+.bl-btn:hover {
+  background: rgba(167,139,250,0.18);
+  border-color: rgba(167,139,250,0.6);
+  transform: translateY(-2px);
+}
+
+/* ── TICKER (exact same as About) ─────────────── */
+.bl-ticker {
+  margin-top: 72px;
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 18px 0;
+  white-space: nowrap;
+}
+
+.bl-ticker-track {
+  display: inline-flex;
+  animation: tickerScroll 28s linear infinite;
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.bl-tick-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.12);
+  padding: 0 20px;
+}
+
+.bl-dot {
+  font-size: 16px;
+  color: #a78bfa;
+  opacity: 0.4;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+/* ── ANIMATIONS ───────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media (max-width: 900px) {
+  .bl-featured {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bl-feat-img-wrap {
+    min-height: 260px;
+  }
+  .bl-grid-posts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .bl-wrap {
+    padding: 72px 20px 0;
+  }
+  .bl-grid-posts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bl-feat-content {
+    padding: 28px 24px 32px;
+  }
+}
