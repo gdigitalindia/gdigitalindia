@@ -257,7 +257,7 @@ export default function Services() {
                     </div>
                   )}
 
-                  <Link href={`/services-category/${svc.slug || svc._id}`} className={styles["sv-cta"]}>
+                  <Link href={`/${svc.slug || svc._id}`} className={styles["sv-cta"]}>
                     Get Started →
                   </Link>
 

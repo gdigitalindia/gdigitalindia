@@ -2,34 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { connectDB } from "@/lib/mongodb";
 import Service from "@/models/Service";
+import ServiceCategory from "@/models/ServiceCategory";
+import Package from "@/models/Package";
 import FaqItem from "@/app/components/FaqItem/FaqItem";
 import styles from "../service-detail/ServiceDetail.module.css";
+import pkgStyles from "../packages/packages.module.css";
 import ConsultationButton from "@/app/components/ConsultationButton/ConsultationButton";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import PackageDetailClient from "../packages/[slug]/PackageDetailClient";
 
-export const revalidate = 60; 
-
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
-  const { id } = await params;
-  const decodedId = decodeURIComponent(id);
-  await connectDB();
-  const service = await Service.findOne({ 
-    $or: [
-      { slug: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
-      { title: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
-      { slug: { $regex: new RegExp('^' + decodedId.replace(/ /g, '-') + '$', 'i') } },
-      { _id: decodedId.match(/^[0-9a-fA-F]{24}$/) ? decodedId : null }
-    ] 
-  }).lean() as any;
-
-  if (!service) return { title: "Service Not Found" };
-
-  return {
-    title: service.metaTitle || `${service.title} | G Digital India`,
-    description: service.metaDescription || (service.description && service.description.replace(/<[^>]*>?/gm, '').substring(0, 160)),
-    keywords: service.metaKeywords || (service.tags && service.tags.join(', ')),
-  };
-}
+export const revalidate = 60;
 
 // ── Inline SVG Icons ───────────────────────────────────────
 const IconHome = () => (
@@ -53,31 +36,174 @@ const IconPhone = () => (
   </svg>
 );
 
-import { notFound } from "next/navigation";
-
-export default async function DynamicServiceDetail({ params }: { params: Promise<{ id: string }> }) {
+async function findRecord(id: string) {
   await connectDB();
-  const { id } = await params;
+  const decoded = decodeURIComponent(id);
+  const regexMatch = { $regex: new RegExp('^' + decoded + '$', 'i') };
+  const idMatch = decoded.match(/^[0-9a-fA-F]{24}$/) ? decoded : null;
 
-  const decodedId = decodeURIComponent(id);
-  // Fetch the service by slug or id
-  const serviceData = await Service.findOne({ 
+  // 1. Try Service
+  const service = await Service.findOne({
     $or: [
-      { slug: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
-      { title: { $regex: new RegExp('^' + decodedId + '$', 'i') } },
-      { slug: { $regex: new RegExp('^' + decodedId.replace(/ /g, '-') + '$', 'i') } },
-      { _id: decodedId.match(/^[0-9a-fA-F]{24}$/) ? decodedId : null }
-    ] 
+      { slug: regexMatch },
+      { title: regexMatch },
+      { slug: { $regex: new RegExp('^' + decoded.replace(/ /g, '-') + '$', 'i') } },
+      { _id: idMatch }
+    ]
   }).lean();
+  if (service) return { type: 'service', data: service };
 
-  if (!serviceData) {
-    notFound();
+  // 2. Try ServiceCategory
+  const category = await ServiceCategory.findOne({
+    $or: [
+      { slug: regexMatch },
+      { name: regexMatch },
+      { slug: { $regex: new RegExp('^' + decoded.replace(/ /g, '-') + '$', 'i') } },
+      { _id: idMatch }
+    ]
+  }).lean();
+  if (category) return { type: 'category', data: category };
+
+  // 3. Try Package
+  const pkg = await Package.findOne({ slug: decoded }).lean();
+  if (pkg) return { type: 'package', data: pkg };
+
+  return null;
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const result = await findRecord(id);
+  if (!result) return { title: "Not Found" };
+
+  const { type, data } = result as any;
+
+  if (type === 'service') {
+    return {
+      title: data.metaTitle || `${data.title} | G Digital India`,
+      description: data.metaDescription || (data.description && data.description.replace(/<[^>]*>?/gm, '').substring(0, 160)),
+      keywords: data.metaKeywords || (data.tags && data.tags.join(', ')),
+    };
+  }
+  if (type === 'category') {
+    return {
+      title: data.metaTitle || `${data.name} | G Digital India`,
+      description: data.metaDescription || (data.description && data.description.replace(/<[^>]*>?/gm, '').substring(0, 160)),
+      keywords: data.metaKeywords || data.name,
+    };
+  }
+  if (type === 'package') {
+    return {
+      title: data.metaTitle || `${data.title} | G Digital India`,
+      description: data.metaDescription || data.description,
+      keywords: data.metaKeywords,
+    };
+  }
+  return { title: "G Digital India" };
+}
+
+export default async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const result = await findRecord(id);
+
+  if (!result) notFound();
+
+  const { type, data } = result as any;
+
+  // ─── PACKAGE PAGE ───────────────────────────────────────────
+  if (type === 'package') {
+    const pkg = JSON.parse(JSON.stringify(data));
+    return <PackageDetailClient pkg={pkg} />;
   }
 
-  const servicesData = await Service.find().sort({ order: 1 }).lean();
+  // ─── CATEGORY PAGE ──────────────────────────────────────────
+  if (type === 'category') {
+    const category = JSON.parse(JSON.stringify(data));
+    const servicesData = await Service.find({ category: category.name }).sort({ order: 1 }).lean();
+    const relatedServices = JSON.parse(JSON.stringify(servicesData));
 
-  // Convert data to plain JS objects to prevent Next.js Serialization error
-  const service = JSON.parse(JSON.stringify(serviceData));
+    return (
+      <div className={styles.page}>
+        {/* ═══ HERO BANNER ═══ */}
+        <section className={styles.hero}>
+          <div className={styles.heroBg} style={{ backgroundImage: `url(${category.image})`, opacity: 0.1 }} />
+          <div className={styles.heroInner}>
+            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+              <Link href="/" className={styles.bcLink}><IconHome /> Home</Link>
+              <span className={styles.bcSep}><IconChevron /></span>
+              <span className={styles.bcCurrent}>{category.name}</span>
+            </nav>
+            <div className={styles.heroTag}>
+              <span className={styles.heroDot} /> Category
+            </div>
+            <h1 className={styles.heroTitle}>{category.title || category.name}</h1>
+            <p className={styles.heroDesc}>
+              {category.description
+                ? category.description.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim().substring(0, 180) + (category.description.replace(/<[^>]*>/g, '').length > 180 ? '...' : '')
+                : "Professional solutions tailored to grow your business sustainably."
+              }
+            </p>
+            <div className={styles.heroActions}>
+              <ConsultationButton className={styles.btnPrimary}>
+                Get Free Consultation <IconArrow size={13} />
+              </ConsultationButton>
+            </div>
+          </div>
+        </section>
+
+        {/* Alternating Content Blocks */}
+        {category.contentBlocks && category.contentBlocks.length > 0 && (
+          <div className={styles.contentBlocks}>
+            {category.contentBlocks.map((block: any, i: number) => {
+              const isReverse = i % 2 === 0;
+              return (
+                <div key={i} className={`${styles.contentBlock} ${isReverse ? styles.contentBlockReverse : ""}`}>
+                  <div className={styles.blockText}>
+                    {block.title && <h3>{block.title}</h3>}
+                    <div dangerouslySetInnerHTML={{ __html: block.text }} />
+                  </div>
+                  {block.image && (
+                    <div className={styles.blockImageWrapper}>
+                      <Image src={block.image} alt={block.title || "Category Content"} width={600} height={400} className={styles.blockImage} style={{ objectFit: 'cover' }} />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Services in this Category */}
+        {relatedServices.length > 0 && (
+          <section className={styles.relatedSection}>
+            <div className={styles.relatedInner}>
+              <span className={styles.sectionLabel}>Our Services</span>
+              <h2 className={styles.contentTitle}>Services in {category.name}</h2>
+              <div className={styles.relatedGrid}>
+                {relatedServices.map((s: any) => (
+                  <Link key={s._id} href={`/${s.slug || s._id}`} className={styles.relatedCard}>
+                    <Image src={s.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop"} alt={s.title} width={600} height={160} className={styles.relatedCardImg} style={{ objectFit: 'cover' }} />
+                    <div className={styles.relatedCardBody}>
+                      <span className={styles.relatedCardTag}>{s.short}</span>
+                      <h3 className={styles.relatedCardTitle}>{s.title}</h3>
+                      <p className={styles.relatedCardText}>
+                        {s.highlight || (s.description && s.description.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').substring(0, 100) + '...')}
+                      </p>
+                      <span className={styles.relatedCardLink}>Read More <IconArrow size={12} /></span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
+    );
+  }
+
+  // ─── SERVICE PAGE ────────────────────────────────────────────
+  const service = JSON.parse(JSON.stringify(data));
+  const servicesData = await Service.find().sort({ order: 1 }).lean();
   const services = JSON.parse(JSON.stringify(servicesData));
 
   return (
@@ -103,7 +229,7 @@ export default async function DynamicServiceDetail({ params }: { params: Promise
           <h1 className={styles.heroTitle}>
             {service.descriptionHeading || service.title}
           </h1>
-          <div 
+          <div
             className={styles.heroDesc}
             dangerouslySetInnerHTML={{ __html: service.description || service.highlight || "Professional solutions tailored to grow your business sustainably." }}
           />
@@ -114,6 +240,7 @@ export default async function DynamicServiceDetail({ params }: { params: Promise
           </div>
         </div>
       </section>
+
       {/* ═══ BOTTOM BODY (FAQs + Sidebar) ═══ */}
       <div className={styles.main}>
 
@@ -133,13 +260,7 @@ export default async function DynamicServiceDetail({ params }: { params: Promise
                     </div>
                     {block.image && (
                       <div className={styles.blockImageWrapper}>
-                        <Image
-                          src={block.image}
-                          alt={block.title || "Service Content"}
-                          width={600} height={400}
-                          className={styles.blockImage}
-                          style={{ objectFit: 'cover' }}
-                        />
+                        <Image src={block.image} alt={block.title || "Service Content"} width={600} height={400} className={styles.blockImage} style={{ objectFit: 'cover' }} />
                       </div>
                     )}
                   </div>

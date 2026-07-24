@@ -74,7 +74,7 @@ export default function Navbar({ initialMenuData, packageData }: { initialMenuDa
                 {megaMenuData.map(group => (
                   <div key={group.category._id} className={styles.megaMenuColumn}>
                     <h3 className={styles.megaMenuCategory}>
-                      <Link href={`/services-category/${group.category.slug || group.category._id}`} onClick={() => { setMenuOpen(false); setServicesOpen(false); }}>
+                      <Link href={`/${group.category.slug || group.category._id}`} onClick={() => { setMenuOpen(false); setServicesOpen(false); }}>
                         {group.category.name}
                       </Link>
                     </h3>
@@ -108,7 +108,7 @@ export default function Navbar({ initialMenuData, packageData }: { initialMenuDa
                   <ul className={styles.megaMenuList}>
                     {packagesList.map(pkg => (
                       <li key={pkg._id}>
-                        <Link href={`/packages/${pkg.slug}`} onClick={() => { setMenuOpen(false); setPackagesOpen(false); }}>
+                        <Link href={`/${pkg.slug}`} onClick={() => { setMenuOpen(false); setPackagesOpen(false); }}>
                           | {pkg.title}
                         </Link>
                       </li>
