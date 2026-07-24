@@ -48,7 +48,7 @@
 .tm-title em { font-style: italic; color: #e8b86d; }
 
 .tm-subtitle {
-  font-size: 15.5px; color: rgba(240,236,227,0.45);
+  font-size: 15.5px; color: rgba(240,236,227,0.80);
   max-width: 440px; margin: 0 auto; line-height: 1.7;
 }
 
@@ -129,7 +129,7 @@
   letter-spacing: -0.02em;
 }
 .tm-metric-lbl {
-  font-size: 11px; color: rgba(240,236,227,0.4);
+  font-size: 11px; color: rgba(240,236,227,0.70);
   text-transform: uppercase; letter-spacing: 0.1em;
 }
 
@@ -146,7 +146,7 @@
   margin-bottom: 16px; letter-spacing: -0.01em;
 }
 .tm-text {
-  font-size: 14.5px; color: rgba(240,236,227,0.5);
+  font-size: 14.5px; color: rgba(240,236,227,0.85);
   line-height: 1.75; margin-bottom: 36px; max-width: 680px;
 }
 
@@ -179,7 +179,7 @@
 }
 .tm-author-role {
   display: block; font-size: 12.5px;
-  color: rgba(240,236,227,0.45); margin-bottom: 2px;
+  color: rgba(240,236,227,0.75); margin-bottom: 2px;
 }
 .tm-author-industry {
   display: block; font-size: 11px;
@@ -191,7 +191,7 @@
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 8px; padding: 6px 14px;
   font-size: 12px; font-weight: 600;
-  color: rgba(240,236,227,0.5);
+  color: rgba(240,236,227,0.85);
   letter-spacing: 0.04em;
 }
 
@@ -251,7 +251,7 @@
 }
 .tm-mini-co {
   display: block; font-size: 10.5px;
-  color: rgba(240,236,227,0.3);
+  color: rgba(240,236,227,0.70);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .tm-mini-metric {

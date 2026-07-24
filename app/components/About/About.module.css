@@ -56,7 +56,7 @@
 
 .ab-title { font-family:'Playfair Display',serif; font-size:clamp(2.4rem,5.5vw,5rem); font-weight:700; color:#f0ece4; line-height:1.1; margin:0 auto 20px; letter-spacing:-0.02em; max-width: 900px; }
 .ab-title em { font-style:italic; color:#c8a05a; }
-.ab-tagline { font-size:clamp(1rem,1.8vw,1.25rem); color:rgba(240,236,228,0.5); font-weight:300; letter-spacing:0.02em; max-width: 800px; margin: 0 auto; }
+.ab-tagline { font-size:clamp(1rem,1.8vw,1.25rem); color:rgba(240,236,228,0.85); font-weight:300; letter-spacing:0.02em; max-width: 800px; margin: 0 auto; }
 
 .ab-split { 
   display:grid; 
@@ -79,7 +79,7 @@
 .ab-para { 
   font-size:16px; 
   line-height:1.85; 
-  color:rgba(240,236,228,.6); 
+  color:rgba(240,236,228,.88); 
   margin:0; 
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -91,7 +91,7 @@
 .ab-val-item:hover { border-color:rgba(200,160,90,.35); background:rgba(200,160,90,.07); }
 .ab-val-icon { font-size:1.4rem; color:#c8a05a; line-height:1; margin-top:2px; flex-shrink:0; }
 .ab-val-title { display:block; font-size:14px; font-weight:500; color:#f0ece4; letter-spacing:0.04em; margin-bottom:4px; }
-.ab-val-desc { margin:0; font-size:13px; color:rgba(240,236,228,.45); line-height:1.6; }
+.ab-val-desc { margin:0; font-size:13px; color:rgba(240,236,228,.80); line-height:1.6; }
 
 .ab-btn { display:inline-flex; align-items:center; gap:8px; padding:14px 32px; background:transparent; border:1px solid #c8a05a; color:#c8a05a; font-family:'DM Sans',sans-serif; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:all .3s ease; align-self:flex-start; }
 .ab-btn:hover { background:#c8a05a; color:#04060d; }
