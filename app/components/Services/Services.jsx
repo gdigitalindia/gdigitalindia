@@ -224,7 +224,7 @@ export default function Services({ initialData }) {
                 ))}
               </div>
 
-              <Link href={`/services-category/${svc.slug}`} className={styles["sv-cta"]}>
+              <Link href={`/${svc.slug}`} className={styles["sv-cta"]}>
                 Get Started →
               </Link>
 
