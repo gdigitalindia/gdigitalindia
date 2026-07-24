@@ -87,19 +87,19 @@ const faqs = [
 ];
 
 const relatedServices = [
-  { tag: "PPC",  title: "Google Ads Management",       href: "/services/google-ads",  text: "Run high-converting Google Ad campaigns with expert PPC management that maximizes your ROI.", img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80" },
-  { tag: "SMO",  title: "Social Media Optimization",   href: "/services/smo",         text: "Grow your brand presence across Facebook, Instagram, and LinkedIn with result-driven SMO strategies.", img: "https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=600&q=80" },
-  { tag: "META", title: "Meta Ads & Performance",      href: "/services/meta-ads",    text: "Drive targeted leads and sales with data-driven Facebook & Instagram ad campaigns.", img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80" },
+  { tag: "PPC",  title: "Google Ads Management",       href: "/google-ads",  text: "Run high-converting Google Ad campaigns with expert PPC management that maximizes your ROI.", img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80" },
+  { tag: "SMO",  title: "Social Media Optimization",   href: "/smo",         text: "Grow your brand presence across Facebook, Instagram, and LinkedIn with result-driven SMO strategies.", img: "https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=600&q=80" },
+  { tag: "META", title: "Meta Ads & Performance",      href: "/meta-ads",    text: "Drive targeted leads and sales with data-driven Facebook & Instagram ad campaigns.", img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80" },
 ];
 
 const sidebarLinks = [
-  { label: "Google Ads",          href: "/services/google-ads" },
-  { label: "Meta Ads",            href: "/services/meta-ads" },
-  { label: "Social Media (SMO)",  href: "/services/smo" },
-  { label: "GMB Management",      href: "/services/gmb" },
-  { label: "WhatsApp Marketing",  href: "/services/whatsapp" },
-  { label: "Website Design",      href: "/services/website-design" },
-  { label: "CRM & Software",      href: "/services/crm" },
+  { label: "Google Ads",          href: "/google-ads" },
+  { label: "Meta Ads",            href: "/meta-ads" },
+  { label: "Social Media (SMO)",  href: "/smo" },
+  { label: "GMB Management",      href: "/gmb" },
+  { label: "WhatsApp Marketing",  href: "/whatsapp" },
+  { label: "Website Design",      href: "/website-design" },
+  { label: "CRM & Software",      href: "/crm" },
 ];
 
 // ── FAQ Item ───────────────────────────────────────────────
@@ -132,7 +132,7 @@ export default function ServiceDetailPage() {
             <span className={styles.bcSep}><IconChevron /></span>
             <Link href="/services" className={styles.bcLink}>Services</Link>
             <span className={styles.bcSep}><IconChevron /></span>
-            <Link href="/services/digital-marketing" className={styles.bcLink}>Digital Marketing</Link>
+            <Link href="/digital-marketing" className={styles.bcLink}>Digital Marketing</Link>
             <span className={styles.bcSep}><IconChevron /></span>
             <span className={styles.bcCurrent}>SEO</span>
           </nav>

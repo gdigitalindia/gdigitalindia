@@ -81,7 +81,7 @@ export default function Navbar({ initialMenuData, packageData }: { initialMenuDa
                     <ul className={styles.megaMenuList}>
                       {group.services.map(s => (
                         <li key={s._id}>
-                          <Link href={`/services/${s.slug}`} onClick={() => { setMenuOpen(false); setServicesOpen(false); }}>
+                          <Link href={`/${s.slug}`} onClick={() => { setMenuOpen(false); setServicesOpen(false); }}>
                             | {s.title}
                           </Link>
                         </li>

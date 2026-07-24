@@ -147,7 +147,7 @@ export default async function CategoryDetail({ params }: { params: Promise<{ slu
             <h2 className={styles.contentTitle}>Services in {category.name}</h2>
             <div className={styles.relatedGrid}>
               {relatedServices.map((s: any) => (
-                <Link key={s._id} href={`/services/${s.slug || s._id}`} className={styles.relatedCard}>
+                <Link key={s._id} href={`/${s.slug || s._id}`} className={styles.relatedCard}>
                   <Image 
                     src={s.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop"} 
                     alt={s.title} 

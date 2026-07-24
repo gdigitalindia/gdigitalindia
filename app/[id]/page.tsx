@@ -3,7 +3,7 @@ import Image from "next/image";
 import { connectDB } from "@/lib/mongodb";
 import Service from "@/models/Service";
 import FaqItem from "@/app/components/FaqItem/FaqItem";
-import styles from "../../service-detail/ServiceDetail.module.css";
+import styles from "../service-detail/ServiceDetail.module.css";
 import ConsultationButton from "@/app/components/ConsultationButton/ConsultationButton";
 import { Metadata } from "next";
 
@@ -53,6 +53,8 @@ const IconPhone = () => (
   </svg>
 );
 
+import { notFound } from "next/navigation";
+
 export default async function DynamicServiceDetail({ params }: { params: Promise<{ id: string }> }) {
   await connectDB();
   const { id } = await params;
@@ -69,7 +71,7 @@ export default async function DynamicServiceDetail({ params }: { params: Promise
   }).lean();
 
   if (!serviceData) {
-    return <div style={{ padding: '100px', textAlign: 'center' }}>Service not found</div>;
+    notFound();
   }
 
   const servicesData = await Service.find().sort({ order: 1 }).lean();
@@ -200,7 +202,7 @@ export default async function DynamicServiceDetail({ params }: { params: Promise
             <p className={styles.sideCardTitle}>Other Services</p>
             <div className={styles.relatedList}>
               {services.filter((s: any) => s._id !== service._id).slice(0, 7).map((s: any) => (
-                <Link key={s._id} href={`/services/${s.slug || s._id}`} className={styles.relatedLink}>
+                <Link key={s._id} href={`/${s.slug || s._id}`} className={styles.relatedLink}>
                   {s.title} <IconChevron />
                 </Link>
               ))}
@@ -229,7 +231,7 @@ export default async function DynamicServiceDetail({ params }: { params: Promise
           <h2 className={styles.contentTitle}>You Might Also Need</h2>
           <div className={styles.relatedGrid}>
             {services.filter((s: any) => s._id !== service._id).slice(0, 3).map((s: any) => (
-              <Link key={s._id} href={`/services/${s.slug || s._id}`} className={styles.relatedCard}>
+              <Link key={s._id} href={`/${s.slug || s._id}`} className={styles.relatedCard}>
                 <Image src={s.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop"} alt={s.title} width={600} height={160} className={styles.relatedCardImg} style={{ objectFit: 'cover' }} />
                 <div className={styles.relatedCardBody}>
                   <span className={styles.relatedCardTag}>{s.short}</span>
