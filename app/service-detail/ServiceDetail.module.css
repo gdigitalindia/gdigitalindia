@@ -777,6 +777,22 @@
   margin: 0;
 }
 
+.relatedCardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #f97316 !important;
+  margin-top: 12px;
+  transition: color 0.2s ease;
+}
+
+.relatedCardLink:hover {
+  color: #ea580c !important;
+}
+
+
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   .main { grid-template-columns: 1fr; }
