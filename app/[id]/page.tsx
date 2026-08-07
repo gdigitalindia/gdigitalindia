@@ -206,6 +206,11 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
   const servicesData = await Service.find().sort({ order: 1 }).lean();
   const services = JSON.parse(JSON.stringify(servicesData));
 
+  // Filter related services based on the same category
+  const sameCategoryServices = services.filter((s: any) => s._id !== service._id && s.category === service.category);
+  const otherCategoryServices = services.filter((s: any) => s._id !== service._id && s.category !== service.category);
+  const relatedList = [...sameCategoryServices, ...otherCategoryServices].slice(0, 3);
+
   return (
     <div className={styles.page}>
 
@@ -351,7 +356,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
           <span className={styles.sectionLabel}>Related Services</span>
           <h2 className={styles.contentTitle}>You Might Also Need</h2>
           <div className={styles.relatedGrid}>
-            {services.filter((s: any) => s._id !== service._id).slice(0, 3).map((s: any) => (
+            {relatedList.map((s: any) => (
               <Link key={s._id} href={`/${s.slug || s._id}`} className={styles.relatedCard}>
                 <Image src={s.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop"} alt={s.title} width={600} height={160} className={styles.relatedCardImg} style={{ objectFit: 'cover' }} />
                 <div className={styles.relatedCardBody}>
