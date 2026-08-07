@@ -47,17 +47,16 @@ export default function AdminSlider() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ paramsToSign })
       })
-      const { signature } = await sigRes.json()
+      const { signature, apiKey, cloudName } = await sigRes.json()
 
       // 2. Upload directly to Cloudinary
       const fd = new FormData()
       fd.append('file', file)
-      fd.append('api_key', '129112652416313') // Aapka API Key
+      fd.append('api_key', apiKey) // Aapka API Key
       fd.append('timestamp', timestamp.toString())
       fd.append('signature', signature)
       fd.append('folder', folder)
       
-      const cloudName = 'dpbb27rz4' // Aapka Cloud Name
       const resourceType = file.type.startsWith('video/') ? 'video' : 'image'
       
       const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {

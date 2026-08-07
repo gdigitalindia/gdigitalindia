@@ -44,17 +44,17 @@ export default function AdminClients() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ paramsToSign })
       })
-      const { signature } = await sigRes.json()
+      const { signature, apiKey, cloudName } = await sigRes.json()
 
       // 2. Direct Upload to Cloudinary
       const fd = new FormData()
       fd.append('file', file)
-      fd.append('api_key', '129112652416313')
+      fd.append('api_key', apiKey)
       fd.append('timestamp', timestamp.toString())
       fd.append('signature', signature)
       fd.append('folder', folder)
 
-      const up = await fetch(`https://api.cloudinary.com/v1_1/dpbb27rz4/image/upload`, { 
+      const up = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { 
         method: 'POST', 
         body: fd 
       })
