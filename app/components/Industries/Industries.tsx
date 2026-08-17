@@ -58,7 +58,7 @@ export default function Industries({ initialData }: { initialData?: Industry[] }
                 </div>
                 <h3 className={styles.cardTitle}>{item.short}</h3>
                 <p className={styles.cardDescription}>{item.description}</p>
-                <Link href={`/industries/${item.slug}`} className={styles.learnMoreBtn}>
+                <Link href={`/${item.slug}`} className={styles.learnMoreBtn}>
                   Learn More
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={styles.arrowIcon}>
                     <path d="M5 12h14M12 5l7 7-7 7" />
