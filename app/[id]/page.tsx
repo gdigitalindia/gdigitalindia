@@ -388,10 +388,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
           })()}
 
 
-          {/* DYNAMIC PROFILES CAROUSEL BLOCK */}
-          {industry.profiles && industry.profiles.length > 0 && (
-            <ProfileSlider profiles={industry.profiles} title={industry.profilesTitle} />
-          )}
+
 
           {/* DYNAMIC CLIENTS LIST BLOCK */}
           {industry.clients && industry.clients.length > 0 && (
