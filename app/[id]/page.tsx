@@ -324,6 +324,14 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             /* CTA Strip Button */
             .cta-strip-btn { display: inline-flex !important; align-items: center; gap: 10px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important; color: #fff !important; border: none !important; border-radius: 10px !important; padding: 16px 32px !important; font-size: 0.95rem !important; font-weight: 800 !important; letter-spacing: 0.04em; cursor: pointer; box-shadow: 0 8px 30px rgba(249,115,22,0.4); transition: all 0.3s ease; white-space: nowrap; }
             .cta-strip-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(249,115,22,0.55); }
+            /* Client Logos Grid */
+            .dyn-client-logo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; margin-top: 20px; }
+            .dyn-client-logo-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 20px 16px; transition: all 0.3s ease; cursor: default; }
+            .dyn-client-logo-card:hover { transform: translateY(-4px); border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.04); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+            .dyn-client-logo-img { width: 100%; max-width: 110px; height: 55px; object-fit: contain; filter: grayscale(30%); transition: filter 0.3s ease; }
+            .dyn-client-logo-card:hover .dyn-client-logo-img { filter: grayscale(0%); }
+            .dyn-client-logo-fallback { width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, rgba(249,115,22,0.15) 0%, rgba(249,115,22,0.05) 100%); border: 1px solid rgba(249,115,22,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 900; color: #f97316; }
+            .dyn-client-logo-name { color: #cbd5e1; font-size: 0.8rem; font-weight: 600; text-align: center; line-height: 1.3; }
           ` }} />
 
           {/* DYNAMIC CONVERSION STAGES BLOCK */}
@@ -460,13 +468,28 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             </div>
           )}
 
-          {/* DYNAMIC CLIENTS LIST BLOCK */}
+          {/* DYNAMIC CLIENTS LOGO GRID */}
           {industry.clients && industry.clients.length > 0 && (
             <div style={{ marginTop: '40px' }}>
               <h3 className="dyn-sec-title">{industry.clientsTitle || "Our Prestigious Clients"}</h3>
-              <div className="dyn-client-hex">
-                {industry.clients.map((clientName: string, idx: number) => (
-                  <span key={idx} className="dyn-client-tag">{clientName}</span>
+              <div className="dyn-client-logo-grid">
+                {industry.clients.map((client: any, idx: number) => (
+                  <div key={idx} className="dyn-client-logo-card">
+                    {client.logo ? (
+                      <img
+                        src={client.logo}
+                        alt={client.name || `Client ${idx + 1}`}
+                        className="dyn-client-logo-img"
+                      />
+                    ) : (
+                      <div className="dyn-client-logo-fallback">
+                        {(client.name || 'C').charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    {client.name && (
+                      <span className="dyn-client-logo-name">{client.name}</span>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>

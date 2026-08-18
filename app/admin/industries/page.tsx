@@ -27,7 +27,7 @@ interface Industry {
   profilesTitle?: string
   profiles?: Array<{ name: string; designation: string; description: string }>
   clientsTitle?: string
-  clients?: string[]
+  clients?: Array<{ name: string; logo: string }>
   resultImages?: string[]
 }
 
@@ -59,7 +59,7 @@ const emptyIndustry = {
   profilesTitle: '',
   profiles: [] as Array<{ name: string; designation: string; description: string }>,
   clientsTitle: '',
-  clients: [] as string[],
+  clients: [] as Array<{ name: string; logo: string }>,
   resultImages: [] as string[]
 }
 
@@ -71,9 +71,6 @@ export default function AdminIndustries() {
   const [uploading, setUploading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
-  
-  // For easy Client names comma-separated rendering
-  const [clientsText, setClientsText] = useState('')
 
   useEffect(() => {
     fetchAll()
@@ -140,14 +137,8 @@ export default function AdminIndustries() {
       formData.slug = formData.short.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
     }
 
-    // Split clients text into array
-    const clientsArray = clientsText
-      ? clientsText.split(',').map(s => s.trim()).filter(Boolean)
-      : []
-
     const payload = {
       ...formData,
-      clients: clientsArray
     }
 
     const method = editingId ? 'PUT' : 'POST'
@@ -162,7 +153,6 @@ export default function AdminIndustries() {
     if (res.ok) {
       setShowForm(false)
       setFormData(emptyIndustry)
-      setClientsText('')
       setEditingId(null)
       fetchAll()
     } else {
@@ -188,9 +178,9 @@ export default function AdminIndustries() {
       profilesTitle: item.profilesTitle || '',
       profiles: item.profiles || [],
       clientsTitle: item.clientsTitle || '',
+      clients: item.clients || [],
       resultImages: item.resultImages || []
     })
-    setClientsText(item.clients ? item.clients.join(', ') : '')
     setEditingId(item._id)
     setShowForm(true)
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -221,7 +211,6 @@ export default function AdminIndustries() {
           onClick={() => {
             setShowForm(!showForm)
             setFormData(emptyIndustry)
-            setClientsText('')
             setEditingId(null)
           }}>
           {showForm ? '✖ Cancel' : '➕ Add Industry'}
@@ -478,21 +467,82 @@ export default function AdminIndustries() {
                 </button>
               </div>
 
-              {/* 4. CLIENTS HEX TAGS */}
+              {/* 4. CLIENTS LOGOS */}
               <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: 10, padding: 20 }}>
-                <h4 style={{ color: '#f97316', fontSize: '1.05rem', margin: '0 0 15px 0', fontWeight: 'bold' }}>🏆 4. Prestigious Clients Badge Block</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                  <div className="admin-form-group" style={{ margin: 0 }}>
-                    <label className="admin-label">Section Title</label>
-                    <input className="admin-input" placeholder="e.g., Our Prestigious Healthcare Clients"
-                      value={formData.clientsTitle} onChange={e => setFormData({...formData, clientsTitle: e.target.value})} />
-                  </div>
-                  <div className="admin-form-group" style={{ margin: 0 }}>
-                    <label className="admin-label">Clients List (Comma-separated)</label>
-                    <input className="admin-input" placeholder="Client Name 1, Client Name 2, Client Name 3"
-                      value={clientsText} onChange={e => setClientsText(e.target.value)} />
-                  </div>
+                <h4 style={{ color: '#f97316', fontSize: '1.05rem', margin: '0 0 15px 0', fontWeight: 'bold' }}>🏆 4. Prestigious Clients — Logos</h4>
+                <div className="admin-form-group" style={{ margin: '0 0 16px 0' }}>
+                  <label className="admin-label">Section Title</label>
+                  <input className="admin-input" placeholder="e.g., Our Prestigious Healthcare Clients"
+                    value={formData.clientsTitle} onChange={e => setFormData({...formData, clientsTitle: e.target.value})} />
                 </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {(formData.clients || []).map((client: any, idx: number) => (
+                    <div key={idx} style={{ display: 'flex', gap: 12, background: 'rgba(0,0,0,0.2)', padding: 14, borderRadius: 10, alignItems: 'center' }}>
+                      {/* Logo preview */}
+                      {client.logo ? (
+                        <img src={client.logo} alt={client.name} style={{ width: 80, height: 50, objectFit: 'contain', borderRadius: 6, background: '#fff', padding: 4 }} />
+                      ) : (
+                        <div style={{ width: 80, height: 50, borderRadius: 6, background: 'rgba(255,255,255,0.04)', border: '1px dashed rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>🏷️</div>
+                      )}
+
+                      {/* Name input */}
+                      <input className="admin-input" style={{ flex: 1 }} placeholder="Client Name *"
+                        value={client.name} onChange={e => {
+                          const arr = [...(formData.clients || [])]
+                          arr[idx] = { ...arr[idx], name: e.target.value }
+                          setFormData({...formData, clients: arr})
+                        }} />
+
+                      {/* Logo upload */}
+                      <label style={{ cursor: 'pointer', background: 'rgba(249,115,22,0.1)', border: '1px dashed rgba(249,115,22,0.4)', borderRadius: 8, padding: '8px 12px', color: '#f97316', fontSize: '0.8rem', fontWeight: 700, flexShrink: 0 }}>
+                        {uploading ? '⏳' : client.logo ? '🔄 Logo' : '📸 Logo'}
+                        <input type="file" accept="image/*" style={{ display: 'none' }}
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0]
+                            if (!file) return
+                            setUploading(true)
+                            const fd = new FormData()
+                            fd.append('file', file)
+                            fd.append('folder', 'industries/clients')
+                            try {
+                              const res = await fetch('/api/upload', { method: 'POST', body: fd })
+                              if (res.ok) {
+                                const { url } = await res.json()
+                                const arr = [...(formData.clients || [])]
+                                arr[idx] = { ...arr[idx], logo: url }
+                                setFormData({...formData, clients: arr})
+                              }
+                            } catch { alert('Upload failed') }
+                            setUploading(false)
+                          }}
+                        />
+                      </label>
+
+                      {/* Remove logo */}
+                      {client.logo && (
+                        <button type="button" style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.78rem', flexShrink: 0 }}
+                          onClick={() => {
+                            const arr = [...(formData.clients || [])]
+                            arr[idx] = { ...arr[idx], logo: '' }
+                            setFormData({...formData, clients: arr})
+                          }}>✕ Logo</button>
+                      )}
+
+                      {/* Delete row */}
+                      <button type="button" className="admin-btn-danger" style={{ padding: '8px 12px', flexShrink: 0 }}
+                        onClick={() => {
+                          const arr = (formData.clients || []).filter((_: any, i: number) => i !== idx)
+                          setFormData({...formData, clients: arr})
+                        }}>🗑️</button>
+                    </div>
+                  ))}
+                </div>
+
+                <button type="button" className="admin-btn-secondary" style={{ marginTop: 12 }}
+                  onClick={() => setFormData({...formData, clients: [...(formData.clients || []), { name: '', logo: '' }]})}>
+                  ➕ Add Client
+                </button>
               </div>
 
               {/* 5. REAL RESULTS IMAGES */}

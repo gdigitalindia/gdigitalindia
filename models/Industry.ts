@@ -39,7 +39,10 @@ const IndustrySchema = new mongoose.Schema({
   }],
   
   clientsTitle: { type: String, default: '' },
-  clients: [{ type: String }],
+  clients: [{
+    name: { type: String, default: '' },
+    logo: { type: String, default: '' },
+  }],
 
   // Real Results Images section
   resultImages: [{ type: String }]
