@@ -224,7 +224,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
       <div className={styles.page}>
         {/* Hero Banner */}
         <section className={styles.hero}>
-          <div className={styles.heroBg} style={{ backgroundImage: `url(${industry.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920"})`, opacity: 0.08 }} />
+          <div className={styles.heroBg} style={{ backgroundImage: `url(${industry.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920"})`, opacity: 0.12 }} />
           <div className={styles.heroInner} style={{ display: 'flex', alignItems: 'center', gap: '50px' }}>
 
             {/* Left: Text Content */}
@@ -248,225 +248,179 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* Right: Industry Image */}
-            {industry.image && (
-              <div style={{ flex: '0 0 420px', maxWidth: '420px', position: 'relative', zIndex: 1 }}>
-                <div style={{
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  boxShadow: '0 25px 60px rgba(0,0,0,0.6)',
-                  background: '#111'
-                }}>
-                  <Image
-                    src={industry.image}
-                    alt={industry.title}
-                    width={840}
-                    height={560}
-                    style={{ width: '100%', height: '300px', objectFit: 'cover', display: 'block' }}
-                    priority
-                  />
-                </div>
-                {/* Decorative glow */}
-                <div style={{
-                  position: 'absolute', inset: '-2px',
-                  borderRadius: '22px',
-                  background: 'linear-gradient(135deg, rgba(249,115,22,0.15) 0%, transparent 60%)',
-                  pointerEvents: 'none', zIndex: -1
-                }} />
+            {/* Right: Consultation Form */}
+            <div style={{ flex: '0 0 380px', maxWidth: '380px', position: 'relative', zIndex: 1 }}>
+              <div style={{
+                background: 'rgba(15,15,15,0.92)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '16px',
+                padding: '32px 28px',
+                boxShadow: '0 25px 60px rgba(0,0,0,0.7)',
+                backdropFilter: 'blur(12px)',
+              }}>
+                <h3 style={{ color: '#fff', fontSize: '1.3rem', fontWeight: 800, marginBottom: '6px' }}>Get Free Consultation</h3>
+                <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: '22px', lineHeight: 1.5 }}>Tell us about your project — we will get back within 24 hours.</p>
+                <form action="/api/contact" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <input type="hidden" name="source" value={`Industry - ${industry.short}`} />
+                  <input required name="name" type="text" placeholder="Your Name *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
+                  <input required name="email" type="email" placeholder="Email Address *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
+                  <input required name="phone" type="tel" placeholder="Phone Number *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
+                  <textarea name="message" placeholder="Tell us about your business goals..." rows={3} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', resize: 'vertical', width: '100%', boxSizing: 'border-box', fontFamily: 'inherit' }} />
+                  <button type="submit" style={{ background: '#f97316', color: '#fff', border: 'none', borderRadius: '6px', padding: '14px 24px', fontSize: '0.82rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'all 0.25s ease' }}>
+                    Submit Enquiry <IconArrow size={13} />
+                  </button>
+                </form>
               </div>
-            )}
+            </div>
           </div>
         </section>
 
-        {/* Main Grid */}
-        <div className={styles.main}>
-          {/* Content Area */}
-          <div className={styles.content}>
-            <div 
-              style={{ 
-                color: 'var(--admin-text-secondary)', 
-                lineHeight: '1.8', 
-                fontSize: '1.1rem' 
-              }}
-              dangerouslySetInnerHTML={{ __html: industry.content || "<p>Our professional marketing and web development services are customized to meet the unique challenges of this industry.</p>" }}
-            />
+        {/* Main Content - Full Width */}
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px 70px' }}>
+          <div 
+            style={{ 
+              color: 'var(--admin-text-secondary)', 
+              lineHeight: '1.8', 
+              fontSize: '1.1rem' 
+            }}
+            dangerouslySetInnerHTML={{ __html: industry.content || "<p>Our professional marketing and web development services are customized to meet the unique challenges of this industry.</p>" }}
+          />
 
-            {/* Scoped CSS styling for dynamic blocks */}
-            <style dangerouslySetInnerHTML={{ __html: `
-              .dyn-sec-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fff; margin-bottom: 12px; border-left: 4px solid #f97316; padding-left: 15px; line-height: 1.2; margin-top: 40px; }
-              .dyn-intro { font-size: 1.1rem; line-height: 1.8; color: #94a3b8; margin-bottom: 20px; }
-              .dyn-flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 15px; margin-bottom: 40px; }
-              .dyn-flow-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; transition: all 0.3s ease; position: relative; overflow: hidden; }
-              .dyn-flow-card:hover { transform: translateY(-5px); border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.02); box-shadow: 0 10px 30px rgba(249,115,22,0.05); }
-              .dyn-flow-number { font-size: 3rem; font-weight: 900; color: rgba(249,115,22,0.07); position: absolute; top: 10px; right: 15px; line-height: 1; }
-              .dyn-flow-card h4 { font-size: 1.15rem; color: #fff; margin: 0 0 8px; font-weight: 700; }
-              .dyn-flow-card p { font-size: 0.9rem; color: #94a3b8; margin: 0; line-height: 1.6; }
-              .dyn-results-table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 40px; background: rgba(255,255,255,0.01); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
-              .dyn-results-table th, .dyn-results-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
-              .dyn-results-table th { background: rgba(255,255,255,0.03); color: #fff; font-weight: 700; }
-              .dyn-results-table tr:hover { background: rgba(255,255,255,0.02); }
-              .dyn-badge { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); padding: 3px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
-              .dyn-video-card h5 { color: #fff; font-size: 1.05rem; margin: 0 0 5px; font-weight: 700; }
-              .dyn-video-card p { color: #f97316; font-size: 0.85rem; margin: 0 0 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
-              .dyn-video-desc { color: #94a3b8 !important; font-size: 0.85rem !important; line-height: 1.6; display: block; }
-              .dyn-client-hex { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; margin-bottom: 40px; }
-              .dyn-client-tag { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 30px; padding: 8px 18px; font-size: 0.9rem; color: #cbd5e1; font-weight: 600; transition: all 0.2s ease; }
-              .dyn-client-tag:hover { border-color: #f97316; color: #fff; background: rgba(249,115,22,0.1); }
-            ` }} />
+          {/* Scoped CSS styling for dynamic blocks */}
+          <style dangerouslySetInnerHTML={{ __html: `
+            .dyn-sec-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fff; margin-bottom: 12px; border-left: 4px solid #f97316; padding-left: 15px; line-height: 1.2; margin-top: 40px; }
+            .dyn-intro { font-size: 1.1rem; line-height: 1.8; color: #94a3b8; margin-bottom: 20px; }
+            .dyn-flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 15px; margin-bottom: 40px; }
+            .dyn-flow-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+            .dyn-flow-card:hover { transform: translateY(-5px); border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.02); box-shadow: 0 10px 30px rgba(249,115,22,0.05); }
+            .dyn-flow-number { font-size: 3rem; font-weight: 900; color: rgba(249,115,22,0.07); position: absolute; top: 10px; right: 15px; line-height: 1; }
+            .dyn-flow-card h4 { font-size: 1.15rem; color: #fff; margin: 0 0 8px; font-weight: 700; }
+            .dyn-flow-card p { font-size: 0.9rem; color: #94a3b8; margin: 0; line-height: 1.6; }
+            .dyn-results-table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 40px; background: rgba(255,255,255,0.01); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+            .dyn-results-table th, .dyn-results-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
+            .dyn-results-table th { background: rgba(255,255,255,0.03); color: #fff; font-weight: 700; }
+            .dyn-results-table tr:hover { background: rgba(255,255,255,0.02); }
+            .dyn-badge { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); padding: 3px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+            .dyn-video-card h5 { color: #fff; font-size: 1.05rem; margin: 0 0 5px; font-weight: 700; }
+            .dyn-video-card p { color: #f97316; font-size: 0.85rem; margin: 0 0 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+            .dyn-video-desc { color: #94a3b8 !important; font-size: 0.85rem !important; line-height: 1.6; display: block; }
+            .dyn-client-hex { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; margin-bottom: 40px; }
+            .dyn-client-tag { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 30px; padding: 8px 18px; font-size: 0.9rem; color: #cbd5e1; font-weight: 600; transition: all 0.2s ease; }
+            .dyn-client-tag:hover { border-color: #f97316; color: #fff; background: rgba(249,115,22,0.1); }
+          ` }} />
 
-            {/* DYNAMIC CONVERSION STAGES BLOCK */}
-            {industry.features && industry.features.length > 0 && (
-              <div style={{ marginTop: '40px' }}>
-                <h3 className="dyn-sec-title">{industry.featuresTitle || "Our Conversion Funnel Framework"}</h3>
-                <div className="dyn-flow-grid">
-                  {industry.features.map((feat: any, idx: number) => (
-                    <div key={idx} className="dyn-flow-card">
-                      <span className="dyn-flow-number">{(idx + 1).toString().padStart(2, '0')}</span>
-                      <h4>{feat.title}</h4>
-                      <p>{feat.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* DYNAMIC RANKINGS TABLE BLOCK */}
-            {industry.rankings && industry.rankings.length > 0 && (
-              <div style={{ marginTop: '40px' }}>
-                <h3 className="dyn-sec-title">{industry.rankingsTitle || "Proven Results & Rankings"}</h3>
-                <table className="dyn-results-table">
-                  <thead>
-                    <tr>
-                      <th>Search Query (Keyword)</th>
-                      <th>Achieved Position</th>
-                      <th>Represented Client</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {industry.rankings.map((rank: any, idx: number) => (
-                      <tr key={idx}>
-                        <td>{rank.keyword}</td>
-                        <td><span className="dyn-badge">{rank.rank}</span></td>
-                        <td>{rank.client}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-
-            {/* DYNAMIC PROFILES CAROUSEL BLOCK */}
-            {industry.profiles && industry.profiles.length > 0 && (
-              <ProfileSlider profiles={industry.profiles} title={industry.profilesTitle} />
-            )}
-
-            {/* DYNAMIC CLIENTS LIST BLOCK */}
-            {industry.clients && industry.clients.length > 0 && (
-              <div style={{ marginTop: '40px' }}>
-                <h3 className="dyn-sec-title">{industry.clientsTitle || "Our Prestigious Clients"}</h3>
-                <div className="dyn-client-hex">
-                  {industry.clients.map((clientName: string, idx: number) => (
-                    <span key={idx} className="dyn-client-tag">{clientName}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* DYNAMIC REAL RESULTS IMAGES BLOCK */}
-            {industry.resultImages && industry.resultImages.length > 0 && (
-              <div style={{ marginTop: '40px' }}>
-                <h3 className="dyn-sec-title">See Our Real Results</h3>
-                <p className="dyn-intro">Our performance speaks for itself — real clients, real growth.</p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px', marginTop: '16px' }}>
-                  {industry.resultImages.map((imgUrl: string, idx: number) => (
-                    <img
-                      key={idx}
-                      src={imgUrl}
-                      alt={`Result ${idx + 1}`}
-                      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', objectFit: 'contain' }}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div style={{ marginTop: '50px', padding: '30px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '16px' }}>
-              <h3 style={{ color: '#fff', fontSize: '1.5rem', marginBottom: '20px' }}>Why Choose G Digital India?</h3>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 25px 0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {[
-                  "10+ Years of Excellence in Digital Marketing",
-                  "Certified Google & Meta Partner Agency",
-                  "Team Strength of 100+ Skilled Professionals",
-                  "Award-Winning Performance Marketing Agency",
-                  "Trusted by Businesses Across Multiple Industries",
-                  "Strong Presence in 10+ Cities Across India",
-                  `Specialized expertise in ${industry.short} Digital Marketing.`
-                ].map((point, idx) => (
-                  <li key={idx} style={{ color: '#cbd5e1', fontSize: '1.05rem', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <svg style={{ flexShrink: 0, marginTop: '3px' }} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                    {point}
-                  </li>
+          {/* DYNAMIC CONVERSION STAGES BLOCK */}
+          {industry.features && industry.features.length > 0 && (
+            <div style={{ marginTop: '40px' }}>
+              <h3 className="dyn-sec-title">{industry.featuresTitle || "Our Conversion Funnel Framework"}</h3>
+              <div className="dyn-flow-grid">
+                {industry.features.map((feat: any, idx: number) => (
+                  <div key={idx} className="dyn-flow-card">
+                    <span className="dyn-flow-number">{(idx + 1).toString().padStart(2, '0')}</span>
+                    <h4>{feat.title}</h4>
+                    <p>{feat.description}</p>
+                  </div>
                 ))}
-              </ul>
-              <ConsultationButton className={styles.btnPrimary}>
-                Let's Discuss Your Growth Strategy <IconArrow size={13} />
-              </ConsultationButton>
+              </div>
+            </div>
+          )}
+
+          {/* DYNAMIC RANKINGS TABLE BLOCK */}
+          {industry.rankings && industry.rankings.length > 0 && (
+            <div style={{ marginTop: '40px' }}>
+              <h3 className="dyn-sec-title">{industry.rankingsTitle || "Proven Results & Rankings"}</h3>
+              <table className="dyn-results-table">
+                <thead>
+                  <tr>
+                    <th>Search Query (Keyword)</th>
+                    <th>Achieved Position</th>
+                    <th>Represented Client</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {industry.rankings.map((rank: any, idx: number) => (
+                    <tr key={idx}>
+                      <td>{rank.keyword}</td>
+                      <td><span className="dyn-badge">{rank.rank}</span></td>
+                      <td>{rank.client}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* DYNAMIC PROFILES CAROUSEL BLOCK */}
+          {industry.profiles && industry.profiles.length > 0 && (
+            <ProfileSlider profiles={industry.profiles} title={industry.profilesTitle} />
+          )}
+
+          {/* DYNAMIC CLIENTS LIST BLOCK */}
+          {industry.clients && industry.clients.length > 0 && (
+            <div style={{ marginTop: '40px' }}>
+              <h3 className="dyn-sec-title">{industry.clientsTitle || "Our Prestigious Clients"}</h3>
+              <div className="dyn-client-hex">
+                {industry.clients.map((clientName: string, idx: number) => (
+                  <span key={idx} className="dyn-client-tag">{clientName}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* DYNAMIC REAL RESULTS IMAGES BLOCK */}
+          {industry.resultImages && industry.resultImages.length > 0 && (
+            <div style={{ marginTop: '40px' }}>
+              <h3 className="dyn-sec-title">See Our Real Results</h3>
+              <p className="dyn-intro">Our performance speaks for itself — real clients, real growth.</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px', marginTop: '16px' }}>
+                {industry.resultImages.map((imgUrl: string, idx: number) => (
+                  <img
+                    key={idx}
+                    src={imgUrl}
+                    alt={`Result ${idx + 1}`}
+                    style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', objectFit: 'contain' }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Other Sectors Row */}
+          <div style={{ marginTop: '50px', padding: '24px 30px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}>
+            <p style={{ color: '#64748b', fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '16px' }}>Other Sectors We Serve</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {allIndustries.filter((ind: any) => ind._id !== industry._id).slice(0, 6).map((ind: any) => (
+                <Link key={ind._id} href={`/${ind.slug}`} className={styles.relatedLink} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '30px', padding: '8px 18px', fontSize: '0.9rem', color: '#cbd5e1', textDecoration: 'none', fontWeight: 600, transition: 'all 0.2s ease' }}>
+                  {ind.short} <IconChevron />
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* Sidebar */}
-          <aside className={styles.sidebar}>
-            {/* Quick Enquiry Form */}
-            <div className={styles.sideForm}>
-              <h3 className={styles.sideFormTitle}>Get Free Consultation</h3>
-              <p className={styles.sideFormSub}>Tell us about your project — we will get back within 24 hours.</p>
-              <form action="/api/contact" method="POST">
-                <input type="hidden" name="source" value={`Industry - ${industry.short}`} />
-                <div className={styles.formGroup}>
-                  <input required name="name" className={styles.formInput} type="text" placeholder="Your Name *" />
-                </div>
-                <div className={styles.formGroup}>
-                  <input required name="email" className={styles.formInput} type="email" placeholder="Email Address *" />
-                </div>
-                <div className={styles.formGroup}>
-                  <input required name="phone" className={styles.formInput} type="tel" placeholder="Phone Number *" />
-                </div>
-                <div className={styles.formGroup}>
-                  <textarea name="message" className={styles.formTextarea} placeholder="Tell us about your business goals..." />
-                </div>
-                <button type="submit" className={styles.formBtn}>
-                  Submit Enquiry <IconArrow size={13} />
-                </button>
-              </form>
-            </div>
-
-            {/* Related/Other Industries */}
-            <div className={styles.sideCard}>
-              <p className={styles.sideCardTitle}>Other Sectors We Serve</p>
-              <div className={styles.relatedList}>
-                {allIndustries.filter((ind: any) => ind._id !== industry._id).slice(0, 6).map((ind: any) => (
-                  <Link key={ind._id} href={`/${ind.slug}`} className={styles.relatedLink}>
-                    {ind.short} <IconChevron />
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Contact Card */}
-            <div className={styles.contactCard}>
-              <h4 className={styles.contactCardTitle}>Need Direct Support?</h4>
-              <p className={styles.contactCardText}>Speak to an industry expert today.</p>
-              <a href="tel:9116175600" className={styles.phoneLink}>
-                <IconPhone /> +91 9116175600
-              </a>
-              <a href="mailto:info@gdigitalindia.com" className={styles.emailLink}>
-                info@gdigitalindia.com
-              </a>
-            </div>
-          </aside>
+          <div style={{ marginTop: '30px', padding: '30px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '16px' }}>
+            <h3 style={{ color: '#fff', fontSize: '1.5rem', marginBottom: '20px' }}>Why Choose G Digital India?</h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 25px 0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {[
+                "10+ Years of Excellence in Digital Marketing",
+                "Certified Google & Meta Partner Agency",
+                "Team Strength of 100+ Skilled Professionals",
+                "Award-Winning Performance Marketing Agency",
+                "Trusted by Businesses Across Multiple Industries",
+                "Strong Presence in 10+ Cities Across India",
+                `Specialized expertise in ${industry.short} Digital Marketing.`
+              ].map((point, idx) => (
+                <li key={idx} style={{ color: '#cbd5e1', fontSize: '1.05rem', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <svg style={{ flexShrink: 0, marginTop: '3px' }} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  {point}
+                </li>
+              ))}
+            </ul>
+            <ConsultationButton className={styles.btnPrimary}>
+              Let's Discuss Your Growth Strategy <IconArrow size={13} />
+            </ConsultationButton>
+          </div>
         </div>
       </div>
     );
