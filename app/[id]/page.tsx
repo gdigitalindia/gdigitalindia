@@ -321,6 +321,9 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             .dyn-service-desc { color: #94a3b8; font-size: 0.85rem; margin: 0; line-height: 1.55; flex: 1; }
             .dyn-service-arrow { color: #f97316; margin-top: 12px; display: inline-flex; align-items: center; gap: 7px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.75; transition: all 0.3s ease; }
             .dyn-service-card:hover .dyn-service-arrow { opacity: 1; gap: 11px; }
+            /* CTA Strip Button */
+            .cta-strip-btn { display: inline-flex !important; align-items: center; gap: 10px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important; color: #fff !important; border: none !important; border-radius: 10px !important; padding: 16px 32px !important; font-size: 0.95rem !important; font-weight: 800 !important; letter-spacing: 0.04em; cursor: pointer; box-shadow: 0 8px 30px rgba(249,115,22,0.4); transition: all 0.3s ease; white-space: nowrap; }
+            .cta-strip-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(249,115,22,0.55); }
           ` }} />
 
           {/* DYNAMIC CONVERSION STAGES BLOCK */}
@@ -389,6 +392,73 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
 
 
 
+
+          {/* ── CTA STRIP (above clients) ── */}
+          {industry.clients && industry.clients.length > 0 && (
+            <div style={{
+              marginTop: '50px',
+              background: 'linear-gradient(135deg, rgba(249,115,22,0.12) 0%, rgba(249,115,22,0.04) 50%, rgba(15,15,15,0) 100%)',
+              border: '1px solid rgba(249,115,22,0.25)',
+              borderRadius: '20px',
+              padding: '36px 40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '32px',
+              flexWrap: 'wrap',
+              position: 'relative',
+              overflow: 'hidden',
+            }}>
+              {/* Decorative glow orb */}
+              <div style={{
+                position: 'absolute',
+                top: '-40px',
+                right: '-40px',
+                width: '200px',
+                height: '200px',
+                background: 'radial-gradient(circle, rgba(249,115,22,0.18) 0%, transparent 70%)',
+                pointerEvents: 'none',
+              }} />
+
+              {/* Left — Text */}
+              <div style={{ flex: '1 1 300px', minWidth: 0 }}>
+                <p style={{
+                  color: '#f97316',
+                  fontSize: '0.75rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  marginBottom: '10px',
+                }}>
+                  Ready to Grow Your {industry.short} Business?
+                </p>
+                <h3 style={{
+                  color: '#fff',
+                  fontSize: 'clamp(1.3rem, 2.5vw, 1.85rem)',
+                  fontWeight: 900,
+                  lineHeight: 1.25,
+                  margin: '0 0 10px',
+                }}>
+                  Join 500+ {industry.short} Brands That Trust G Digital India
+                </h3>
+                <p style={{
+                  color: '#94a3b8',
+                  fontSize: '0.95rem',
+                  lineHeight: 1.65,
+                  margin: 0,
+                }}>
+                  Get a customised digital marketing strategy built exclusively for the {industry.short} industry — at zero cost.
+                </p>
+              </div>
+
+              {/* Right — Button */}
+              <div style={{ flexShrink: 0 }}>
+                <ConsultationButton className="cta-strip-btn">
+                  Get Free Strategy Call <IconArrow size={15} />
+                </ConsultationButton>
+              </div>
+            </div>
+          )}
 
           {/* DYNAMIC CLIENTS LIST BLOCK */}
           {industry.clients && industry.clients.length > 0 && (
