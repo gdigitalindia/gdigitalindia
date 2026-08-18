@@ -307,6 +307,20 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             .dyn-client-hex { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; margin-bottom: 40px; }
             .dyn-client-tag { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 30px; padding: 8px 18px; font-size: 0.9rem; color: #cbd5e1; font-weight: 600; transition: all 0.2s ease; }
             .dyn-client-tag:hover { border-color: #f97316; color: #fff; background: rgba(249,115,22,0.1); }
+            /* Services Grid */
+            .dyn-services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; margin-top: 24px; margin-bottom: 50px; }
+            .dyn-service-card { display: flex; flex-direction: column; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; overflow: hidden; transition: all 0.35s ease; cursor: pointer; }
+            .dyn-service-card:hover { transform: translateY(-8px); border-color: rgba(249,115,22,0.5); box-shadow: 0 20px 55px rgba(249,115,22,0.15); }
+            .dyn-service-img-wrap { width: 100%; height: 180px; overflow: hidden; position: relative; }
+            .dyn-service-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s ease; display: block; }
+            .dyn-service-card:hover .dyn-service-img { transform: scale(1.08); }
+            .dyn-service-img-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.7) 100%); pointer-events: none; }
+            .dyn-service-img-placeholder { display: flex; align-items: center; justify-content: center; background: rgba(249,115,22,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .dyn-service-body { display: flex; flex-direction: column; gap: 8px; padding: 20px 20px 18px; flex: 1; }
+            .dyn-service-name { color: #fff; font-size: 1.1rem; font-weight: 800; margin: 0; line-height: 1.3; }
+            .dyn-service-desc { color: #94a3b8; font-size: 0.85rem; margin: 0; line-height: 1.55; flex: 1; }
+            .dyn-service-arrow { color: #f97316; margin-top: 12px; display: inline-flex; align-items: center; gap: 7px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.75; transition: all 0.3s ease; }
+            .dyn-service-card:hover .dyn-service-arrow { opacity: 1; gap: 11px; }
           ` }} />
 
           {/* DYNAMIC CONVERSION STAGES BLOCK */}
@@ -325,30 +339,54 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             </div>
           )}
 
-          {/* DYNAMIC RANKINGS TABLE BLOCK */}
-          {industry.rankings && industry.rankings.length > 0 && (
-            <div style={{ marginTop: '40px' }}>
-              <h3 className="dyn-sec-title">{industry.rankingsTitle || "Proven Results & Rankings"}</h3>
-              <table className="dyn-results-table">
-                <thead>
-                  <tr>
-                    <th>Search Query (Keyword)</th>
-                    <th>Achieved Position</th>
-                    <th>Represented Client</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {industry.rankings.map((rank: any, idx: number) => (
-                    <tr key={idx}>
-                      <td>{rank.keyword}</td>
-                      <td><span className="dyn-badge">{rank.rank}</span></td>
-                      <td>{rank.client}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+
+          {/* DYNAMIC SERVICES SECTION */}
+          {industry.industryServices && industry.industryServices.length > 0 && (() => {
+            const svcImgMap: Record<string, string> = {
+              'google ads':        'https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=600&q=80',
+              'video marketing':   'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80',
+              'meta ads':         'https://images.unsplash.com/photo-1611262588024-d12430b98920?w=600&q=80',
+              'seo':              'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&q=80',
+              'website development': 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=80',
+              'whatsapp marketing': 'https://images.unsplash.com/photo-1556155092-490a1ba16284?w=600&q=80',
+              'crm':              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80',
+              'ivr':              'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80',
+              'ai calling':       'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80',
+              'gmb':              'https://images.unsplash.com/photo-1527430253228-e93688616381?w=600&q=80',
+              'social media management': 'https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=600&q=80',
+            }
+            return (
+              <div style={{ marginTop: '50px' }}>
+                <h3 className="dyn-sec-title">{industry.servicesTitle || 'Our Services for You'}</h3>
+                <p className="dyn-intro">Comprehensive digital solutions tailored for the {industry.short} industry.</p>
+                <div className="dyn-services-grid">
+                  {industry.industryServices.map((svc: any, idx: number) => {
+                    const fallback = svcImgMap[svc.name?.toLowerCase()] || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80'
+                    const imgSrc = svc.image || svc.icon || fallback
+                    return (
+                      <a key={idx} href={svc.link || '#'} className="dyn-service-card" style={{ textDecoration: 'none' }}>
+                        <div className="dyn-service-img-wrap">
+                          <img src={imgSrc} alt={svc.name} className="dyn-service-img" />
+                          <div className="dyn-service-img-overlay" />
+                        </div>
+                        <div className="dyn-service-body">
+                          <h4 className="dyn-service-name">{svc.name}</h4>
+                          {svc.description && <p className="dyn-service-desc">{svc.description}</p>}
+                          <span className="dyn-service-arrow">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                            Learn More
+                          </span>
+                        </div>
+                      </a>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })()}
+
 
           {/* DYNAMIC PROFILES CAROUSEL BLOCK */}
           {industry.profiles && industry.profiles.length > 0 && (

@@ -22,8 +22,8 @@ interface Industry {
   // Custom Dynamic sections
   featuresTitle?: string
   features?: Array<{ title: string; description: string }>
-  rankingsTitle?: string
-  rankings?: Array<{ keyword: string; rank: string; client: string }>
+  servicesTitle?: string
+  industryServices?: Array<{ name: string; icon: string; description: string; link: string }>
   profilesTitle?: string
   profiles?: Array<{ name: string; designation: string; description: string }>
   clientsTitle?: string
@@ -42,8 +42,20 @@ const emptyIndustry = {
   order: 0,
   featuresTitle: '',
   features: [] as Array<{ title: string; description: string }>,
-  rankingsTitle: '',
-  rankings: [] as Array<{ keyword: string; rank: string; client: string }>,
+  servicesTitle: 'Our Services for You',
+  industryServices: [
+    { name: 'Google Ads', icon: '', description: 'High-converting Google ad campaigns to drive targeted traffic.', link: '' },
+    { name: 'Video Marketing', icon: '', description: 'Engaging video content that captures attention and builds brand trust.', link: '' },
+    { name: 'Meta Ads', icon: '', description: 'Precision-targeted Facebook & Instagram ads for maximum ROI.', link: '' },
+    { name: 'SEO', icon: '', description: 'Rank higher on Google and drive organic traffic to your business.', link: '' },
+    { name: 'Website Development', icon: '', description: 'Fast, responsive websites built to convert visitors into customers.', link: '' },
+    { name: 'WhatsApp Marketing', icon: '', description: 'Direct customer engagement via WhatsApp broadcasts and automation.', link: '' },
+    { name: 'CRM', icon: '', description: 'Manage leads and customer relationships with a smart CRM system.', link: '' },
+    { name: 'IVR', icon: '', description: 'Automated calling systems to streamline your customer support.', link: '' },
+    { name: 'AI Calling', icon: '', description: 'AI-powered calling agents for lead follow-ups and outreach.', link: '' },
+    { name: 'GMB', icon: '', description: 'Google My Business optimization for local search dominance.', link: '' },
+    { name: 'Social Media Management', icon: '', description: 'Consistent, engaging content across all social platforms.', link: '' },
+  ] as Array<{ name: string; icon: string; description: string; link: string }>,
   profilesTitle: '',
   profiles: [] as Array<{ name: string; designation: string; description: string }>,
   clientsTitle: '',
@@ -333,47 +345,88 @@ export default function AdminIndustries() {
                 </button>
               </div>
 
-              {/* 2. SEO RANKINGS SECTION */}
+              {/* 2. SERVICES SECTION */}
               <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: 10, padding: 20, marginBottom: 20 }}>
-                <h4 style={{ color: '#f97316', fontSize: '1.05rem', margin: '0 0 15px 0', fontWeight: 'bold' }}>📈 2. Proven Results & Rankings Table Block</h4>
+                <h4 style={{ color: '#f97316', fontSize: '1.05rem', margin: '0 0 15px 0', fontWeight: 'bold' }}>🚀 2. Services Section</h4>
                 <div className="admin-form-group" style={{ margin: '0 0 15px 0' }}>
                   <label className="admin-label">Section Title</label>
-                  <input className="admin-input" placeholder="e.g., Proven Results: Medical SEO Rankings"
-                    value={formData.rankingsTitle} onChange={e => setFormData({...formData, rankingsTitle: e.target.value})} />
+                  <input className="admin-input" placeholder="e.g., Our Services for You"
+                    value={formData.servicesTitle || ''} onChange={e => setFormData({...formData, servicesTitle: e.target.value})} />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  {(formData.rankings || []).map((item: any, idx: number) => (
-                    <div key={idx} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: 10, background: 'rgba(0,0,0,0.2)', padding: 12, borderRadius: 8, alignItems: 'center' }}>
-                      <input className="admin-input" placeholder="Search Query (e.g. ENT Hospital)"
-                        value={item.keyword} onChange={e => {
-                          const arr = [...formData.rankings]
-                          arr[idx].keyword = e.target.value
-                          setFormData({...formData, rankings: arr})
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  {(formData.industryServices || []).map((item: any, idx: number) => (
+                    <div key={idx} style={{ background: 'rgba(0,0,0,0.25)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
+                      {/* Row 1: Name + Link */}
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                        <input className="admin-input" placeholder="Service Name (e.g. Google Ads)"
+                          value={item.name} onChange={e => {
+                            const arr = [...formData.industryServices]
+                            arr[idx].name = e.target.value
+                            setFormData({...formData, industryServices: arr})
+                          }} />
+                        <input className="admin-input" placeholder="Link URL (e.g. /services/google-ads)"
+                          value={item.link} onChange={e => {
+                            const arr = [...formData.industryServices]
+                            arr[idx].link = e.target.value
+                            setFormData({...formData, industryServices: arr})
+                          }} />
+                      </div>
+                      {/* Row 2: Description */}
+                      <input className="admin-input" placeholder="Short Description (optional)" style={{ marginBottom: 10 }}
+                        value={item.description} onChange={e => {
+                          const arr = [...formData.industryServices]
+                          arr[idx].description = e.target.value
+                          setFormData({...formData, industryServices: arr})
                         }} />
-                      <input className="admin-input" placeholder="Achieved Position (e.g. Rank #1)"
-                        value={item.rank} onChange={e => {
-                          const arr = [...formData.rankings]
-                          arr[idx].rank = e.target.value
-                          setFormData({...formData, rankings: arr})
-                        }} />
-                      <input className="admin-input" placeholder="Client Name"
-                        value={item.client} onChange={e => {
-                          const arr = [...formData.rankings]
-                          arr[idx].client = e.target.value
-                          setFormData({...formData, rankings: arr})
-                        }} />
-                      <button type="button" className="admin-btn-danger" style={{ padding: '8px 12px' }}
-                        onClick={() => {
-                          const arr = formData.rankings.filter((_: any, i: number) => i !== idx)
-                          setFormData({...formData, rankings: arr})
-                        }}>🗑️</button>
+                      {/* Row 3: Image Upload + Delete */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        {item.image && (
+                          <img src={item.image} alt="preview" style={{ width: 80, height: 55, objectFit: 'cover', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)' }} />
+                        )}
+                        <label style={{ cursor: 'pointer', background: 'rgba(249,115,22,0.1)', border: '1px dashed rgba(249,115,22,0.4)', borderRadius: 8, padding: '8px 14px', color: '#f97316', fontSize: '0.82rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+                          🖼️ {item.image ? 'Change Image' : 'Upload Image'}
+                          <input type="file" accept="image/*" style={{ display: 'none' }}
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0]
+                              if (!file) return
+                              setUploading(true)
+                              const fd = new FormData()
+                              fd.append('file', file)
+                              fd.append('folder', 'industries/services')
+                              try {
+                                const res = await fetch('/api/upload', { method: 'POST', body: fd })
+                                if (res.ok) {
+                                  const { url } = await res.json()
+                                  const arr = [...formData.industryServices]
+                                  arr[idx].image = url
+                                  setFormData({...formData, industryServices: arr})
+                                }
+                              } catch(err) { alert('Upload failed') }
+                              setUploading(false)
+                            }}
+                          />
+                        </label>
+                        {item.image && (
+                          <button type="button" style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.8rem' }}
+                            onClick={() => {
+                              const arr = [...formData.industryServices]
+                              arr[idx].image = ''
+                              setFormData({...formData, industryServices: arr})
+                            }}>✕ Remove</button>
+                        )}
+                        <button type="button" className="admin-btn-danger" style={{ padding: '8px 12px', marginLeft: 'auto' }}
+                          onClick={() => {
+                            const arr = formData.industryServices.filter((_: any, i: number) => i !== idx)
+                            setFormData({...formData, industryServices: arr})
+                          }}>🗑️</button>
+                      </div>
                     </div>
                   ))}
                 </div>
                 <button type="button" className="admin-btn-secondary" style={{ marginTop: 12 }}
-                  onClick={() => setFormData({...formData, rankings: [...(formData.rankings || []), { keyword: '', rank: '', client: '' }]})}>
-                  ➕ Add Ranking Row
+                  onClick={() => setFormData({...formData, industryServices: [...(formData.industryServices || []), { name: '', icon: '', image: '', description: '', link: '' }]})}>
+                  ➕ Add Service
                 </button>
               </div>
 

@@ -21,11 +21,14 @@ const IndustrySchema = new mongoose.Schema({
     description: { type: String, default: '' }
   }],
   
-  rankingsTitle: { type: String, default: '' },
-  rankings: [{
-    keyword: { type: String, default: '' },
-    rank: { type: String, default: '' },
-    client: { type: String, default: '' }
+  // Services Section (replaces rankings)
+  servicesTitle: { type: String, default: '' },
+  industryServices: [{
+    name: { type: String, default: '' },
+    icon: { type: String, default: '' },
+    image: { type: String, default: '' },
+    description: { type: String, default: '' },
+    link: { type: String, default: '' },
   }],
   
   profilesTitle: { type: String, default: '' },
