@@ -291,11 +291,22 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             .dyn-sec-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fff; margin-bottom: 12px; border-left: 4px solid #f97316; padding-left: 15px; line-height: 1.2; margin-top: 40px; }
             .dyn-intro { font-size: 1.1rem; line-height: 1.8; color: #94a3b8; margin-bottom: 20px; }
             .dyn-flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 15px; margin-bottom: 40px; }
-            .dyn-flow-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; transition: all 0.3s ease; position: relative; overflow: hidden; }
-            .dyn-flow-card:hover { transform: translateY(-5px); border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.02); box-shadow: 0 10px 30px rgba(249,115,22,0.05); }
-            .dyn-flow-number { font-size: 3rem; font-weight: 900; color: rgba(249,115,22,0.07); position: absolute; top: 10px; right: 15px; line-height: 1; }
-            .dyn-flow-card h4 { font-size: 1.15rem; color: #fff; margin: 0 0 8px; font-weight: 700; }
-            .dyn-flow-card p { font-size: 0.9rem; color: #94a3b8; margin: 0; line-height: 1.6; }
+            .dyn-flow-card { border-radius: 16px; padding: 28px 24px 24px; transition: all 0.35s ease; position: relative; overflow: hidden; border: 1px solid rgba(249,115,22,0.15); background: linear-gradient(145deg, rgba(249,115,22,0.07) 0%, rgba(20,20,20,0.6) 100%); }
+            .dyn-flow-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #f97316, #fb923c); border-radius: 16px 16px 0 0; }
+            .dyn-flow-card:nth-child(2)::before { background: linear-gradient(90deg, #ea580c, #f97316); }
+            .dyn-flow-card:nth-child(2) { background: linear-gradient(145deg, rgba(234,88,12,0.08) 0%, rgba(20,20,20,0.6) 100%); border-color: rgba(234,88,12,0.2); }
+            .dyn-flow-card:nth-child(3)::before { background: linear-gradient(90deg, #fb923c, #fbbf24); }
+            .dyn-flow-card:nth-child(3) { background: linear-gradient(145deg, rgba(251,146,60,0.07) 0%, rgba(20,20,20,0.6) 100%); border-color: rgba(251,146,60,0.18); }
+            .dyn-flow-card:nth-child(4)::before { background: linear-gradient(90deg, #f97316, #ef4444); }
+            .dyn-flow-card:nth-child(4) { background: linear-gradient(145deg, rgba(249,115,22,0.08) 0%, rgba(20,20,20,0.6) 100%); border-color: rgba(249,115,22,0.2); }
+            .dyn-flow-card:nth-child(5)::before { background: linear-gradient(90deg, #fbbf24, #f97316); }
+            .dyn-flow-card:nth-child(5) { background: linear-gradient(145deg, rgba(251,191,36,0.06) 0%, rgba(20,20,20,0.6) 100%); border-color: rgba(251,191,36,0.15); }
+            .dyn-flow-card:nth-child(6)::before { background: linear-gradient(90deg, #c2410c, #f97316); }
+            .dyn-flow-card:nth-child(6) { background: linear-gradient(145deg, rgba(194,65,12,0.08) 0%, rgba(20,20,20,0.6) 100%); border-color: rgba(194,65,12,0.2); }
+            .dyn-flow-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(249,115,22,0.15); border-color: rgba(249,115,22,0.4); }
+            .dyn-flow-number { font-size: 4rem; font-weight: 900; color: rgba(249,115,22,0.1); position: absolute; top: 8px; right: 18px; line-height: 1; letter-spacing: -2px; }
+            .dyn-flow-card h4 { font-size: 1.1rem; color: #fff; margin: 0 0 10px; font-weight: 800; }
+            .dyn-flow-card p { font-size: 0.88rem; color: #94a3b8; margin: 0; line-height: 1.65; }
             .dyn-results-table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 40px; background: rgba(255,255,255,0.01); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
             .dyn-results-table th, .dyn-results-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
             .dyn-results-table th { background: rgba(255,255,255,0.03); color: #fff; font-weight: 700; }
