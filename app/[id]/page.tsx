@@ -527,14 +527,36 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             <div style={{ marginTop: '40px' }}>
               <h3 className="dyn-sec-title">See Our Real Results</h3>
               <p className="dyn-intro">Our performance speaks for itself — real clients, real growth.</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px', marginTop: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '16px', marginTop: '16px' }}>
                 {industry.resultImages.map((imgUrl: string, idx: number) => (
-                  <img
+                  <div
                     key={idx}
-                    src={imgUrl}
-                    alt={`Result ${idx + 1}`}
-                    style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', objectFit: 'contain' }}
-                  />
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '200px',
+                      borderRadius: '14px',
+                      overflow: 'hidden',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      boxShadow: '0 8px 28px rgba(0,0,0,0.5)',
+                      background: 'rgba(255,255,255,0.03)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <img
+                      src={imgUrl}
+                      alt={`Result ${idx + 1}`}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        padding: '12px',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
                 ))}
               </div>
             </div>
