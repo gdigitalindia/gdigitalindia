@@ -675,7 +675,10 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
                     <div key={i} className={`${styles.contentBlock} ${isReverse ? styles.contentBlockReverse : ""}`}>
                       <div className={styles.blockText}>
                         {block.title && <h3>{block.title}</h3>}
-                        <div dangerouslySetInnerHTML={{ __html: block.text }} />
+                        <div
+                          style={{ color: '#94a3b8', lineHeight: 1.8 }}
+                          dangerouslySetInnerHTML={{ __html: block.text }}
+                        />
                       </div>
                       {block.image && (
                         <div className={styles.blockImageWrapper}>
@@ -702,7 +705,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             {/* Tags */}
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '40px' }}>
               {service.tags?.map((tag: string) => (
-                <span key={tag} style={{ background: '#f0f0f0', padding: '5px 12px', borderRadius: '20px', fontSize: '13px' }}>
+                <span key={tag} style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.25)', color: '#f97316', padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>
                   {tag}
                 </span>
               ))}

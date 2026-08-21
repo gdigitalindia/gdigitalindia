@@ -337,6 +337,32 @@
   margin-bottom: 15px;
 }
 
+.blockText ul,
+.blockText ol {
+  padding-left: 20px;
+  margin: 10px 0;
+  color: #94a3b8;
+}
+
+.blockText li {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+
+.blockText p {
+  color: #94a3b8;
+  font-size: 0.96rem;
+  line-height: 1.88;
+  margin: 0 0 12px;
+}
+
+.blockText strong {
+  color: #f1f5f9;
+  font-weight: 700;
+}
+
 .blockImageWrapper {
   flex: 1;
 }
