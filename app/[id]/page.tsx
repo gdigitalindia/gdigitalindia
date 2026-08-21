@@ -677,7 +677,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
           <div className={`${styles.heroInner} dyn-hero-inner`}>
 
             {/* Left: Text Content */}
-            <div className="dyn-hero-left">
+            <div className={`${styles.heroLeft} dyn-hero-left`}>
               {/* Breadcrumb */}
               <nav className={styles.breadcrumb} aria-label="Breadcrumb">
                 <Link href="/" className={styles.bcLink}><IconHome /> Home</Link>
@@ -700,7 +700,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Right: Quick Enquiry Form */}
-            <div className="dyn-hero-right">
+            <div className={`${styles.heroRight} dyn-hero-right`}>
               <div style={{
                 background: 'rgba(15,15,15,0.92)',
                 border: '1px solid rgba(255,255,255,0.08)',
