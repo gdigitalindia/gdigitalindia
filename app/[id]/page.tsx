@@ -13,6 +13,7 @@ import ProfileSlider from "@/app/components/ProfileSlider/ProfileSlider";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PackageDetailClient from "../packages/[slug]/PackageDetailClient";
+import SmartBlockRenderer from "@/app/components/SmartBlockRenderer/SmartBlockRenderer";
 
 export const revalidate = 60;
 
@@ -173,7 +174,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
                 <div key={i} className={`${styles.contentBlock} ${isReverse ? styles.contentBlockReverse : ""}`}>
                   <div className={styles.blockText}>
                     {block.title && <h3>{block.title}</h3>}
-                    <div dangerouslySetInnerHTML={{ __html: block.text }} />
+                    <SmartBlockRenderer html={block.text} />
                   </div>
                   {block.image && (
                     <div className={styles.blockImageWrapper}>
@@ -739,10 +740,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
                   <div key={i} className={`${styles.contentBlock} ${isReverse ? styles.contentBlockReverse : ""}`}>
                     <div className={styles.blockText}>
                       {block.title && <h3>{block.title}</h3>}
-                      <div
-                        style={{ color: '#94a3b8', lineHeight: 1.8 }}
-                        dangerouslySetInnerHTML={{ __html: block.text }}
-                      />
+                      <SmartBlockRenderer html={block.text} />
                     </div>
                     {block.image && (
                       <div className={styles.blockImageWrapper}>
