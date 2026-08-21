@@ -382,18 +382,31 @@
   margin-bottom: 15px;
 }
 
-.blockText ul,
-.blockText ol {
-  padding-left: 20px;
-  margin: 10px 0;
-  color: #94a3b8;
+.blockText ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 16px 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .blockText li {
-  color: #94a3b8;
+  position: relative;
+  padding-left: 24px;
+  color: #cbd5e1;
   font-size: 0.95rem;
-  line-height: 1.8;
-  margin-bottom: 6px;
+  line-height: 1.7;
+}
+
+.blockText li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #f97316;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .blockText p {

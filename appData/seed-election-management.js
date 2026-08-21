@@ -29,51 +29,163 @@ const electionService = {
   contentBlocks: [
     {
       title: "Election Management Tools",
-      text: `<p>Our election management tools are designed to give you a complete edge during elections:</p>
-<ul>
-  <li><strong>Voter Searching App</strong> – Instantly search any voter from your mobile</li>
-  <li><strong>Voter Slip Printer</strong> – Print voter slips wirelessly using mobile thermal printers</li>
-  <li><strong>Digital Voter List</strong> – Alphabetical and house-wise voter list management</li>
-  <li><strong>House Wise Voter Slip</strong> – Organize slips booth-by-booth efficiently</li>
-  <li><strong>Printed Voter Slips</strong> – High-quality printed materials for distribution</li>
-  <li><strong>Dummy Voting Machine</strong> – Practice EVM demonstration for awareness</li>
-  <li><strong>Booth Bags</strong> – Branded booth management kits</li>
-  <li><strong>Pop Up Campaigns</strong> – On-ground popup campaign management</li>
-  <li><strong>OBD Campaigns</strong> – Automated outbound dialing voter outreach</li>
-  <li><strong>Meta Campaigns</strong> – Facebook and Instagram election advertising</li>
-</ul>`,
+      text: `<p style="color: #94a3b8; font-size: 1.05rem; line-height: 1.8; margin-bottom: 25px;">Our election management tools are designed to give you a complete edge during elections:</p>
+<div class="gdi-cards-grid">
+  <div class="gdi-feature-card theme-cyan">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-mobile-screen-button"></i></div>
+    <h4 class="gdi-card-title">Voter Searching App</h4>
+    <p class="gdi-card-desc">Instantly search any voter by name, EPIC, or mobile number</p>
+  </div>
+  <div class="gdi-feature-card theme-orange">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-print"></i></div>
+    <h4 class="gdi-card-title">Voter Slip Printer</h4>
+    <p class="gdi-card-desc">Print voter slips wirelessly using portable mobile thermal printers</p>
+  </div>
+  <div class="gdi-feature-card theme-emerald">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-clipboard-list"></i></div>
+    <h4 class="gdi-card-title">Digital Voter List</h4>
+    <p class="gdi-card-desc">Alphabetical and house-wise voter list management at your fingertips</p>
+  </div>
+  <div class="gdi-feature-card theme-amber">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-house-chimney-user"></i></div>
+    <h4 class="gdi-card-title">House Wise Voter Slip</h4>
+    <p class="gdi-card-desc">Organize and distribute voter slips booth-by-booth efficiently</p>
+  </div>
+  <div class="gdi-feature-card theme-purple">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-file-invoice"></i></div>
+    <h4 class="gdi-card-title">Printed Voter Slips</h4>
+    <p class="gdi-card-desc">High-quality printed voter slip materials ready for door-to-door distribution</p>
+  </div>
+  <div class="gdi-feature-card theme-rose">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-check-to-slot"></i></div>
+    <h4 class="gdi-card-title">Dummy Voting Machine</h4>
+    <p class="gdi-card-desc">Hands-on EVM demonstration setup for voter awareness and mock polls</p>
+  </div>
+  <div class="gdi-feature-card theme-blue">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-briefcase"></i></div>
+    <h4 class="gdi-card-title">Booth Bags</h4>
+    <p class="gdi-card-desc">Complete branded booth management kits for polling agents</p>
+  </div>
+  <div class="gdi-feature-card theme-pink">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-bullhorn"></i></div>
+    <h4 class="gdi-card-title">Pop Up Campaigns</h4>
+    <p class="gdi-card-desc">On-ground flash campaigns and street publicity drives</p>
+  </div>
+  <div class="gdi-feature-card theme-indigo">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-phone-volume"></i></div>
+    <h4 class="gdi-card-title">OBD Campaigns</h4>
+    <p class="gdi-card-desc">Automated outbound voice call broadcasts delivering candidate speeches</p>
+  </div>
+  <div class="gdi-feature-card theme-lime">
+    <div class="gdi-icon-circle"><i class="fa-brands fa-meta"></i></div>
+    <h4 class="gdi-card-title">Meta Campaigns</h4>
+    <p class="gdi-card-desc">Geo-targeted Facebook and Instagram advertising across constituency</p>
+  </div>
+</div>`,
       image: ""
     },
     {
       title: "Election Publicity Solution",
-      text: `<p>Make your election campaign visible and impactful with our full range of Election Publicity Materials:</p>
-<ul>
-  <li><strong>T-Shirts</strong> – Custom branded campaign t-shirts</li>
-  <li><strong>Wall Clock</strong> – Branded wall clocks for voter homes</li>
-  <li><strong>Flags</strong> – Campaign flags and banners</li>
-  <li><strong>Caps</strong> – Branded election campaign caps</li>
-  <li><strong>Patka</strong> – Traditional campaign scarves</li>
-  <li><strong>Jhallar (Lari)</strong> – Decorative campaign bunting strings</li>
-  <li><strong>Pocket Batch</strong> – ID badges and pocket cards</li>
-  <li><strong>Key Chain</strong> – Branded keychain giveaways</li>
-  <li><strong>Dairy</strong> – Branded diaries for voter distribution</li>
-  <li><strong>Pen</strong> – Branded pens for mass distribution</li>
-</ul>`,
+      text: `<p style="color: #94a3b8; font-size: 1.05rem; line-height: 1.8; margin-bottom: 25px;">Make your election campaign visible and impactful with our full range of Election Publicity Materials:</p>
+<div class="gdi-cards-grid">
+  <div class="gdi-feature-card theme-orange">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-shirt"></i></div>
+    <h4 class="gdi-card-title">T-Shirts</h4>
+    <p class="gdi-card-desc">Custom branded election campaign t-shirts for party workers</p>
+  </div>
+  <div class="gdi-feature-card theme-cyan">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-clock"></i></div>
+    <h4 class="gdi-card-title">Wall Clock</h4>
+    <p class="gdi-card-desc">Branded election wall clocks for voter homes and meeting halls</p>
+  </div>
+  <div class="gdi-feature-card theme-rose">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-flag"></i></div>
+    <h4 class="gdi-card-title">Flags & Banners</h4>
+    <p class="gdi-card-desc">High-visibility party flags, cloth banners, and vehicle flags</p>
+  </div>
+  <div class="gdi-feature-card theme-emerald">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-hat-cowboy-side"></i></div>
+    <h4 class="gdi-card-title">Campaign Caps</h4>
+    <p class="gdi-card-desc">Branded election campaign caps & sun visors for mass rallies</p>
+  </div>
+  <div class="gdi-feature-card theme-amber">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-ribbon"></i></div>
+    <h4 class="gdi-card-title">Patka / Scarves</h4>
+    <p class="gdi-card-desc">Traditional party scarves, stoles, and ceremonial election patkas</p>
+  </div>
+  <div class="gdi-feature-card theme-purple">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+    <h4 class="gdi-card-title">Jhallar (Lari)</h4>
+    <p class="gdi-card-desc">Decorative campaign bunting strings for street and stage decorations</p>
+  </div>
+  <div class="gdi-feature-card theme-blue">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-id-badge"></i></div>
+    <h4 class="gdi-card-title">Pocket Badge</h4>
+    <p class="gdi-card-desc">Custom ID badges, photo badges, and pocket cards for party cadre</p>
+  </div>
+  <div class="gdi-feature-card theme-pink">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-key"></i></div>
+    <h4 class="gdi-card-title">Key Chain</h4>
+    <p class="gdi-card-desc">Custom branded acrylic and metallic keychain giveaways</p>
+  </div>
+  <div class="gdi-feature-card theme-indigo">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-book-bookmark"></i></div>
+    <h4 class="gdi-card-title">Diary & Planners</h4>
+    <p class="gdi-card-desc">Branded executive notebooks and diaries for key leaders</p>
+  </div>
+  <div class="gdi-feature-card theme-lime">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-pen-fancy"></i></div>
+    <h4 class="gdi-card-title">Custom Pens</h4>
+    <p class="gdi-card-desc">Printed promotional pens for widespread distribution</p>
+  </div>
+</div>`,
       image: ""
     },
     {
       title: "Voter App – Mobile Thermal Printer Support",
-      text: `<p>Our dedicated Voter App is the heart of our election management solution. Features include:</p>
-<ul>
-  <li><strong>Search (Khoje)</strong> – Find any voter quickly</li>
-  <li><strong>Advance Search</strong> – Filter voters by ward, booth, age, gender</li>
-  <li><strong>EVM Ballot Paper</strong> – Digital ballot preparation tools</li>
-  <li><strong>List (Suchi)</strong> – Full alphabetical voter list</li>
-  <li><strong>Language (Bhasha)</strong> – Multi-language support</li>
-  <li><strong>Bulk Message</strong> – Send SMS to thousands of voters</li>
-  <li><strong>Bulk WhatsApp</strong> – Mass WhatsApp campaign</li>
-  <li><strong>Voice Call</strong> – Automated voice call campaigns</li>
-</ul>`,
+      text: `<p style="color: #94a3b8; font-size: 1.05rem; line-height: 1.8; margin-bottom: 25px;">Our dedicated Voter App is the heart of our election management solution. Key features include:</p>
+<div class="gdi-cards-grid">
+  <div class="gdi-feature-card theme-orange">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-magnifying-glass"></i></div>
+    <h4 class="gdi-card-title">Search (Khoje)</h4>
+    <p class="gdi-card-desc">Find any voter within seconds by name, father name, or EPIC ID</p>
+  </div>
+  <div class="gdi-feature-card theme-cyan">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-sliders"></i></div>
+    <h4 class="gdi-card-title">Advance Search</h4>
+    <p class="gdi-card-desc">Filter voters dynamically by ward, booth number, age range, or gender</p>
+  </div>
+  <div class="gdi-feature-card theme-emerald">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-square-check"></i></div>
+    <h4 class="gdi-card-title">EVM Ballot Paper</h4>
+    <p class="gdi-card-desc">Digital ballot preparation and candidate serial display preview</p>
+  </div>
+  <div class="gdi-feature-card theme-amber">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-list-ol"></i></div>
+    <h4 class="gdi-card-title">List (Suchi)</h4>
+    <p class="gdi-card-desc">Full alphabetical, family-wise, and booth-wise voter lists</p>
+  </div>
+  <div class="gdi-feature-card theme-purple">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-language"></i></div>
+    <h4 class="gdi-card-title">Language (Bhasha)</h4>
+    <p class="gdi-card-desc">Easy one-tap switching between Hindi and English interface</p>
+  </div>
+  <div class="gdi-feature-card theme-rose">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-comment-sms"></i></div>
+    <h4 class="gdi-card-title">Bulk Message</h4>
+    <p class="gdi-card-desc">Directly broadcast instant SMS updates and appeal messages to voters</p>
+  </div>
+  <div class="gdi-feature-card theme-lime">
+    <div class="gdi-icon-circle"><i class="fa-brands fa-whatsapp"></i></div>
+    <h4 class="gdi-card-title">Bulk WhatsApp</h4>
+    <p class="gdi-card-desc">Mass WhatsApp voter campaigns with flyers, video clips, and PDFs</p>
+  </div>
+  <div class="gdi-feature-card theme-blue">
+    <div class="gdi-icon-circle"><i class="fa-solid fa-headset"></i></div>
+    <h4 class="gdi-card-title">Voice Call</h4>
+    <p class="gdi-card-desc">Automated outbound voice call broadcasts in candidate's voice</p>
+  </div>
+</div>`,
       image: ""
     }
   ],
@@ -126,7 +238,7 @@ async function main() {
         { slug: 'election-management-solution' },
         { $set: electionService }
       );
-      console.log('Service updated successfully!');
+      console.log('Service updated successfully with modern card grid design!');
     } else {
       await collection.insertOne({
         ...electionService,
@@ -135,8 +247,8 @@ async function main() {
       console.log('Election Management Solution service added successfully!');
     }
 
-    console.log('Done! The service will appear in the navbar under "IT Solutions & Software".');
-    console.log('Service URL will be: /election-management-solution');
+    console.log('Done! The service will appear with modern card layout.');
+    console.log('Service URL: /election-management-solution');
   } catch (err) {
     console.error('Error:', err);
   } finally {

@@ -63,6 +63,7 @@ export default async function RootLayout({
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
         <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/c37a9f31696dbcc8b86a42827beae565?family=Europa+Grotesk+SH+DemBol" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
