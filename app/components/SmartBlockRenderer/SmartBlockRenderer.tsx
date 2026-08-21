@@ -20,7 +20,7 @@ const PALETTES = [
 function getIconForTitle(title: string, index: number) {
   const t = title.toLowerCase();
 
-  // Mobile / App / Phone
+  // Mobile / App / Phone / Khoje
   if (t.includes("app") || t.includes("mobile") || t.includes("search") || t.includes("khoje")) {
     return (
       <svg viewBox="0 0 24 24">
@@ -61,7 +61,7 @@ function getIconForTitle(title: string, index: number) {
       </svg>
     );
   }
-  // Slip / Ballot / Document
+  // Slip / Ballot / Document / Invoice
   if (t.includes("slip") || t.includes("ballot") || t.includes("paper") || t.includes("form")) {
     return (
       <svg viewBox="0 0 24 24">
@@ -86,7 +86,7 @@ function getIconForTitle(title: string, index: number) {
       </svg>
     );
   }
-  // Bag / Kit / Case
+  // Bag / Kit / Case / Toolkit
   if (t.includes("bag") || t.includes("kit") || t.includes("box")) {
     return (
       <svg viewBox="0 0 24 24">
@@ -95,7 +95,7 @@ function getIconForTitle(title: string, index: number) {
       </svg>
     );
   }
-  // Campaign / Speaker / Pop Up
+  // Campaign / Speaker / Pop Up / Shout
   if (t.includes("pop up") || t.includes("campaign") || t.includes("loud") || t.includes("broadcast")) {
     return (
       <svg viewBox="0 0 24 24">
@@ -194,8 +194,8 @@ function getIconForTitle(title: string, index: number) {
       </svg>
     );
   }
-  // Diary / Notebook / Book
-  if (t.includes("dairy") || t.includes("diary") || t.includes("book") || t.includes("note")) {
+  // Diary / Notebook / Book / Planner
+  if (t.includes("dairy") || t.includes("diary") || t.includes("book") || t.includes("note") || t.includes("planner")) {
     return (
       <svg viewBox="0 0 24 24">
         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -237,7 +237,7 @@ function getIconForTitle(title: string, index: number) {
     );
   }
 
-  // Default elegant fallback icon (Sparkle / Target / Check)
+  // Default elegant fallback icon
   return (
     <svg viewBox="0 0 24 24">
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -250,41 +250,65 @@ interface ParsedItem {
   desc: string;
 }
 
-function parseContentToCards(html: string): { introHtml: string; items: ParsedItem[]; isCardFormat: boolean } {
-  if (!html) return { introHtml: "", items: [], isCardFormat: false };
+function parseContentToCards(rawHtml: string): { introHtml: string; items: ParsedItem[]; isCardFormat: boolean } {
+  if (!rawHtml) return { introHtml: "", items: [], isCardFormat: false };
+
+  // Normalize HTML: replace &nbsp; with regular space, trim whitespace
+  const html = rawHtml.replace(/&nbsp;/g, " ").replace(/\u00a0/g, " ").trim();
 
   // If it already has custom card grid markup, let it render normally
   if (html.includes("gdi-cards-grid")) {
     return { introHtml: html, items: [], isCardFormat: false };
   }
 
-  const items: ParsedItem[] = [];
-  let introHtml = "";
+  // ─────────────────────────────────────────────────────────────
+  // 1. Check for <h4>Title</h4> or <h3>Title</h3> followed by <p>Desc</p>
+  // ─────────────────────────────────────────────────────────────
+  const headingMatches = [...html.matchAll(/<h[345][^>]*>([\s\S]*?)<\/h[345]>([\s\S]*?)(?=<h[345]|$)/gi)];
+  if (headingMatches.length >= 2) {
+    // Extract intro text before the first heading
+    const firstHeadingPos = html.search(/<h[345]/i);
+    const introHtml = firstHeadingPos > 0 ? html.substring(0, firstHeadingPos).trim() : "";
+    const items: ParsedItem[] = [];
 
-  // 1. Try checking for <li> items
+    for (const match of headingMatches) {
+      const title = match[1].replace(/<[^>]*>/g, "").trim();
+      const descChunk = match[2].trim();
+      // Extract clean description text
+      const desc = descChunk.replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, " ").replace(/<[^>]*>/g, "").trim();
+
+      if (title) {
+        items.push({ title, desc });
+      }
+    }
+
+    if (items.length >= 2) {
+      return { introHtml, items, isCardFormat: true };
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // 2. Check for <li> items
+  // ─────────────────────────────────────────────────────────────
   const liRegex = /<li[^>]*>([\s\S]*?)<\/li>/gi;
   const liMatches = [...html.matchAll(liRegex)];
 
   if (liMatches.length >= 2) {
-    // Extract intro text before <ul> or first <li>
     const firstLiPos = html.search(/<ul|<ol|<li/i);
-    if (firstLiPos > 0) {
-      introHtml = html.substring(0, firstLiPos).trim();
-    }
+    const introHtml = firstLiPos > 0 ? html.substring(0, firstLiPos).trim() : "";
+    const items: ParsedItem[] = [];
 
     for (const match of liMatches) {
       const content = match[1].trim();
       let title = "";
       let desc = "";
 
-      // Match <strong>...</strong> or <b>...</b>
       const strongMatch = content.match(/<(strong|b)[^>]*>([\s\S]*?)<\/\1>([\s\S]*)/i);
       if (strongMatch) {
         title = strongMatch[2].replace(/<[^>]*>/g, "").trim();
         let rest = strongMatch[3].replace(/^[–—\-:\s]+/, "").trim();
         desc = rest.replace(/<[^>]*>/g, "").trim();
       } else {
-        // Split by dash or colon
         const parts = content.replace(/<[^>]*>/g, "").split(/[–—\-:]+/);
         if (parts.length > 1) {
           title = parts[0].trim();
@@ -300,14 +324,19 @@ function parseContentToCards(html: string): { introHtml: string; items: ParsedIt
       }
     }
 
-    return { introHtml, items, isCardFormat: true };
+    if (items.length >= 2) {
+      return { introHtml, items, isCardFormat: true };
+    }
   }
 
-  // 2. Try checking for <p><strong>Title</strong></p><p>Desc</p> patterns
-  const pTags = [...html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)].map(m => m[1].trim()).filter(Boolean);
-  
+  // ─────────────────────────────────────────────────────────────
+  // 3. Check for <p><strong>Title</strong></p><p>Desc</p> patterns
+  // ─────────────────────────────────────────────────────────────
+  const pTags = [...html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((m) => m[1].trim())
+    .filter((txt) => txt.replace(/<[^>]*>/g, "").trim().length > 0);
+
   if (pTags.length >= 4) {
-    let currentTitle = "";
     let candidateItems: ParsedItem[] = [];
     let introCollected: string[] = [];
     let hasStartedItems = false;
@@ -325,12 +354,11 @@ function parseContentToCards(html: string): { introHtml: string; items: ParsedIt
         });
       } else if (strongOnly) {
         hasStartedItems = true;
-        currentTitle = strongOnly[2].replace(/<[^>]*>/g, "").trim();
-        // Check if next paragraph is description
+        const currentTitle = strongOnly[2].replace(/<[^>]*>/g, "").trim();
         if (i + 1 < pTags.length && !pTags[i + 1].match(/^<(strong|b)[^>]*>/i)) {
           const nextDesc = pTags[i + 1].replace(/<[^>]*>/g, "").trim();
           candidateItems.push({ title: currentTitle, desc: nextDesc });
-          i++; // skip next paragraph
+          i++;
         } else {
           candidateItems.push({ title: currentTitle, desc: "" });
         }
@@ -368,7 +396,7 @@ export default function SmartBlockRenderer({ html }: SmartBlockRendererProps) {
     <div style={{ width: "100%" }}>
       {introHtml && (
         <div
-          style={{ color: "#94a3b8", fontSize: "1.02rem", lineHeight: 1.8, marginBottom: "20px" }}
+          style={{ color: "#94a3b8", fontSize: "1.05rem", lineHeight: 1.8, marginBottom: "24px" }}
           dangerouslySetInnerHTML={{ __html: introHtml }}
         />
       )}
