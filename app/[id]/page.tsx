@@ -349,6 +349,16 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             .dyn-client-logo-card:hover .dyn-client-logo-img { filter: grayscale(0%) brightness(1.1); }
             .dyn-client-logo-fallback { width: 64px; height: 64px; border-radius: 14px; background: linear-gradient(135deg, rgba(249,115,22,0.2) 0%, rgba(249,115,22,0.06) 100%); border: 1px solid rgba(249,115,22,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 900; color: #f97316; }
             .dyn-client-logo-name { color: #94a3b8; font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.3; max-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            /* Why Choose Us Grid */
+            .dyn-why-choose { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; }
+            .dyn-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+            .dyn-stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 22px; text-align: center; transition: all 0.3s ease; }
+            .dyn-stat-card:hover { border-color: rgba(249,115,22,0.3); background: rgba(255,255,255,0.05); transform: translateY(-3px); }
+            .dyn-stat-num { font-size: 2.3rem; font-weight: 900; color: #f97316; margin-bottom: 6px; font-family: 'Playfair Display', serif; }
+            .dyn-stat-label { color: #cbd5e1; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+            @media (max-width: 900px) {
+              .dyn-why-choose { grid-template-columns: 1fr; gap: 30px; }
+            }
           ` }} />
 
           {/* DYNAMIC CONVERSION STAGES BLOCK */}
@@ -548,9 +558,9 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
                       height: '200px',
                       borderRadius: '14px',
                       overflow: 'hidden',
-                      border: '1px solid rgba(255,255,255,0.08)',
+                      border: '1px solid rgba(255,255,255,0.1)',
                       boxShadow: '0 8px 28px rgba(0,0,0,0.5)',
-                      background: 'rgba(255,255,255,0.03)',
+                      background: '#ffffff',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -585,29 +595,54 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             </div>
           </div>
 
-          <div style={{ marginTop: '30px', padding: '30px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '16px' }}>
-            <h3 style={{ color: '#fff', fontSize: '1.5rem', marginBottom: '20px' }}>Why Choose G Digital India?</h3>
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 25px 0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {[
-                "10+ Years of Excellence in Digital Marketing",
-                "Certified Google & Meta Partner Agency",
-                "Team Strength of 100+ Skilled Professionals",
-                "Award-Winning Performance Marketing Agency",
-                "Trusted by Businesses Across Multiple Industries",
-                "Strong Presence in 10+ Cities Across India",
-                `Specialized expertise in ${industry.short} Digital Marketing.`
-              ].map((point, idx) => (
-                <li key={idx} style={{ color: '#cbd5e1', fontSize: '1.05rem', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <svg style={{ flexShrink: 0, marginTop: '3px' }} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                  {point}
-                </li>
-              ))}
-            </ul>
-            <ConsultationButton className={styles.btnPrimary}>
-              Let's Discuss Your Growth Strategy <IconArrow size={13} />
-            </ConsultationButton>
+          <div style={{ marginTop: '30px', padding: '40px 30px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '16px' }}>
+            <div className="dyn-why-choose">
+              {/* Left Column: Checklist */}
+              <div>
+                <h3 style={{ color: '#fff', fontSize: '1.7rem', marginBottom: '20px', fontWeight: 800 }}>Why Choose G Digital India?</h3>
+                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 25px 0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {[
+                    "10+ Years of Excellence in Digital Marketing",
+                    "Certified Google & Meta Partner Agency",
+                    "Team Strength of 100+ Skilled Professionals",
+                    "Award-Winning Performance Marketing Agency",
+                    "Trusted by Businesses Across Multiple Industries",
+                    "Strong Presence in 10+ Cities Across India",
+                    `Specialized expertise in ${industry.short} Digital Marketing.`
+                  ].map((point, idx) => (
+                    <li key={idx} style={{ color: '#cbd5e1', fontSize: '1.05rem', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <svg style={{ flexShrink: 0, marginTop: '3px' }} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+                <ConsultationButton className={styles.btnPrimary}>
+                  Let's Discuss Your Growth Strategy <IconArrow size={13} />
+                </ConsultationButton>
+              </div>
+
+              {/* Right Column: Achievements Stats */}
+              <div className="dyn-stats-grid">
+                <div className="dyn-stat-card">
+                  <div className="dyn-stat-num">10+</div>
+                  <div className="dyn-stat-label">Years Experience</div>
+                </div>
+                <div className="dyn-stat-card">
+                  <div className="dyn-stat-num">500+</div>
+                  <div className="dyn-stat-label">Happy Clients</div>
+                </div>
+                <div className="dyn-stat-card">
+                  <div className="dyn-stat-num">100+</div>
+                  <div className="dyn-stat-label">Team Members</div>
+                </div>
+                <div className="dyn-stat-card">
+                  <div className="dyn-stat-num">98%</div>
+                  <div className="dyn-stat-label">Success Rate</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
