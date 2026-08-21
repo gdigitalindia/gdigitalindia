@@ -262,7 +262,7 @@ function parseContentToCards(html: string): { introHtml: string; items: ParsedIt
   let introHtml = "";
 
   // 1. Try checking for <li> items
-  const liRegex = /<li[^>]*>(.*?)<\/li>/gis;
+  const liRegex = /<li[^>]*>([\s\S]*?)<\/li>/gi;
   const liMatches = [...html.matchAll(liRegex)];
 
   if (liMatches.length >= 2) {
@@ -278,7 +278,7 @@ function parseContentToCards(html: string): { introHtml: string; items: ParsedIt
       let desc = "";
 
       // Match <strong>...</strong> or <b>...</b>
-      const strongMatch = content.match(/<(strong|b)[^>]*>(.*?)<\/\1>(.*)/is);
+      const strongMatch = content.match(/<(strong|b)[^>]*>([\s\S]*?)<\/\1>([\s\S]*)/i);
       if (strongMatch) {
         title = strongMatch[2].replace(/<[^>]*>/g, "").trim();
         let rest = strongMatch[3].replace(/^[–—\-:\s]+/, "").trim();
@@ -304,7 +304,7 @@ function parseContentToCards(html: string): { introHtml: string; items: ParsedIt
   }
 
   // 2. Try checking for <p><strong>Title</strong></p><p>Desc</p> patterns
-  const pTags = [...html.matchAll(/<p[^>]*>(.*?)<\/p>/gis)].map(m => m[1].trim()).filter(Boolean);
+  const pTags = [...html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)].map(m => m[1].trim()).filter(Boolean);
   
   if (pTags.length >= 4) {
     let currentTitle = "";
@@ -314,8 +314,8 @@ function parseContentToCards(html: string): { introHtml: string; items: ParsedIt
 
     for (let i = 0; i < pTags.length; i++) {
       const p = pTags[i];
-      const strongOnly = p.match(/^<(strong|b)[^>]*>(.*?)<\/\1>$/is);
-      const strongWithDesc = p.match(/^<(strong|b)[^>]*>(.*?)<\/\1>[–—\-:\s]+(.*)$/is);
+      const strongOnly = p.match(/^<(strong|b)[^>]*>([\s\S]*?)<\/\1>$/i);
+      const strongWithDesc = p.match(/^<(strong|b)[^>]*>([\s\S]*?)<\/\1>[–—\-:\s]+([\s\S]*)$/i);
 
       if (strongWithDesc) {
         hasStartedItems = true;
@@ -327,7 +327,7 @@ function parseContentToCards(html: string): { introHtml: string; items: ParsedIt
         hasStartedItems = true;
         currentTitle = strongOnly[2].replace(/<[^>]*>/g, "").trim();
         // Check if next paragraph is description
-        if (i + 1 < pTags.length && !pTags[i + 1].match(/^<(strong|b)[^>]*>/is)) {
+        if (i + 1 < pTags.length && !pTags[i + 1].match(/^<(strong|b)[^>]*>/i)) {
           const nextDesc = pTags[i + 1].replace(/<[^>]*>/g, "").trim();
           candidateItems.push({ title: currentTitle, desc: nextDesc });
           i++; // skip next paragraph
