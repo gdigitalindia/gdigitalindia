@@ -217,6 +217,24 @@ const electionService = {
     <p class="gdi-card-desc">Geo-targeted Facebook and Instagram advertising across constituency</p>
   </div>
 
+  <!-- 11. Bulk SMS Marketing -->
+  <div class="gdi-feature-card" style="--accent-border: #f43f5e; --accent-glow: rgba(244, 63, 94, 0.25); --circle-bg: rgba(244, 63, 94, 0.12); --circle-border: rgba(244, 63, 94, 0.3); --circle-stroke: #fb7185;">
+    <div class="gdi-icon-circle">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/></svg>
+    </div>
+    <h4 class="gdi-card-title">Bulk SMS Marketing</h4>
+    <p class="gdi-card-desc">Instant personalized mass SMS broadcasts to reach every voter directly</p>
+  </div>
+
+  <!-- 12. WhatsApp Marketing -->
+  <div class="gdi-feature-card" style="--accent-border: #10b981; --accent-glow: rgba(16, 185, 129, 0.25); --circle-bg: rgba(16, 185, 129, 0.12); --circle-border: rgba(16, 185, 129, 0.3); --circle-stroke: #34d399;">
+    <div class="gdi-icon-circle">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/><path d="M9.5 9.5c.3 1.5 1.5 2.7 3 3l1.5-1.5"/></svg>
+    </div>
+    <h4 class="gdi-card-title">WhatsApp Marketing</h4>
+    <p class="gdi-card-desc">Bulk WhatsApp outreach with video appeals, manifestos, and interactive replies</p>
+  </div>
+
 </div>`,
       image: ""
     },
