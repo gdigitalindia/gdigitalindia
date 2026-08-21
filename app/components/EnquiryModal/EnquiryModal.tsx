@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./EnquiryModal.module.css";
 
 interface EnquiryModalProps {
@@ -9,6 +10,7 @@ interface EnquiryModalProps {
 }
 
 const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, onClose }) => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -46,8 +48,9 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, onClose }) => {
       });
 
       if (res.ok) {
-        setSubmitted(true);
+        onClose();
         setFormData({ name: "", email: "", phone: "", message: "" });
+        router.push("/thank-you");
       } else {
         alert("Something went wrong. Please try again.");
       }

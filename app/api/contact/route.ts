@@ -6,12 +6,38 @@ import nodemailer       from 'nodemailer'
 // POST — Contact form submit
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, company, service, budget, message } = await request.json()
+    const contentType = request.headers.get('content-type') || ''
+    let isHtmlForm = false
+    let name = '', email = '', phone = '', company = '', service = '', budget = '', message = ''
+
+    if (contentType.includes('application/x-www-form-urlencoded') || contentType.includes('multipart/form-data')) {
+      isHtmlForm = true
+      const formData = await request.formData()
+      name = (formData.get('name') as string) || ''
+      email = (formData.get('email') as string) || ''
+      phone = (formData.get('phone') as string) || ''
+      company = (formData.get('company') as string) || ''
+      service = (formData.get('service') as string) || (formData.get('source') as string) || ''
+      budget = (formData.get('budget') as string) || ''
+      message = (formData.get('message') as string) || ''
+    } else {
+      const body = await request.json()
+      name = body.name || ''
+      email = body.email || ''
+      phone = body.phone || ''
+      company = body.company || ''
+      service = body.service || ''
+      budget = body.budget || ''
+      message = body.message || ''
+    }
 
     // Validation
-    if (!name || !email || !message) {
+    if (!name || !email) {
+      if (isHtmlForm) {
+        return NextResponse.redirect(new URL('/thank-you', request.url), 303)
+      }
       return NextResponse.json(
-        { error: 'Name, email aur message required hai' },
+        { error: 'Name and email are required' },
         { status: 400 }
       )
     }
@@ -22,7 +48,10 @@ export async function POST(request: Request) {
 
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
       console.warn('❌ Email settings missing in .env.local')
-      return NextResponse.json({ success: true, warning: 'Email not sent: missing config' })
+      if (isHtmlForm) {
+        return NextResponse.redirect(new URL('/thank-you', request.url), 303)
+      }
+      return NextResponse.json({ success: true, redirectUrl: '/thank-you', warning: 'Email not sent: missing config' })
     }
 
     // Email Transporter setup
@@ -101,7 +130,10 @@ export async function POST(request: Request) {
       }
     })
     
-    return NextResponse.json({ success: true })
+    if (isHtmlForm) {
+      return NextResponse.redirect(new URL('/thank-you', request.url), 303)
+    }
+    return NextResponse.json({ success: true, redirectUrl: '/thank-you' })
   } catch (error) {
     console.error('Contact API Error:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })

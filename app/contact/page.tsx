@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "./ContactPage.module.css";
 
 // ── SVG Icons (no library) ────────────────────────────────
@@ -44,6 +45,7 @@ const PHONES = [
 
 // ── Component ─────────────────────────────────────────────
 export default function ContactPage() {
+  const router = useRouter();
   const [budget, setBudget]     = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -67,7 +69,7 @@ export default function ContactPage() {
       });
 
       if (res.ok) {
-        setSubmitted(true);
+        router.push("/thank-you");
       } else {
         const data = await res.json();
         alert(data.error || "Kuch galat ho gaya, phir se koshish karein.");
