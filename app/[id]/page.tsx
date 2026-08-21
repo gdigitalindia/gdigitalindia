@@ -225,10 +225,10 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
         {/* Hero Banner */}
         <section className={styles.hero}>
           <div className={styles.heroBg} style={{ backgroundImage: `url(${industry.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920"})`, opacity: 0.12 }} />
-          <div className={styles.heroInner} style={{ display: 'flex', alignItems: 'center', gap: '50px' }}>
+          <div className={`${styles.heroInner} dyn-hero-inner`}>
 
             {/* Left: Text Content */}
-            <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="dyn-hero-left">
               {/* Breadcrumb */}
               <nav className={styles.breadcrumb} aria-label="Breadcrumb">
                 <Link href="/" className={styles.bcLink}><IconHome /> Home</Link>
@@ -249,7 +249,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Right: Consultation Form */}
-            <div style={{ flex: '0 0 380px', maxWidth: '380px', position: 'relative', zIndex: 1 }}>
+            <div className="dyn-hero-right">
               <div style={{
                 background: 'rgba(15,15,15,0.92)',
                 border: '1px solid rgba(255,255,255,0.08)',
@@ -358,6 +358,14 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
             .dyn-stat-label { color: #cbd5e1; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
             @media (max-width: 900px) {
               .dyn-why-choose { grid-template-columns: 1fr; gap: 30px; }
+            }
+            /* Hero Split Grid */
+            .dyn-hero-inner { display: flex; align-items: center; gap: 50px; }
+            .dyn-hero-left { flex: 1; min-width: 0; }
+            .dyn-hero-right { flex: 0 0 380px; max-width: 380px; position: relative; z-index: 1; }
+            @media (max-width: 900px) {
+              .dyn-hero-inner { flex-direction: column; gap: 30px; }
+              .dyn-hero-right { flex: 1 1 100%; max-width: 100%; width: 100%; }
             }
           ` }} />
 
@@ -666,140 +674,119 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
         {/* ═══ HERO BANNER ═══ */}
         <section className={styles.hero}>
           <div className={styles.heroBg} style={{ backgroundImage: `url(${service.image})`, opacity: 0.1 }} />
-          <div className={styles.heroInner}>
+          <div className={`${styles.heroInner} dyn-hero-inner`}>
 
-            {/* Breadcrumb */}
-            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-              <Link href="/" className={styles.bcLink}><IconHome /> Home</Link>
-              <span className={styles.bcSep}><IconChevron /></span>
-              <Link href="/services" className={styles.bcLink}>Services</Link>
-              <span className={styles.bcSep}><IconChevron /></span>
-              <span className={styles.bcCurrent}>{service.short}</span>
-            </nav>
+            {/* Left: Text Content */}
+            <div className="dyn-hero-left">
+              {/* Breadcrumb */}
+              <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+                <Link href="/" className={styles.bcLink}><IconHome /> Home</Link>
+                <span className={styles.bcSep}><IconChevron /></span>
+                <Link href="/services" className={styles.bcLink}>Services</Link>
+                <span className={styles.bcSep}><IconChevron /></span>
+                <span className={styles.bcCurrent}>{service.short}</span>
+              </nav>
 
-            <div className={styles.heroTag}>
-              <span className={styles.heroDot} /> {service.short} Services
+              <div className={styles.heroTag}>
+                <span className={styles.heroDot} /> {service.short} Services
+              </div>
+              <h1 className={styles.heroTitle}>
+                {service.descriptionHeading || service.title}
+              </h1>
+              <div
+                className={styles.heroDesc}
+                dangerouslySetInnerHTML={{ __html: service.description || service.highlight || "Professional solutions tailored to grow your business sustainably." }}
+              />
             </div>
-            <h1 className={styles.heroTitle}>
-              {service.descriptionHeading || service.title}
-            </h1>
-            <div
-              className={styles.heroDesc}
-              dangerouslySetInnerHTML={{ __html: service.description || service.highlight || "Professional solutions tailored to grow your business sustainably." }}
-            />
-            <div className={styles.heroActions}>
-              <ConsultationButton className={styles.btnPrimary}>
-                Get Free Consultation <IconArrow size={13} />
-              </ConsultationButton>
+
+            {/* Right: Quick Enquiry Form */}
+            <div className="dyn-hero-right">
+              <div style={{
+                background: 'rgba(15,15,15,0.92)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '16px',
+                padding: '32px 28px',
+                boxShadow: '0 25px 60px rgba(0,0,0,0.7)',
+                backdropFilter: 'blur(12px)',
+              }}>
+                <h3 style={{ color: '#fff', fontSize: '1.3rem', fontWeight: 800, marginBottom: '6px' }}>Get Free Consultation</h3>
+                <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: '22px', lineHeight: 1.5 }}>Tell us about your project — we will get back within 24 hours.</p>
+                <form action="/api/enquiry" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <input type="hidden" name="service" value={service.title} />
+                  <input required name="name" type="text" placeholder="Your Name *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
+                  <input required name="email" type="email" placeholder="Email Address *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
+                  <input required name="phone" type="tel" placeholder="Phone Number *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
+                  <textarea name="message" placeholder="Your Message..." rows={3} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', resize: 'vertical', width: '100%', boxSizing: 'border-box', fontFamily: 'inherit' }} />
+                  <button type="submit" style={{ background: '#f97316', color: '#fff', border: 'none', borderRadius: '6px', padding: '14px 24px', fontSize: '0.82rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'all 0.25s ease' }}>
+                    Submit Enquiry <IconArrow size={13} />
+                  </button>
+                </form>
+              </div>
             </div>
+
           </div>
         </section>
 
-        {/* ═══ BOTTOM BODY (FAQs + Sidebar) ═══ */}
-        <div className={styles.main}>
+        {/* ═══ BOTTOM BODY (Full Width Content) ═══ */}
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px 70px' }}>
 
-          {/* ── LEFT CONTENT (FAQs) ── */}
-          <div className={styles.content}>
-
-            {/* Alternating Content Blocks */}
-            {service.contentBlocks && service.contentBlocks.length > 0 && (
-              <div className={styles.contentBlocks} style={{ padding: 0, margin: '0 0 40px 0', maxWidth: '100%' }}>
-                {service.contentBlocks.map((block: any, i: number) => {
-                  const isReverse = i % 2 === 0;
-                  return (
-                    <div key={i} className={`${styles.contentBlock} ${isReverse ? styles.contentBlockReverse : ""}`}>
-                      <div className={styles.blockText}>
-                        {block.title && <h3>{block.title}</h3>}
-                        <div
-                          style={{ color: '#94a3b8', lineHeight: 1.8 }}
-                          dangerouslySetInnerHTML={{ __html: block.text }}
-                        />
-                      </div>
-                      {block.image && (
-                        <div className={styles.blockImageWrapper}>
-                          <Image src={block.image} alt={block.title || "Service Content"} width={600} height={400} className={styles.blockImage} style={{ objectFit: 'cover' }} />
-                        </div>
-                      )}
+          {/* Alternating Content Blocks */}
+          {service.contentBlocks && service.contentBlocks.length > 0 && (
+            <div className={styles.contentBlocks} style={{ padding: 0, margin: '0 0 40px 0', maxWidth: '100%' }}>
+              {service.contentBlocks.map((block: any, i: number) => {
+                const isReverse = i % 2 === 0;
+                return (
+                  <div key={i} className={`${styles.contentBlock} ${isReverse ? styles.contentBlockReverse : ""}`}>
+                    <div className={styles.blockText}>
+                      {block.title && <h3>{block.title}</h3>}
+                      <div
+                        style={{ color: '#94a3b8', lineHeight: 1.8 }}
+                        dangerouslySetInnerHTML={{ __html: block.text }}
+                      />
                     </div>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Section 4 — FAQ */}
-            {service.faqs && service.faqs.length > 0 && (
-              <div className={styles.faqSection}>
-                <span className={styles.sectionLabel}>FAQs</span>
-                <h2 className={styles.contentTitle}>Frequently Asked Questions</h2>
-                <div className={styles.faqList}>
-                  {service.faqs.map((f: any, i: number) => <FaqItem key={i} q={f.q} a={f.a} />)}
-                </div>
-              </div>
-            )}
-
-            {/* Tags */}
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '40px' }}>
-              {service.tags?.map((tag: string) => (
-                <span key={tag} style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.25)', color: '#f97316', padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>
-                  {tag}
-                </span>
-              ))}
+                    {block.image && (
+                      <div className={styles.blockImageWrapper}>
+                        <Image src={block.image} alt={block.title || "Service Content"} width={600} height={400} className={styles.blockImage} style={{ objectFit: 'cover' }} />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
+          )}
 
+          {/* Section 4 — FAQ */}
+          {service.faqs && service.faqs.length > 0 && (
+            <div className={styles.faqSection} style={{ marginTop: '50px' }}>
+              <span className={styles.sectionLabel}>FAQs</span>
+              <h2 className={styles.contentTitle}>Frequently Asked Questions</h2>
+              <div className={styles.faqList}>
+                {service.faqs.map((f: any, i: number) => <FaqItem key={i} q={f.q} a={f.a} />)}
+              </div>
+            </div>
+          )}
+
+          {/* Tags */}
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '40px' }}>
+            {service.tags?.map((tag: string) => (
+              <span key={tag} style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.25)', color: '#f97316', padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>
+                {tag}
+              </span>
+            ))}
           </div>
 
-          {/* ── RIGHT SIDEBAR ── */}
-          <aside className={styles.sidebar}>
-
-            {/* Quick Enquiry Form */}
-            <div className={styles.sideForm}>
-              <h3 className={styles.sideFormTitle}>Get Free Consultation</h3>
-              <p className={styles.sideFormSub}>Tell us about your project — we all get back within 24 hours.</p>
-              <form action="/api/enquiry" method="POST">
-                  <input type="hidden" name="service" value={service.title} />
-                  <div className={styles.formGroup}>
-                  <input required name="name" className={styles.formInput} type="text" placeholder="Your Name *" />
-                  </div>
-                  <div className={styles.formGroup}>
-                  <input required name="email" className={styles.formInput} type="email" placeholder="Email Address *" />
-                  </div>
-                  <div className={styles.formGroup}>
-                  <input required name="phone" className={styles.formInput} type="tel" placeholder="Phone Number *" />
-                  </div>
-                  <div className={styles.formGroup}>
-                  <textarea name="message" className={styles.formTextarea} placeholder="Your Message..." />
-                  </div>
-                  <button type="submit" className={styles.formBtn}>
-                  Submit Enquiry <IconArrow size={13} />
-                  </button>
-              </form>
+          {/* Other Services Row at bottom */}
+          <div style={{ marginTop: '50px', padding: '24px 30px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}>
+            <p style={{ color: '#64748b', fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '16px' }}>Other Services We Offer</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {services.filter((s: any) => s._id !== service._id).slice(0, 8).map((s: any) => (
+                <Link key={s._id} href={`/${s.slug || s._id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '30px', padding: '8px 18px', fontSize: '0.9rem', color: '#cbd5e1', textDecoration: 'none', fontWeight: 600, transition: 'all 0.2s ease' }}>
+                  {s.title} <IconChevron />
+                </Link>
+              ))}
             </div>
+          </div>
 
-            {/* Other Services */}
-            <div className={styles.sideCard}>
-              <p className={styles.sideCardTitle}>Other Services</p>
-              <div className={styles.relatedList}>
-                {services.filter((s: any) => s._id !== service._id).slice(0, 7).map((s: any) => (
-                  <Link key={s._id} href={`/${s.slug || s._id}`} className={styles.relatedLink}>
-                    {s.title} <IconChevron />
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Contact card */}
-            <div className={styles.contactCard}>
-              <h4 className={styles.contactCardTitle}>Need Immediate Help?</h4>
-              <p className={styles.contactCardText}>Our team is available Monday–Saturday, 9AM to 7PM.</p>
-              <a href="tel:9116175600" className={styles.phoneLink}>
-                <IconPhone /> +91 9116175600
-              </a>
-              <a href="mailto:info@gdigitalindia.com" className={styles.emailLink}>
-                info@gdigitalindia.com
-              </a>
-            </div>
-
-          </aside>
         </div>
 
         {/* ═══ RELATED SERVICES ═══ */}
