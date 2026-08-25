@@ -389,8 +389,9 @@ a.ft-contact-item:hover { color: #ffffff; }
   padding: 0 60px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 20px;
+  flex-wrap: wrap;
 }
 .ft-copy,
 .ft-bottom-mid {
@@ -410,6 +411,33 @@ a.ft-contact-item:hover { color: #ffffff; }
 }
 .ft-bottom-link:hover { color: rgba(240,236,227,0.9); }
 .ft-bottom-sep { color: rgba(255,255,255,0.3); font-size: 11px; }
+
+/* Google Partner Badge */
+.ft-google-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 7px 16px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.ft-google-badge span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.04em;
+}
+
+.ft-google-badge:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
 
 /* ══════════════════════════════
    RESPONSIVE
