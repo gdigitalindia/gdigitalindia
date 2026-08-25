@@ -18,28 +18,12 @@
   background: #0a0e1a;
   width: 100%;
   max-width: 500px;
-  max-height: 90vh;
   border-radius: 20px;
   position: relative;
-  overflow-y: auto;
+  overflow: hidden;
   border: 1px solid rgba(200, 160, 90, 0.2);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(200, 160, 90, 0.3) transparent;
-}
-
-.modalContent::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modalContent::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.modalContent::-webkit-scrollbar-thumb {
-  background-color: rgba(200, 160, 90, 0.3);
-  border-radius: 20px;
 }
 
 .closeBtn {
@@ -67,14 +51,14 @@
 }
 
 .header {
-  padding: 40px 40px 20px;
+  padding: 30px 40px 12px;
   text-align: center;
 }
 
 .header h2 {
-  font-size: 28px;
+  font-size: 24px;
   color: #fff;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   font-weight: 700;
 }
 
@@ -85,25 +69,35 @@
 
 .header p {
   color: #94a3b8;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .form {
-  padding: 0 40px 40px;
+  padding: 0 40px 30px;
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+.formRow {
+  display: flex;
   gap: 16px;
+  width: 100%;
+}
+
+.formRow .inputGroup {
+  flex: 1;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .label {
-  font-size: 12px;
+  font-size: 11px;
   color: #c8a05a;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -114,9 +108,9 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   color: #fff;
-  font-size: 15px;
+  font-size: 14px;
   transition: all 0.3s ease;
   outline: none;
 }
@@ -129,6 +123,7 @@
 
 .textarea {
   resize: none;
+  height: 60px;
 }
 
 .submitBtn {
@@ -209,20 +204,35 @@
 
 @media (max-width: 600px), (max-height: 800px) {
   .header {
-    padding: 24px 24px 12px;
+    padding: 20px 20px 8px;
   }
   .header h2 {
-    font-size: 22px;
-    margin-bottom: 6px;
+    font-size: 20px;
+    margin-bottom: 4px;
   }
   .header p {
-    font-size: 13px;
+    font-size: 12px;
   }
   .form {
-    padding: 0 24px 24px;
-    gap: 12px;
+    padding: 0 20px 20px;
+    gap: 8px;
+  }
+  .formRow {
+    gap: 10px;
   }
   .textarea {
-    min-height: 70px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+  }
+  .submitBtn {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .formRow {
+    flex-direction: column;
+    gap: 8px;
   }
 }
