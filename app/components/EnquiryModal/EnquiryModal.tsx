@@ -99,30 +99,28 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.formRow}>
-                <div className={styles.inputGroup}>
-                  <label className={styles.label}>Full Name</label>
-                  <input
-                    type="text"
-                    required
-                    className={styles.input}
-                    placeholder="e.g. Manish Sharma"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  />
-                </div>
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Full Name</label>
+                <input
+                  type="text"
+                  required
+                  className={styles.input}
+                  placeholder="e.g. Manish Sharma"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                />
+              </div>
 
-                <div className={styles.inputGroup}>
-                  <label className={styles.label}>Email Address</label>
-                  <input
-                    type="email"
-                    required
-                    className={styles.input}
-                    placeholder="e.g. manish@gmail.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  />
-                </div>
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Email Address</label>
+                <input
+                  type="email"
+                  required
+                  className={styles.input}
+                  placeholder="e.g. manish@gmail.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
               </div>
 
               <div className={styles.inputGroup}>
