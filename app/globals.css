@@ -27,9 +27,14 @@ li {
   margin: 0;
 }
 
+html,
 body {
   font-family: var(--font-playfair), serif;
-  background-color: #f6f6f6;
+  background-color: #05060b;
+  color: #cbd5e1;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
 }
 
 /* Strip unwanted inline styles from copy-pasted rich text content */

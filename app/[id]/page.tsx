@@ -273,9 +273,11 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
                 background: 'rgba(15,15,15,0.92)',
                 border: '1px solid rgba(255,255,255,0.08)',
                 borderRadius: '16px',
-                padding: '32px 28px',
+                padding: '28px 20px',
                 boxShadow: '0 25px 60px rgba(0,0,0,0.7)',
                 backdropFilter: 'blur(12px)',
+                width: '100%',
+                boxSizing: 'border-box'
               }}>
                 <h3 style={{ color: '#fff', fontSize: '1.3rem', fontWeight: 800, marginBottom: '6px' }}>Get Free Consultation</h3>
                 <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: '22px', lineHeight: 1.5 }}>Tell us about your project — we will get back within 24 hours.</p>
@@ -370,9 +372,9 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
               .dyn-why-choose { grid-template-columns: 1fr; gap: 30px; }
             }
             /* Hero Split Grid */
-            .dyn-hero-inner { display: flex; align-items: center; gap: 50px; }
-            .dyn-hero-left { flex: 1; min-width: 0; }
-            .dyn-hero-right { flex: 0 0 380px; max-width: 380px; position: relative; z-index: 1; }
+            .dyn-hero-inner { display: flex; align-items: center; gap: 36px; max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+            .dyn-hero-left { flex: 1 1 0%; min-width: 0; }
+            .dyn-hero-right { flex: 0 0 360px; max-width: 360px; width: 100%; min-width: 0; position: relative; z-index: 1; box-sizing: border-box; }
             @media (max-width: 900px) {
               .dyn-hero-inner { flex-direction: column; gap: 30px; }
               .dyn-hero-right { flex: 1 1 100%; max-width: 100%; width: 100%; }
@@ -800,9 +802,11 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
                 background: 'rgba(15,15,15,0.92)',
                 border: '1px solid rgba(255,255,255,0.08)',
                 borderRadius: '16px',
-                padding: '32px 28px',
+                padding: '28px 20px',
                 boxShadow: '0 25px 60px rgba(0,0,0,0.7)',
                 backdropFilter: 'blur(12px)',
+                width: '100%',
+                boxSizing: 'border-box'
               }}>
                 <h3 style={{ color: '#fff', fontSize: '1.3rem', fontWeight: 800, marginBottom: '6px' }}>Get Free Consultation</h3>
                 <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: '22px', lineHeight: 1.5 }}>Tell us about your project — we will get back within 24 hours.</p>
