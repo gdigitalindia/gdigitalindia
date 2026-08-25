@@ -1,100 +1,149 @@
-.captchaContainer {
+.recaptchaWrapper {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: 10px 0;
+  gap: 6px;
+  margin: 12px 0;
   width: 100%;
   box-sizing: border-box;
 }
 
-.label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #94a3b8;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+/* Authentic Google reCAPTCHA v2 Box */
+.recaptchaBox {
+  width: 302px;
+  max-width: 100%;
+  height: 76px;
+  background: #f9f9f9;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
-  gap: 4px;
-}
-
-.required {
-  color: #f97316;
-}
-
-.captchaBox {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.challengeCard {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(20, 20, 30, 0.9) 100%);
-  border: 1px solid rgba(249, 115, 22, 0.35);
-  padding: 10px 18px;
-  border-radius: 10px;
+  justify-content: space-between;
+  padding: 0 12px;
+  box-sizing: border-box;
+  cursor: pointer;
   user-select: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.mathText {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: 0.06em;
-  text-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+.recaptchaBox:hover {
+  border-color: #b2b2b2;
 }
 
-.refreshBtn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #f97316;
+.recaptchaBoxError {
+  border-color: #d93025 !important;
+  box-shadow: 0 0 6px rgba(217, 48, 37, 0.3) !important;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Checkbox */
+.checkboxContainer {
   width: 28px;
   height: 28px;
-  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.refreshBtn:hover {
-  background: #f97316;
-  color: #ffffff;
-  transform: rotate(90deg);
+.checkbox {
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  border: 2px solid #c1c1c1;
+  border-radius: 2px;
+  transition: border-color 0.2s ease;
 }
 
-.input {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  padding: 11px 16px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  outline: none;
-  transition: all 0.25s ease;
-  min-width: 90px;
+.recaptchaBox:hover .checkbox {
+  border-color: #b2b2b2;
 }
 
-.input:focus {
-  border-color: #f97316;
-  background: rgba(255, 255, 255, 0.07);
-  box-shadow: 0 0 15px rgba(249, 115, 22, 0.25);
+/* Spinner while verifying */
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #1a73e8;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
 }
 
-.inputError {
-  border-color: #ef4444 !important;
-  background: rgba(239, 68, 68, 0.1) !important;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Checkmark when verified */
+.checkmark {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+.robotText {
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #222222;
+}
+
+/* Right Logo Section */
+.rightSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.logoIcon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brandTitle {
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #555555;
+  letter-spacing: 0.02em;
+}
+
+.privacyTerms {
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 8px;
+  color: #555555;
+}
+
+.privacyTerms a {
+  color: #555555;
+  text-decoration: none;
+}
+
+.privacyTerms a:hover {
+  text-decoration: underline;
 }
 
 .errorText {
   color: #f87171;
   font-size: 0.78rem;
   font-weight: 600;
+  margin-top: 2px;
 }
