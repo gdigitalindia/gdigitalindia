@@ -296,18 +296,17 @@
 }
 
 .caseImage {
-  max-width: 65%;
-  max-height: 340px;
-  width: auto;
-  height: auto;
+  width: 240px;
+  height: 160px;
   object-fit: contain;
-  /* White card so transparent logos are clearly visible */
+  /* White card — fixed size so all logos look uniform */
   background: #ffffff;
   padding: 24px 36px;
   border-radius: 16px;
   box-sizing: border-box;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6);
   display: block;
+  flex-shrink: 0;
 }
 
 /* ══════════════════════════════════════════

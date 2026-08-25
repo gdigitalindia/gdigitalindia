@@ -352,13 +352,11 @@
 }
 
 .thumbImg {
-  max-width: 70% !important;
-  max-height: 200px !important;
-  width: auto !important;
-  height: auto !important;
+  width: 220px !important;
+  height: 150px !important;
   object-fit: contain !important;
   border-radius: 12px;
-  /* White card so transparent logos are clearly visible */
+  /* White card — fixed size so all logos look uniform */
   background: #ffffff;
   padding: 18px 24px;
   box-sizing: border-box;
@@ -367,6 +365,7 @@
   display: block;
   position: relative !important;
   inset: unset !important;
+  flex-shrink: 0;
 }
 
 .card:hover .thumbImg {
