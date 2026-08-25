@@ -352,12 +352,17 @@
 }
 
 .thumbImg {
-  max-width: 100% !important;
-  max-height: 220px !important;
+  max-width: 70% !important;
+  max-height: 200px !important;
   width: auto !important;
   height: auto !important;
   object-fit: contain !important;
-  border-radius: 8px;
+  border-radius: 12px;
+  /* White card so transparent logos are clearly visible */
+  background: #ffffff;
+  padding: 18px 24px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   display: block;
   position: relative !important;
