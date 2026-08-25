@@ -392,24 +392,34 @@ function parseContentToCards(rawHtml: string): { introHtml: string; items: Parse
   return { introHtml: html, items: [], isCardFormat: false };
 }
 
+function sanitizeHtml(rawHtml: string): string {
+  if (!rawHtml) return "";
+  return rawHtml
+    .replace(/margin-left\s*:\s*-[^; "']+/gi, "margin-left:0")
+    .replace(/margin\s*:\s*-[^; "']+/gi, "margin:0")
+    .replace(/text-indent\s*:\s*-[^; "']+/gi, "text-indent:0")
+    .replace(/left\s*:\s*-[^; "']+/gi, "left:0");
+}
+
 export default function SmartBlockRenderer({ html }: SmartBlockRendererProps) {
-  const { introHtml, items, isCardFormat } = parseContentToCards(html);
+  const cleanRawHtml = sanitizeHtml(html);
+  const { introHtml, items, isCardFormat } = parseContentToCards(cleanRawHtml);
 
   if (!isCardFormat || items.length === 0) {
     return (
       <div
-        style={{ color: "#94a3b8", lineHeight: 1.8 }}
-        dangerouslySetInnerHTML={{ __html: html }}
+        style={{ color: "#94a3b8", lineHeight: 1.8, overflowWrap: "break-word", wordBreak: "break-word" }}
+        dangerouslySetInnerHTML={{ __html: cleanRawHtml }}
       />
     );
   }
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", overflowWrap: "break-word", wordBreak: "break-word" }}>
       {introHtml && (
         <div
           style={{ color: "#94a3b8", fontSize: "1.05rem", lineHeight: 1.8, marginBottom: "24px" }}
-          dangerouslySetInnerHTML={{ __html: introHtml }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(introHtml) }}
         />
       )}
 

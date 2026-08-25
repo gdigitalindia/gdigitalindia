@@ -58,6 +58,20 @@ body {
   color: inherit !important;
 }
 
+/* Force strip negative margins, negative indents & left shifts from copy-pasted rich content */
+[class*="content"] p, [class*="content"] span, [class*="content"] div, [class*="content"] li, [class*="content"] h1, [class*="content"] h2, [class*="content"] h3, [class*="content"] h4,
+[class*="text"] p, [class*="text"] span, [class*="text"] div, [class*="text"] li, [class*="text"] h1, [class*="text"] h2, [class*="text"] h3, [class*="text"] h4,
+[class*="desc"] p, [class*="desc"] span, [class*="desc"] div, [class*="desc"] li, [class*="desc"] h1, [class*="desc"] h2, [class*="desc"] h3, [class*="desc"] h4,
+[class*="block"] p, [class*="block"] span, [class*="block"] div, [class*="block"] li, [class*="block"] h1, [class*="block"] h2, [class*="block"] h3, [class*="block"] h4,
+.ql-editor p, .ql-editor span, .ql-editor div, .ql-editor li {
+  text-indent: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+
 /* ═══════════════════════════════════════════════════════
    GDI FEATURE CARD GRID SYSTEM (Modern Circular Icon Cards)
    ═══════════════════════════════════════════════════════ */
