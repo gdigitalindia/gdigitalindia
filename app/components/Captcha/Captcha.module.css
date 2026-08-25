@@ -1,0 +1,100 @@
+.captchaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required {
+  color: #f97316;
+}
+
+.captchaBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.challengeCard {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(20, 20, 30, 0.9) 100%);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  padding: 10px 18px;
+  border-radius: 10px;
+  user-select: none;
+}
+
+.mathText {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+}
+
+.refreshBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f97316;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refreshBtn:hover {
+  background: #f97316;
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+.input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  padding: 11px 16px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.25s ease;
+  min-width: 90px;
+}
+
+.input:focus {
+  border-color: #f97316;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.25);
+}
+
+.inputError {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+.errorText {
+  color: #f87171;
+  font-size: 0.78rem;
+  font-weight: 600;
+}

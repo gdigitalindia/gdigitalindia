@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./EnquiryModal.module.css";
+import Captcha from "../Captcha/Captcha";
 
 interface EnquiryModalProps {
   isOpen: boolean;
@@ -33,8 +34,15 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, onClose }) => {
     };
   }, [isOpen]);
 
+  const captchaRef = React.useRef<any>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (captchaRef.current && !captchaRef.current.validate()) {
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -138,6 +146,8 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, onClose }) => {
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 ></textarea>
               </div>
+
+              <Captcha ref={captchaRef} />
 
               <button type="submit" disabled={loading} className={styles.submitBtn}>
                 {loading ? "Sending..." : "Submit Enquiry"}

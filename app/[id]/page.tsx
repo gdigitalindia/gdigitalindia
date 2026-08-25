@@ -14,6 +14,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PackageDetailClient from "../packages/[slug]/PackageDetailClient";
 import SmartBlockRenderer from "@/app/components/SmartBlockRenderer/SmartBlockRenderer";
+import IndustryConsultationForm from "./IndustryConsultationForm";
 
 export const revalidate = 60;
 
@@ -278,16 +279,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
               }}>
                 <h3 style={{ color: '#fff', fontSize: '1.3rem', fontWeight: 800, marginBottom: '6px' }}>Get Free Consultation</h3>
                 <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: '22px', lineHeight: 1.5 }}>Tell us about your project — we will get back within 24 hours.</p>
-                <form action="/api/contact" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <input type="hidden" name="source" value={`Industry - ${industry.short}`} />
-                  <input required name="name" type="text" placeholder="Your Name *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
-                  <input required name="email" type="email" placeholder="Email Address *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
-                  <input required name="phone" type="tel" placeholder="Phone Number *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
-                  <textarea name="message" placeholder="Tell us about your business goals..." rows={3} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', resize: 'vertical', width: '100%', boxSizing: 'border-box', fontFamily: 'inherit' }} />
-                  <button type="submit" style={{ background: '#f97316', color: '#fff', border: 'none', borderRadius: '6px', padding: '14px 24px', fontSize: '0.82rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'all 0.25s ease' }}>
-                    Submit Enquiry <IconArrow size={13} />
-                  </button>
-                </form>
+                <IndustryConsultationForm sourceName={industry.short || industry.name || "General"} />
               </div>
             </div>
           </div>
@@ -814,16 +806,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
               }}>
                 <h3 style={{ color: '#fff', fontSize: '1.3rem', fontWeight: 800, marginBottom: '6px' }}>Get Free Consultation</h3>
                 <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: '22px', lineHeight: 1.5 }}>Tell us about your project — we will get back within 24 hours.</p>
-                <form action="/api/enquiry" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <input type="hidden" name="service" value={service.title} />
-                  <input required name="name" type="text" placeholder="Your Name *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
-                  <input required name="email" type="email" placeholder="Email Address *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
-                  <input required name="phone" type="tel" placeholder="Phone Number *" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
-                  <textarea name="message" placeholder="Your Message..." rows={3} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', color: '#fff', fontSize: '0.9rem', outline: 'none', resize: 'vertical', width: '100%', boxSizing: 'border-box', fontFamily: 'inherit' }} />
-                  <button type="submit" style={{ background: '#f97316', color: '#fff', border: 'none', borderRadius: '6px', padding: '14px 24px', fontSize: '0.82rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'all 0.25s ease' }}>
-                    Submit Enquiry <IconArrow size={13} />
-                  </button>
-                </form>
+                <IndustryConsultationForm sourceName={service.title} isService={true} />
               </div>
             </div>
 

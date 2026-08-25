@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./ContactPage.module.css";
+import Captcha from "../components/Captcha/Captcha";
 
 // ── SVG Icons (no library) ────────────────────────────────
 const IcHome = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
@@ -57,8 +58,15 @@ export default function ContactPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const captchaRef = useRef<any>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (captchaRef.current && !captchaRef.current.validate()) {
+      return;
+    }
+
     setLoading(true);
     
     try {
@@ -250,6 +258,8 @@ export default function ContactPage() {
                   onChange={handleChange}
                 />
               </div>
+
+              <Captcha ref={captchaRef} />
 
               <button type="submit" className={styles.submitBtn} disabled={loading}>
                 {loading ? "Sending..." : "Send Message"} <IcArrow />

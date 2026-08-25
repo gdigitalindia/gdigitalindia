@@ -1,14 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import '../layout.css'
+import Captcha from '@/app/components/Captcha/Captcha'
 
 export default function AdminLogin() {
   const router = useRouter()
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const captchaRef = useRef<any>(null)
 
   useEffect(() => {
     if (typeof window !== 'undefined' && sessionStorage.getItem('adminLoggedIn') === 'true') {
@@ -18,6 +20,11 @@ export default function AdminLogin() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (captchaRef.current && !captchaRef.current.validate()) {
+      return
+    }
+
     setLoading(true)
     setError('')
 
@@ -58,6 +65,8 @@ export default function AdminLogin() {
             placeholder="Enter admin password"
             autoComplete="current-password"
           />
+
+          <Captcha ref={captchaRef} />
 
           {error && (
             <div className="admin-login-error">{error}</div>
