@@ -172,25 +172,27 @@ export default function ProjectsPageClient({ initialProjects }: { initialProject
                     <div className={styles.cardIndex}>{(i + 1).toString().padStart(2, "0")}</div>
                   </div>
 
-                  {/* Thumbnail / Image Area */}
+                  {/* Thumbnail / Image Area — Canvas + Contain */}
                   <div className={styles.cardThumb}>
                     <Link href={`/projects/${slug}`} className={styles.thumbLink}>
                       <Image
                         src={image}
                         alt={title}
-                        fill
-                        sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 600px"
+                        width={600}
+                        height={340}
                         className={styles.thumbImg}
                       />
-                      <div className={styles.thumbOverlay}>
-                        <span className={styles.viewPill}>
-                          Explore Case Study
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                            <line x1="5" y1="12" x2="19" y2="12"/>
-                            <polyline points="12 5 19 12 12 19"/>
-                          </svg>
-                        </span>
-                      </div>
+                    </Link>
+
+                    {/* Hover Overlay (on cardThumb) */}
+                    <Link href={`/projects/${slug}`} className={styles.thumbOverlay}>
+                      <span className={styles.viewPill}>
+                        Explore Case Study
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <line x1="5" y1="12" x2="19" y2="12"/>
+                          <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                      </span>
                     </Link>
 
                     {/* Floating Badges */}

@@ -147,15 +147,17 @@ export default function Projects({ initialData }: { initialData?: RawProject[] }
                 </div>
 
                 {/* Project Media Wrapper */}
-                <Link href={`/projects/${slug}`} className={styles.mediaWrap}>
+                <div className={styles.mediaWrap}>
                   <Image
                     src={image}
                     alt={title}
-                    width={800}
-                    height={460}
+                    width={700}
+                    height={380}
                     className={styles.mediaImg}
                   />
-                  <div className={styles.mediaOverlay}>
+
+                  {/* Hover Overlay */}
+                  <Link href={`/projects/${slug}`} className={styles.mediaOverlay}>
                     <span className={styles.viewCasePill}>
                       View Case Study
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -163,14 +165,15 @@ export default function Projects({ initialData }: { initialData?: RawProject[] }
                         <polyline points="12 5 19 12 12 19"/>
                       </svg>
                     </span>
-                  </div>
+                  </Link>
 
                   {/* Badges floating on image */}
                   <div className={styles.floatingBadges}>
                     <span className={styles.categoryBadge}>{category}</span>
                     {industry && <span className={styles.industryBadge}>{industry}</span>}
                   </div>
-                </Link>
+                </div>
+
 
                 {/* Card Content Body */}
                 <div className={styles.body}>

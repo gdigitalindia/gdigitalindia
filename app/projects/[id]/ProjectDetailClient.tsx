@@ -117,7 +117,7 @@ export default function ProjectDetailClient({ initialProject, idOrSlug }: { init
                   rel="noopener noreferrer"
                   className={styles.heroLiveBtn}
                 >
-                  <IcExLink /> Launch Live Store
+                  <IcExLink /> Launch Live Website
                 </a>
               </div>
             )}
@@ -128,7 +128,7 @@ export default function ProjectDetailClient({ initialProject, idOrSlug }: { init
       {/* ═══ MAIN CASE STUDY BODY ═══ */}
       <div className={styles.main}>
         <div className={styles.contentBody}>
-          {/* Featured Showcase Browser Mockup */}
+          {/* Featured Showcase Browser Mockup with Custom Canvas Background */}
           {project.image && (
             <div className={styles.mockupWrapper}>
               <div className={styles.mockupChrome}>
@@ -138,17 +138,30 @@ export default function ProjectDetailClient({ initialProject, idOrSlug }: { init
                   <span className={`${styles.dot} ${styles.dotGreen}`} />
                 </div>
                 <div className={styles.chromeUrl}>
-                  <span>{project.liveUrl || `https://${project.slug}.com`}</span>
+                  <span>{project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, "").replace(/\/$/, "") : `${project.slug}.com`}</span>
+                </div>
+                {project.liveUrl && (
+                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className={styles.chromeLiveLink}>
+                    Open Site ↗
+                  </a>
+                )}
+              </div>
+
+              {/* Rich Canvas Background for Logo / Mockup */}
+              <div className={styles.canvasBackground}>
+                <div className={styles.canvasGlow} />
+                <div className={styles.canvasGridPattern} />
+                <div className={styles.imageContainer}>
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} Showcase`}
+                    width={900}
+                    height={500}
+                    className={styles.caseImage}
+                    priority
+                  />
                 </div>
               </div>
-              <Image
-                src={project.image}
-                alt={`${project.title} Preview`}
-                width={1200}
-                height={680}
-                className={styles.caseImage}
-                priority
-              />
             </div>
           )}
 
@@ -159,14 +172,14 @@ export default function ProjectDetailClient({ initialProject, idOrSlug }: { init
             <div className={styles.richText} dangerouslySetInnerHTML={{ __html: project.description }} />
           </section>
 
-          {/* Challenges & Solutions (2 Column Split Grid) */}
+          {/* Challenges & Solutions (Split Grid) */}
           <div className={styles.twoColGrid}>
             {project.challenges && (
               <section className={styles.splitCard}>
                 <div className={styles.splitCardHeader}>
                   <span className={styles.iconBadgeRed}>🎯</span>
                   <div>
-                    <span className={styles.sectionLabel}>Objectives & Roadblocks</span>
+                    <span className={styles.sectionLabel}>Objectives & Needs</span>
                     <h3 className={styles.splitTitle}>The Challenges</h3>
                   </div>
                 </div>
@@ -213,7 +226,7 @@ export default function ProjectDetailClient({ initialProject, idOrSlug }: { init
         <aside className={styles.sidebar}>
           {/* Quick Specs Box */}
           <div className={styles.sideBox}>
-            <h3 className={styles.sideTitle}>Project Scope & Tech</h3>
+            <h3 className={styles.sideTitle}>Project Scope</h3>
             
             <div className={styles.sideMetaGroup}>
               <span className={styles.sideMetaLabel}>Category</span>
@@ -226,7 +239,7 @@ export default function ProjectDetailClient({ initialProject, idOrSlug }: { init
             </div>
 
             <div className={styles.sideMetaGroup}>
-              <span className={styles.sideMetaLabel}>Deliverables</span>
+              <span className={styles.sideMetaLabel}>Core Technologies</span>
               <div className={styles.techList}>
                 {project.technologies?.map((t) => (
                   <span key={t} className={styles.techTag}>{t}</span>
