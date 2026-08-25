@@ -182,9 +182,9 @@
 /* ═══ SHOWCASE GRID ═══ */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
-  gap: 36px;
-  margin-bottom: 70px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-bottom: 60px;
 }
 
 /* ═══ SHOWCASE CARD ═══ */
@@ -514,10 +514,17 @@
 }
 
 /* ═══ RESPONSIVE ═══ */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 700px) {
   .grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 20px;
   }
   .header {
     flex-direction: column;
@@ -529,7 +536,7 @@
     text-align: left;
   }
   .mediaWrap {
-    height: 240px;
+    height: 220px;
   }
 }
 

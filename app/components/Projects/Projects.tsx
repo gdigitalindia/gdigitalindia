@@ -59,10 +59,13 @@ export default function Projects({ initialData }: { initialData?: RawProject[] }
   }, [projects]);
 
   const filteredProjects = useMemo(() => {
-    if (activeFilter === "All") return projects;
-    return projects.filter(
-      (p) => (p.category || "").toLowerCase() === activeFilter.toLowerCase()
-    );
+    const all = activeFilter === "All"
+      ? projects
+      : projects.filter(
+          (p) => (p.category || "").toLowerCase() === activeFilter.toLowerCase()
+        );
+    // Homepage: show only first 3 (1 row). All others on /projects page.
+    return all.slice(0, 3);
   }, [activeFilter, projects]);
 
   return (

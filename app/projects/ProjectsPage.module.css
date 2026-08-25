@@ -259,11 +259,11 @@
   font-weight: 700;
 }
 
-/* Project Grid: Modern Multi-Column Cards */
+/* Project Grid: 3-Column Layout */
 .projectGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
-  gap: 36px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
 }
 
 /* ═══ BIG PROJECT CARD ═══ */
@@ -878,10 +878,17 @@
 /* ══════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════ */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .projectGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 700px) {
   .projectGrid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 20px;
   }
   .heroFlex {
     flex-direction: column;
@@ -889,13 +896,13 @@
     gap: 24px;
   }
   .cardThumb {
-    height: 240px;
+    height: 220px;
   }
   .lbImgWrap {
-    height: 260px;
+    height: 240px;
   }
   .lbContent {
-    padding: 24px;
+    padding: 20px;
   }
 }
 
