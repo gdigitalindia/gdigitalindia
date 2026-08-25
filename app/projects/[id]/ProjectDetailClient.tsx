@@ -8,7 +8,8 @@ import styles from "../ProjectDetail.module.css";
 // ── Icons ──────────────────────────────────────────────────
 const IcHome = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
 const IcChevR = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>;
-const IcExLink = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>;
+const IcExLink = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>;
+const IcArrow = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>;
 
 interface Project {
   _id: string;
@@ -50,89 +51,150 @@ export default function ProjectDetailClient({ initialProject, idOrSlug }: { init
     }
   }, [idOrSlug, initialProject]);
 
-  if (loading) return <div style={{ padding: '100px', textAlign: 'center', background: '#04060d', color: '#fff' }}>Loading project...</div>;
-  if (!project) return <div style={{ padding: '100px', textAlign: 'center', background: '#04060d', color: '#fff' }}>Project not found</div>;
+  if (loading) {
+    return (
+      <div className={styles.loadingWrap}>
+        <div className={styles.loadingSpinner}>⏳</div>
+        <p>Loading case study...</p>
+      </div>
+    );
+  }
+
+  if (!project) {
+    return (
+      <div className={styles.loadingWrap}>
+        <h2>Project Not Found</h2>
+        <p>The case study you are looking for does not exist or has been moved.</p>
+        <Link href="/projects" className={styles.backBtn}>
+          ← Back to Portfolio
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
-      
-      {/* ═══ HERO ═══ */}
+      {/* ═══ HERO BANNER ═══ */}
       <section className={styles.hero}>
-        <div className={styles.heroBg} style={{ backgroundImage: `url(${project.image})`, opacity: 0.15 }} />
+        <div className={styles.heroBg} style={{ backgroundImage: `url(${project.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920"})` }} />
+        <div className={styles.heroOverlay} />
+        
         <div className={styles.heroInner}>
-          
-          <nav className={styles.breadcrumb}>
+          <nav className={styles.breadcrumb} aria-label="Breadcrumb">
             <Link href="/" className={styles.bcLink}><IcHome /> Home</Link>
             <IcChevR />
             <Link href="/projects" className={styles.bcLink}>Portfolio</Link>
             <IcChevR />
-            <span style={{ color: '#c8a05a' }}>{project.title}</span>
+            <span className={styles.bcCurrent}>{project.title}</span>
           </nav>
 
-          <span className={styles.heroTag}>{project.category}</span>
+          <div className={styles.heroBadgeRow}>
+            <span className={styles.heroTag}>{project.category || "Web Design"}</span>
+            {project.industry && <span className={styles.industryTag}>{project.industry}</span>}
+          </div>
+
           <h1 className={styles.heroTitle}>{project.title}</h1>
 
+          {/* Quick Meta Strip */}
           <div className={styles.heroMeta}>
             <div className={styles.metaItem}>
-              <span className={styles.metaLabel}>Client</span>
-              <span className={styles.metaValue}>{project.clientName || 'Confidential'}</span>
+              <span className={styles.metaLabel}>Client Brand</span>
+              <span className={styles.metaValue}>{project.clientName || project.title}</span>
             </div>
             <div className={styles.metaItem}>
               <span className={styles.metaLabel}>Industry</span>
-              <span className={styles.metaValue}>{project.industry || 'Business'}</span>
+              <span className={styles.metaValue}>{project.industry || "E-Commerce"}</span>
             </div>
             <div className={styles.metaItem}>
               <span className={styles.metaLabel}>Timeframe</span>
-              <span className={styles.metaValue}>{project.duration || '6 Weeks'}</span>
+              <span className={styles.metaValue}>{project.duration || "2026 / Active"}</span>
             </div>
+            {project.liveUrl && (
+              <div className={styles.metaItemAction}>
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.heroLiveBtn}
+                >
+                  <IcExLink /> Launch Live Store
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* ═══ MAIN CONTENT ═══ */}
+      {/* ═══ MAIN CASE STUDY BODY ═══ */}
       <div className={styles.main}>
-        
         <div className={styles.contentBody}>
-          
-          {/* Over View */}
-          <section>
-            <span className={styles.sectionLabel}>Overview</span>
-            <h2 className={styles.sectionTitle}>Project Summary</h2>
-            <div className={styles.text} dangerouslySetInnerHTML={{ __html: project.description }} />
-          </section>
-
+          {/* Featured Showcase Browser Mockup */}
           {project.image && (
-            <Image 
-              src={project.image} 
-              alt="Project Showcase" 
-              width={1200} height={675} 
-              className={styles.caseImage}
-            />
+            <div className={styles.mockupWrapper}>
+              <div className={styles.mockupChrome}>
+                <div className={styles.chromeDots}>
+                  <span className={`${styles.dot} ${styles.dotRed}`} />
+                  <span className={`${styles.dot} ${styles.dotYellow}`} />
+                  <span className={`${styles.dot} ${styles.dotGreen}`} />
+                </div>
+                <div className={styles.chromeUrl}>
+                  <span>{project.liveUrl || `https://${project.slug}.com`}</span>
+                </div>
+              </div>
+              <Image
+                src={project.image}
+                alt={`${project.title} Preview`}
+                width={1200}
+                height={680}
+                className={styles.caseImage}
+                priority
+              />
+            </div>
           )}
 
-          {/* Challenges & Solutions */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
+          {/* Project Overview */}
+          <section className={styles.cardSection}>
+            <span className={styles.sectionLabel}>Executive Summary</span>
+            <h2 className={styles.sectionTitle}>About The Project</h2>
+            <div className={styles.richText} dangerouslySetInnerHTML={{ __html: project.description }} />
+          </section>
+
+          {/* Challenges & Solutions (2 Column Split Grid) */}
+          <div className={styles.twoColGrid}>
             {project.challenges && (
-              <section>
-                <span className={styles.sectionLabel}>The Challenge</span>
-                <div className={styles.text} dangerouslySetInnerHTML={{ __html: project.challenges }} />
+              <section className={styles.splitCard}>
+                <div className={styles.splitCardHeader}>
+                  <span className={styles.iconBadgeRed}>🎯</span>
+                  <div>
+                    <span className={styles.sectionLabel}>Objectives & Roadblocks</span>
+                    <h3 className={styles.splitTitle}>The Challenges</h3>
+                  </div>
+                </div>
+                <div className={styles.richText} dangerouslySetInnerHTML={{ __html: project.challenges }} />
               </section>
             )}
+
             {project.solutions && (
-              <section>
-                <span className={styles.sectionLabel}>The Solution</span>
-                <div className={styles.text} dangerouslySetInnerHTML={{ __html: project.solutions }} />
+              <section className={styles.splitCard}>
+                <div className={styles.splitCardHeader}>
+                  <span className={styles.iconBadgeOrange}>⚡</span>
+                  <div>
+                    <span className={styles.sectionLabel}>Strategy & Execution</span>
+                    <h3 className={styles.splitTitle}>Our Solutions</h3>
+                  </div>
+                </div>
+                <div className={styles.richText} dangerouslySetInnerHTML={{ __html: project.solutions }} />
               </section>
             )}
           </div>
 
-          {/* Results */}
+          {/* Final Impact & Outcomes */}
           {project.results && (
-            <section style={{ background: 'rgba(200, 160, 90, 0.05)', padding: '40px', borderLeft: '4px solid #c8a05a' }}>
-              <span className={styles.sectionLabel}>The Impact</span>
-              <h2 className={styles.sectionTitle}>Final Outcome</h2>
-              <div className={styles.text} dangerouslySetInnerHTML={{ __html: project.results }} />
-              
+            <section className={styles.impactCard}>
+              <span className={styles.sectionLabel}>Business Impact</span>
+              <h2 className={styles.sectionTitle}>Key Results & Outcomes</h2>
+              <div className={styles.richText} dangerouslySetInnerHTML={{ __html: project.results }} />
+
               {project.stats && project.stats.length > 0 && (
                 <div className={styles.statsGrid}>
                   {project.stats.map((s, i) => (
@@ -145,46 +207,58 @@ export default function ProjectDetailClient({ initialProject, idOrSlug }: { init
               )}
             </section>
           )}
-
         </div>
 
-        {/* ── SIDEBAR ── */}
+        {/* ═══ STICKY SIDEBAR ═══ */}
         <aside className={styles.sidebar}>
-          
+          {/* Quick Specs Box */}
           <div className={styles.sideBox}>
-            <h3 className={styles.sideTitle}>Project Details</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div>
-                <span className={styles.metaLabel} style={{ marginBottom: '8px', display: 'block' }}>Technologies Used</span>
-                <div className={styles.techList}>
-                  {project.technologies?.map(t => (
-                    <span key={t} className={styles.techTag}>{t}</span>
-                  ))}
-                </div>
-              </div>
-              
-              {project.liveUrl && (
-                <a href={project.liveUrl} target="_blank" rel="noopener" className={styles.liveBtn}>
-                  Visit Live Project <IcExLink />
-                </a>
-              )}
+            <h3 className={styles.sideTitle}>Project Scope & Tech</h3>
+            
+            <div className={styles.sideMetaGroup}>
+              <span className={styles.sideMetaLabel}>Category</span>
+              <span className={styles.sideMetaVal}>{project.category}</span>
             </div>
+
+            <div className={styles.sideMetaGroup}>
+              <span className={styles.sideMetaLabel}>Industry Sector</span>
+              <span className={styles.sideMetaVal}>{project.industry || "E-Commerce"}</span>
+            </div>
+
+            <div className={styles.sideMetaGroup}>
+              <span className={styles.sideMetaLabel}>Deliverables</span>
+              <div className={styles.techList}>
+                {project.technologies?.map((t) => (
+                  <span key={t} className={styles.techTag}>{t}</span>
+                ))}
+              </div>
+            </div>
+
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.sidebarLiveBtn}
+              >
+                <IcExLink /> Launch Live Website
+              </a>
+            )}
           </div>
 
-          <div className={styles.sideBox} style={{ background: '#c8a05a', color: '#04060d' }}>
-            <h3 className={styles.sideTitle} style={{ marginBottom: '15px' }}>Hire Our Experts</h3>
-            <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '20px', opacity: 0.8 }}>
-              Inspired by this project? Let work together to build something remarkable for your brand too.
+          {/* High-Converting CTA Box */}
+          <div className={styles.ctaBox}>
+            <span className={styles.ctaBoxTag}>🚀 Growth Partners</span>
+            <h3 className={styles.ctaBoxTitle}>Want Similar Results For Your Business?</h3>
+            <p className={styles.ctaBoxDesc}>
+              Let our expert digital team create a high-converting website & marketing funnel for your brand.
             </p>
-            <Link href="/contact" style={{ display: 'block', textAlign: 'center', padding: '12px', border: '1px solid #04060d', color: '#04060d', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
-              GET A QUOTE
+            <Link href="/contact" className={styles.ctaBoxBtn}>
+              Schedule Free Consultation <IcArrow />
             </Link>
           </div>
-
         </aside>
-
       </div>
-
     </div>
   );
 }
