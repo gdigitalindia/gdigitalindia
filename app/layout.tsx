@@ -25,7 +25,12 @@ export const metadata: Metadata = {
   title: "G Digital India | Best Digital Marketing Agency",
   description: "G Digital India provides top-notch SEO, Web Development, and Digital Marketing solutions.",
   icons: {
-    icon: "/images/logo.png",
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" }
+    ],
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 
