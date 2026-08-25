@@ -850,50 +850,42 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
           )}
 
           {/* Tags */}
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '40px' }}>
-            {service.tags?.map((tag: string) => (
-              <span key={tag} style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.25)', color: '#f97316', padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {/* Other Services Row at bottom */}
-          <div style={{ marginTop: '50px', padding: '24px 30px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}>
-            <p style={{ color: '#64748b', fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '16px' }}>Other Services We Offer</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              {services.filter((s: any) => s._id !== service._id).slice(0, 8).map((s: any) => (
-                <Link key={s._id} href={`/${s.slug || s._id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '30px', padding: '8px 18px', fontSize: '0.9rem', color: '#cbd5e1', textDecoration: 'none', fontWeight: 600, transition: 'all 0.2s ease' }}>
-                  {s.title} <IconChevron />
-                </Link>
+          {service.tags && service.tags.length > 0 && (
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '40px' }}>
+              {service.tags.map((tag: string) => (
+                <span key={tag} style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.25)', color: '#f97316', padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>
+                  {tag}
+                </span>
               ))}
             </div>
-          </div>
+          )}
 
         </div>
 
-        {/* ═══ RELATED SERVICES ═══ */}
-        <section className={styles.relatedSection}>
-          <div className={styles.relatedInner}>
-            <span className={styles.sectionLabel}>Related Services</span>
-            <h2 className={styles.contentTitle}>You Might Also Need</h2>
-            <div className={styles.relatedGrid}>
-              {relatedList.map((s: any) => (
-                <Link key={s._id} href={`/${s.slug || s._id}`} className={styles.relatedCard}>
-                  <Image src={s.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop"} alt={s.title} width={600} height={160} className={styles.relatedCardImg} style={{ objectFit: 'cover' }} />
-                  <div className={styles.relatedCardBody}>
-                    <span className={styles.relatedCardTag}>{s.short}</span>
-                    <h3 className={styles.relatedCardTitle}>{s.title}</h3>
-                    <p className={styles.relatedCardText}>
-                      {s.highlight || (s.description && s.description.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').substring(0, 100) + '...')}
-                    </p>
-                    <span className={styles.relatedCardLink}>Read More <IconArrow size={12} /></span>
-                  </div>
-                </Link>
-              ))}
+        {/* ═══ RELATED SERVICES (Full Width Section) ═══ */}
+        {relatedList && relatedList.length > 0 && (
+          <section className={styles.relatedSection}>
+            <div className={styles.relatedInner}>
+              <span className={styles.sectionLabel}>Related Services</span>
+              <h2 className={styles.contentTitle}>You Might Also Need</h2>
+              <div className={styles.relatedGrid}>
+                {relatedList.map((s: any) => (
+                  <Link key={s._id} href={`/${s.slug || s._id}`} className={styles.relatedCard}>
+                    <Image src={s.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop"} alt={s.title} width={600} height={180} className={styles.relatedCardImg} style={{ objectFit: 'cover' }} />
+                    <div className={styles.relatedCardBody}>
+                      <span className={styles.relatedCardTag}>{s.short || "Service"}</span>
+                      <h3 className={styles.relatedCardTitle}>{s.title}</h3>
+                      <p className={styles.relatedCardText}>
+                        {s.highlight || (s.description && s.description.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').substring(0, 110) + '...')}
+                      </p>
+                      <span className={styles.relatedCardLink}>Explore Service <IconArrow size={12} /></span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
       </div>
     );
