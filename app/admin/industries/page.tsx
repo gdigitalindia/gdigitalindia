@@ -29,6 +29,8 @@ interface Industry {
   clientsTitle?: string
   clients?: Array<{ name: string; logo: string }>
   resultImages?: string[]
+  shortsTitle?: string
+  youtubeShorts?: Array<{ title?: string; url: string }>
 }
 
 const emptyIndustry = {
@@ -60,7 +62,9 @@ const emptyIndustry = {
   profiles: [] as Array<{ name: string; designation: string; description: string }>,
   clientsTitle: '',
   clients: [] as Array<{ name: string; logo: string }>,
-  resultImages: [] as string[]
+  resultImages: [] as string[],
+  shortsTitle: '',
+  youtubeShorts: [] as Array<{ title?: string; url: string }>
 }
 
 export default function AdminIndustries() {
@@ -179,7 +183,9 @@ export default function AdminIndustries() {
       profiles: item.profiles || [],
       clientsTitle: item.clientsTitle || '',
       clients: item.clients || [],
-      resultImages: item.resultImages || []
+      resultImages: item.resultImages || [],
+      shortsTitle: item.shortsTitle || '',
+      youtubeShorts: item.youtubeShorts || []
     })
     setEditingId(item._id)
     setShowForm(true)
@@ -575,6 +581,108 @@ export default function AdminIndustries() {
                   </label>
                   <span style={{ color: '#64748b', fontSize: '0.78rem', marginLeft: 12 }}>Ek saath multiple images select kar sakte hain</span>
                 </div>
+              </div>
+
+              {/* 6. YOUTUBE SHORTS SECTION */}
+              <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: 10, padding: 20, marginTop: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
+                  <div>
+                    <h4 style={{ color: '#f97316', fontSize: '1.05rem', margin: 0, fontWeight: 'bold' }}>📱 6. YouTube Shorts / Video Section</h4>
+                    <p style={{ color: '#64748b', fontSize: '0.82rem', margin: '4px 0 0 0' }}>Add YouTube Shorts or Instagram Reels to display below "Other Sectors We Serve" on the live page.</p>
+                  </div>
+                  <span style={{ background: 'rgba(239,68,68,0.12)', color: '#f87171', border: '1px solid rgba(239,68,68,0.25)', padding: '4px 12px', borderRadius: 20, fontSize: '0.75rem', fontWeight: 800 }}>
+                    {(formData.youtubeShorts || []).length} Shorts
+                  </span>
+                </div>
+
+                <div className="admin-form-group" style={{ margin: '0 0 16px 0' }}>
+                  <label className="admin-label">Section Title</label>
+                  <input
+                    className="admin-input"
+                    placeholder="e.g., Trending Healthcare YouTube Shorts & Video Campaigns"
+                    value={formData.shortsTitle || ''}
+                    onChange={e => setFormData({ ...formData, shortsTitle: e.target.value })}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  {(formData.youtubeShorts || []).map((shortItem: any, idx: number) => {
+                    const shortUrl = typeof shortItem === 'string' ? shortItem : shortItem?.url || '';
+                    const shortTitle = typeof shortItem === 'object' ? shortItem?.title || '' : '';
+                    const ytMatch = shortUrl.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]+)/) || shortUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+                    const ytId = ytMatch && ytMatch[1];
+                    const thumbUrl = ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : null;
+
+                    return (
+                      <div key={idx} style={{ background: 'rgba(0,0,0,0.25)', padding: 16, borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                        {/* Thumbnail Preview */}
+                        <div style={{ width: 90, height: 120, borderRadius: 10, background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                          {thumbUrl ? (
+                            <img src={thumbUrl} alt="Thumbnail" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          ) : (
+                            <div style={{ textAlign: 'center', color: '#64748b', fontSize: '0.75rem', padding: 6 }}>
+                              <i className="fa-brands fa-youtube" style={{ fontSize: 24, color: '#ef4444', marginBottom: 4, display: 'block' }}></i>
+                              Short {idx + 1}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Fields */}
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                          <div>
+                            <label style={{ color: '#cbd5e1', fontSize: '0.78rem', fontWeight: 600, display: 'block', marginBottom: 4 }}>YouTube Short / Reel URL *</label>
+                            <input
+                              className="admin-input"
+                              placeholder="https://www.youtube.com/shorts/VIDEO_ID or https://youtu.be/..."
+                              value={shortUrl}
+                              onChange={e => {
+                                const arr = [...(formData.youtubeShorts || [])];
+                                arr[idx] = { ...arr[idx], url: e.target.value };
+                                setFormData({ ...formData, youtubeShorts: arr });
+                              }}
+                            />
+                          </div>
+
+                          <div>
+                            <label style={{ color: '#cbd5e1', fontSize: '0.78rem', fontWeight: 600, display: 'block', marginBottom: 4 }}>Short Title / Caption (optional)</label>
+                            <input
+                              className="admin-input"
+                              placeholder="e.g., Doctor Video Consultation & Patient Advice"
+                              value={shortTitle}
+                              onChange={e => {
+                                const arr = [...(formData.youtubeShorts || [])];
+                                arr[idx] = { ...arr[idx], title: e.target.value };
+                                setFormData({ ...formData, youtubeShorts: arr });
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Delete Button */}
+                        <button
+                          type="button"
+                          className="admin-btn-danger"
+                          style={{ padding: '8px 12px', flexShrink: 0 }}
+                          onClick={() => {
+                            const arr = (formData.youtubeShorts || []).filter((_: any, i: number) => i !== idx);
+                            setFormData({ ...formData, youtubeShorts: arr });
+                          }}
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <button
+                  type="button"
+                  className="admin-btn-secondary"
+                  style={{ marginTop: 14 }}
+                  onClick={() => setFormData({ ...formData, youtubeShorts: [...(formData.youtubeShorts || []), { title: '', url: '' }] })}
+                >
+                  ➕ Add YouTube Short
+                </button>
               </div>
             </div>
 

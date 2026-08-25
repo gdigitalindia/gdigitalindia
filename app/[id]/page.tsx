@@ -39,6 +39,23 @@ const IconPhone = () => (
   </svg>
 );
 
+const getShortEmbedUrl = (url: string) => {
+  try {
+    if (!url) return '';
+    const ytMatch = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]+)/) || url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+    if (ytMatch && ytMatch[1]) {
+      return `https://www.youtube.com/embed/${ytMatch[1]}`;
+    }
+    const igMatch = url.match(/(?:reels?|p)\/([A-Za-z0-9_-]+)/);
+    if (igMatch && igMatch[1]) {
+      return `https://www.instagram.com/reel/${igMatch[1]}/embed/`;
+    }
+    return url;
+  } catch {
+    return url;
+  }
+};
+
 async function findRecord(id: string) {
   await connectDB();
   const decoded = decodeURIComponent(id);
@@ -368,6 +385,22 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
               .dyn-hero-inner { flex-direction: column; gap: 30px; }
               .dyn-hero-right { flex: 1 1 100%; max-width: 100%; width: 100%; }
             }
+            /* YouTube Shorts Section */
+            .dyn-shorts-wrap { margin-top: 50px; }
+            .dyn-shorts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; margin-top: 24px; }
+            .dyn-short-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; overflow: hidden; position: relative; transition: all 0.35s ease; display: flex; flex-direction: column; }
+            .dyn-short-card:hover { transform: translateY(-8px); border-color: rgba(249, 115, 22, 0.5); box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(249, 115, 22, 0.15); }
+            .dyn-short-iframe-wrap { width: 100%; aspect-ratio: 9 / 16; position: relative; background: #000; overflow: hidden; border-radius: 18px 18px 0 0; }
+            .dyn-short-iframe { width: 100%; height: 100%; border: none; display: block; }
+            .dyn-short-info { padding: 14px 16px; background: rgba(18, 18, 18, 0.85); backdrop-filter: blur(8px); border-top: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; gap: 10px; }
+            .dyn-short-badge { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.5px; text-transform: uppercase; flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; }
+            .dyn-short-title { color: #f1f5f9; font-size: 0.88rem; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+            @media (max-width: 768px) {
+              .dyn-shorts-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding-bottom: 16px; -webkit-overflow-scrolling: touch; }
+              .dyn-shorts-grid::-webkit-scrollbar { height: 6px; }
+              .dyn-shorts-grid::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.4); border-radius: 3px; }
+              .dyn-short-card { min-width: 260px; max-width: 280px; scroll-snap-align: start; flex-shrink: 0; }
+            }
           ` }} />
 
           {/* DYNAMIC CONVERSION STAGES BLOCK */}
@@ -603,6 +636,62 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
               ))}
             </div>
           </div>
+
+          {/* DYNAMIC YOUTUBE SHORTS SECTION (Below Other Sectors We Serve) */}
+          {industry.youtubeShorts && industry.youtubeShorts.length > 0 && (
+            <div className="dyn-shorts-wrap">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', flexWrap: 'wrap', gap: '12px' }}>
+                <div>
+                  <h3 className="dyn-sec-title" style={{ marginTop: 0 }}>
+                    {industry.shortsTitle || `Trending ${industry.short} Video Campaigns & Shorts`}
+                  </h3>
+                  <p className="dyn-intro" style={{ margin: 0 }}>
+                    Bite-sized high-impact vertical video marketing designed for higher engagement and rapid trust.
+                  </p>
+                </div>
+                <div style={{ background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '30px', padding: '6px 18px', fontSize: '0.82rem', fontWeight: 800, color: '#f87171', letterSpacing: '0.05em', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                  </svg>
+                  YouTube Shorts
+                </div>
+              </div>
+
+              <div className="dyn-shorts-grid">
+                {industry.youtubeShorts.map((shortItem: any, idx: number) => {
+                  const itemUrl = typeof shortItem === 'string' ? shortItem : shortItem?.url || '';
+                  const itemTitle = typeof shortItem === 'object' ? shortItem?.title : '';
+                  const embedUrl = getShortEmbedUrl(itemUrl);
+                  if (!embedUrl) return null;
+
+                  return (
+                    <div key={idx} className="dyn-short-card">
+                      <div className="dyn-short-iframe-wrap">
+                        <iframe
+                          className="dyn-short-iframe"
+                          src={embedUrl}
+                          title={itemTitle || `${industry.short} Short ${idx + 1}`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                      {itemTitle && (
+                        <div className="dyn-short-info">
+                          <span className="dyn-short-badge">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                              <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                            Short
+                          </span>
+                          <span className="dyn-short-title" title={itemTitle}>{itemTitle}</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           <div style={{ marginTop: '30px', padding: '40px 30px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '16px' }}>
             <div className="dyn-why-choose">

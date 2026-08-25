@@ -33,6 +33,13 @@ export const defaultIndustries = [
     clientsTitle: "Our Prestigious Healthcare Clients",
     clients: [
       "Eternal Hospital (EHCC)", "Purple Heron Hospitals", "Jaipur Hearing Solutions (JHS)", "Nivik Neuro Trauma Hospital", "NV Aesthetics & Dental Hub", "AANCH Chest Super Specialty", "Dana Shivam Heart Hospital", "Babylon Children's Hospital", "Sevayatan Hospital", "Eva Care Clinic", "RH+ Health Systems"
+    ],
+    shortsTitle: "Trending Healthcare YouTube Shorts & Video Campaigns",
+    youtubeShorts: [
+      { title: "Doctor Consultation & Clinical Advice", url: "https://www.youtube.com/shorts/3l8v_kK4hW4" },
+      { title: "Patient Awareness & Health Tips", url: "https://www.youtube.com/shorts/J1_G2mR0-iA" },
+      { title: "Hospital Care & Infrastructure Tour", url: "https://www.youtube.com/shorts/5e_0HkP8X5c" },
+      { title: "Healthcare Branding & Patient Trust", url: "https://www.youtube.com/shorts/aqz-KE-bpKQ" }
     ]
   },
   {

@@ -45,7 +45,14 @@ const IndustrySchema = new mongoose.Schema({
   }],
 
   // Real Results Images section
-  resultImages: [{ type: String }]
+  resultImages: [{ type: String }],
+
+  // YouTube Shorts / Video section
+  shortsTitle: { type: String, default: '' },
+  youtubeShorts: [{
+    title: { type: String, default: '' },
+    url: { type: String, default: '' }
+  }]
 })
 
 export default mongoose.models.Industry ||
