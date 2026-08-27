@@ -19,6 +19,7 @@ const navLinks = {
     { label: "Our Portfolio", href: "/projects" },
     { label: "Gallery", href: "/gallery" },
     { label: "Expertise", href: "/services" },
+    { label: "Locations", href: "/locations" },
     { label: "Contact Us", href: "/contact" }
   ],
   Legal: [

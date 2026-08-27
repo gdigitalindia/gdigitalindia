@@ -50,6 +50,7 @@ export default function AdminLayout({
     { href: '/admin/clients', label: 'Clients', icon: <i className="fa-solid fa-handshake"></i> },
     { href: '/admin/reels', label: 'YouTube Shorts', icon: <i className="fa-brands fa-youtube"></i> },
     { href: '/admin/blogs', label: 'Blogs', icon: <i className="fa-solid fa-pen-nib"></i> },
+    { href: '/admin/locations', label: 'Locations', icon: <i className="fa-solid fa-location-dot"></i> },
     { href: '/admin/legal', label: 'Legal Policies', icon: <i className="fa-solid fa-shield-halved"></i> },
     { href: '/admin/enquiries', label: 'Enquiries', icon: <i className="fa-solid fa-envelope"></i> },
     { href: '/admin/settings', label: 'Settings', icon: <i className="fa-solid fa-gear"></i> },
