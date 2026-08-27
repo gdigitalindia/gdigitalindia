@@ -779,3 +779,52 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== REACT QUILL EDITOR FIX FOR ADMIN ===== */
+.ql-container {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 15px !important;
+  line-height: 1.7 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.ql-editor,
+.ql-editor p,
+.ql-editor span,
+.ql-editor div,
+.ql-editor li,
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor strong,
+.ql-editor em,
+.ql-editor a,
+.ql-editor b,
+.ql-editor i {
+  color: #0f172a !important;
+  background: transparent !important;
+}
+
+.ql-editor.ql-blank::before {
+  color: #94a3b8 !important;
+  font-style: italic !important;
+}
+
+.ql-toolbar.ql-snow {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+.ql-toolbar.ql-snow .ql-stroke {
+  stroke: #334155 !important;
+}
+
+.ql-toolbar.ql-snow .ql-fill {
+  fill: #334155 !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker {
+  color: #334155 !important;
+}
