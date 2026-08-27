@@ -235,11 +235,64 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
     );
   }
 
+function resolveServiceLink(svc: any, allServices: any[] = []): string {
+  if (svc.link && svc.link.trim() !== '' && svc.link.trim() !== '#') {
+    const l = svc.link.trim();
+    return l.startsWith('/') ? l : `/${l.replace(/^https?:\/\/[^\/]+/, '')}`;
+  }
+
+  const nameLower = (svc.name || '').toLowerCase().trim();
+  if (!nameLower) return '/services';
+
+  const matched = allServices.find((s: any) => {
+    const sSlug = (s.slug || '').toLowerCase().trim();
+    const sTitle = (s.title || '').toLowerCase().trim();
+    const sShort = (s.short || '').toLowerCase().trim();
+    return (
+      (sSlug && sSlug === nameLower) ||
+      (sTitle && sTitle === nameLower) ||
+      (sTitle && (sTitle.includes(nameLower) || nameLower.includes(sTitle))) ||
+      (sShort && (sShort === nameLower || nameLower.includes(sShort) || sShort.includes(nameLower)))
+    );
+  });
+
+  if (matched?.slug) {
+    return `/${matched.slug}`;
+  }
+  if (matched?._id) {
+    return `/${matched._id}`;
+  }
+
+  const slugFallbackMap: Record<string, string> = {
+    'google ads': '/google-ads-agency-in-jaipur',
+    'video marketing': '/video-marketing-company-in-jaipur',
+    'meta ads': '/facebook-marketing-company-in-jaipur',
+    'seo': '/seo-company-in-jaipur',
+    'website development': '/website-designing-company-in-jaipur',
+    'whatsapp marketing': '/whatsapp-marketing-services-in-jaipur',
+    'crm': '/crm-software',
+    'ivr': '/ivr-system',
+    'ai calling': '/ai-calling',
+    'gmb': '/google-my-business',
+    'social media management': '/social-media-marketing-agency-in-jaipur',
+    'performance marketing': '/performance-marketing-agency-in-jaipur',
+  };
+
+  if (slugFallbackMap[nameLower]) {
+    return slugFallbackMap[nameLower];
+  }
+
+  const slugified = nameLower.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return slugified ? `/${slugified}` : '/services';
+}
+
   // ─── INDUSTRY PAGE ──────────────────────────────────────────
   if (type === 'industry') {
     const industry = JSON.parse(JSON.stringify(data));
     const allIndustriesData = await Industry.find().sort({ order: 1 }).lean();
     const allIndustries = JSON.parse(JSON.stringify(allIndustriesData));
+    const allServicesData = await Service.find().lean();
+    const allServices = JSON.parse(JSON.stringify(allServicesData));
 
     return (
       <div className={styles.page}>
@@ -439,8 +492,9 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
                   {industry.industryServices.map((svc: any, idx: number) => {
                     const fallback = svcImgMap[svc.name?.toLowerCase()] || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80'
                     const imgSrc = svc.image || svc.icon || fallback
+                    const targetLink = resolveServiceLink(svc, allServices);
                     return (
-                      <a key={idx} href={svc.link || '#'} className="dyn-service-card" style={{ textDecoration: 'none' }}>
+                      <Link key={idx} href={targetLink} className="dyn-service-card" style={{ textDecoration: 'none' }}>
                         <div className="dyn-service-img-wrap">
                           <img src={imgSrc} alt={svc.name} className="dyn-service-img" />
                           <div className="dyn-service-img-overlay" />
@@ -455,7 +509,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
                             Learn More
                           </span>
                         </div>
-                      </a>
+                      </Link>
                     )
                   })}
                 </div>

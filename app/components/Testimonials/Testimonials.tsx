@@ -246,64 +246,6 @@ export default function Testimonials() {
 
         </div>
 
-        <div className={styles["tm-dots"]}>
-          {testimonials.map((item, i) => (
-            <button
-              key={item._id}
-              className={`${styles["tm-dot"]} ${
-                i === currentIndex ? styles["tm-dot-active"] : ""
-              }`}
-              style={{ "--tm-color": item.color || COLORS[i % COLORS.length] } as React.CSSProperties}
-              onClick={() => {
-                goTo(i, i > currentIndex ? "next" : "prev")
-                resetTimer()
-              }}
-            />
-          ))}
-        </div>
-
-        <div className={styles["tm-mini-row"]}>
-          {testimonials.map((item, i) => {
-            const m = typeof item.metric === 'string'
-              ? { val: item.metric.split(' ')[0] }
-              : item.metric || { val: "100%" }
-            const ini = item.initials || item.name.split(' ').map(n => n[0]).join('').toUpperCase()
-            
-            return (
-              <button
-                key={item._id}
-                className={`${styles["tm-mini"]} ${
-                  i === currentIndex ? styles["tm-mini-active"] : ""
-                }`}
-                style={{ "--tm-color": item.color || COLORS[i % COLORS.length] } as React.CSSProperties}
-                onClick={() => {
-                  goTo(i, i > currentIndex ? "next" : "prev")
-                  resetTimer()
-                }}
-              >
-
-                <div className={styles["tm-mini-avatar"]}>
-                  {item.avatar ? (
-                    <img src={item.avatar} alt={item.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
-                  ) : (
-                    <span>{ini}</span>
-                  )}
-                </div>
-
-                <div className={styles["tm-mini-info"]}>
-                  <span className={styles["tm-mini-name"]}>{item.name}</span>
-                  <span className={styles["tm-mini-co"]}>{item.company}</span>
-                </div>
-
-                <div className={styles["tm-mini-metric"]}>
-                  <span>{m.val}</span>
-                </div>
-
-              </button>
-            )
-          })}
-        </div>
-
       </div>
     </section>
   )
