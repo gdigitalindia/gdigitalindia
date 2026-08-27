@@ -395,6 +395,7 @@ function parseContentToCards(rawHtml: string): { introHtml: string; items: Parse
 function sanitizeHtml(rawHtml: string): string {
   if (!rawHtml) return "";
   return rawHtml
+    .replace(/&nbsp;/gi, " ")
     .replace(/margin-left\s*:\s*-[^; "']+/gi, "margin-left:0")
     .replace(/margin\s*:\s*-[^; "']+/gi, "margin:0")
     .replace(/text-indent\s*:\s*-[^; "']+/gi, "text-indent:0")
@@ -408,14 +409,14 @@ export default function SmartBlockRenderer({ html }: SmartBlockRendererProps) {
   if (!isCardFormat || items.length === 0) {
     return (
       <div
-        style={{ color: "#94a3b8", lineHeight: 1.8, overflowWrap: "break-word", wordBreak: "break-word" }}
+        style={{ color: "#94a3b8", lineHeight: 1.8, overflowWrap: "break-word", wordBreak: "normal" }}
         dangerouslySetInnerHTML={{ __html: cleanRawHtml }}
       />
     );
   }
 
   return (
-    <div style={{ width: "100%", overflowWrap: "break-word", wordBreak: "break-word" }}>
+    <div style={{ width: "100%", overflowWrap: "break-word", wordBreak: "normal" }}>
       {introHtml && (
         <div
           style={{ color: "#94a3b8", fontSize: "1.05rem", lineHeight: 1.8, marginBottom: "24px" }}

@@ -18,6 +18,8 @@ import IndustryConsultationForm from "./IndustryConsultationForm";
 
 export const revalidate = 60;
 
+const cleanNbsp = (html?: string) => (html || "").replace(/&nbsp;/gi, " ");
+
 // ── Inline SVG Icons ───────────────────────────────────────
 const IconHome = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -295,7 +297,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
               lineHeight: '1.8', 
               fontSize: '1.1rem' 
             }}
-            dangerouslySetInnerHTML={{ __html: industry.content || "<p>Our professional marketing and web development services are customized to meet the unique challenges of this industry.</p>" }}
+            dangerouslySetInnerHTML={{ __html: cleanNbsp(industry.content) || "<p>Our professional marketing and web development services are customized to meet the unique challenges of this industry.</p>" }}
           />
 
           {/* Scoped CSS styling for dynamic blocks */}
@@ -792,7 +794,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ id: st
               </h1>
               <div
                 className={styles.heroDesc}
-                dangerouslySetInnerHTML={{ __html: service.description || service.highlight || "Professional solutions tailored to grow your business sustainably." }}
+                dangerouslySetInnerHTML={{ __html: cleanNbsp(service.description || service.highlight) || "Professional solutions tailored to grow your business sustainably." }}
               />
             </div>
 

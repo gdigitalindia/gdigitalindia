@@ -143,11 +143,11 @@ export default function AboutPageClient({ initialAbout, initialSettings, initial
 
   const para1Content = (!data?.para1 || isHtmlEmpty(data.para1)) 
     ? ""
-    : data.para1;
+    : data.para1.replace(/&nbsp;/gi, " ");
 
   const para2Content = (!data?.para2 || isHtmlEmpty(data.para2)) 
     ? ""
-    : data.para2;
+    : data.para2.replace(/&nbsp;/gi, " ");
 
   const valueList = (data?.values && data.values.length > 0) ? data.values : [];
   const industryList = (data?.industries && data.industries.length > 0) ? data.industries : [];
