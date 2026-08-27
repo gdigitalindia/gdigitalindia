@@ -221,10 +221,6 @@ export default function AboutPageClient({ initialAbout, initialSettings, initial
                   className={styles.whoImg}
                 />
                 <div className={styles.whoImgOverlay} />
-                <div className={styles.expBadge}>
-                  <div className={styles.expBadgeNum}>{data?.badgeNum || "7+"}</div>
-                  <div className={styles.expBadgeLabel}>Years of Excellence</div>
-                </div>
               </div>
             </div>
 
