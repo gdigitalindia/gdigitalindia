@@ -4,7 +4,20 @@ import { connectDB } from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import styles from "./blog-list.module.css";
 
-export const dynamic = 'force-dynamic';
+function formatDisplayDate(dateStr?: string) {
+  if (!dateStr) return "";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    const [y, m, d] = dateStr.split('-');
+    const dateObj = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+    return dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+  const parsed = Date.parse(dateStr);
+  if (!isNaN(parsed)) {
+    const dateObj = new Date(parsed);
+    return dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+  return dateStr;
+}
 
 export default async function BlogListPage() {
   let blogs: any[] = [];
@@ -62,7 +75,7 @@ export default async function BlogListPage() {
                         <line x1="8" y1="2" x2="8" y2="6" />
                         <line x1="3" y1="10" x2="21" y2="10" />
                       </svg>
-                      <span className={styles.dateText}>{blog.date}</span>
+                      <span className={styles.dateText}>{formatDisplayDate(blog.date)}</span>
                     </div>
                     <h3 className={styles.title}>{blog.title}</h3>
                     <p className={styles.excerpt}>{blog.excerpt}</p>

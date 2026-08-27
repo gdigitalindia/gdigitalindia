@@ -44,6 +44,16 @@ interface Blog {
   metaKeywords?: string
 }
 
+function toInputDate(dStr: string) {
+  if (!dStr) return "";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dStr)) return dStr;
+  const parsed = Date.parse(dStr);
+  if (!isNaN(parsed)) {
+    return new Date(parsed).toISOString().split('T')[0];
+  }
+  return dStr;
+}
+
 const empty = { slug: '', category: '', title: '', excerpt: '', author: '', date: '', readTime: '', image: '', content: '', featured: false, metaTitle: '', metaDescription: '', metaKeywords: '' }
 
 export default function AdminBlogs() {
@@ -205,17 +215,10 @@ export default function AdminBlogs() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: '20px' }}>
-              <div className="admin-form-group" style={{ margin: 0 }}>
-                <label className="admin-label">Date *</label>
-                <input required className="admin-input" placeholder="e.g. Mar 28, 2025"
-                  value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} />
-              </div>
-              <div className="admin-form-group" style={{ margin: 0 }}>
-                <label className="admin-label">Read Time *</label>
-                <input required className="admin-input" placeholder="e.g. 8 min read"
-                  value={formData.readTime} onChange={e => setFormData({...formData, readTime: e.target.value})} />
-              </div>
+            <div className="admin-form-group" style={{ margin: '20px 0 0' }}>
+              <label className="admin-label">Date *</label>
+              <input required type="date" className="admin-input" style={{ cursor: 'pointer' }}
+                value={toInputDate(formData.date)} onChange={e => setFormData({...formData, date: e.target.value})} />
             </div>
 
             <div className="admin-form-group" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
