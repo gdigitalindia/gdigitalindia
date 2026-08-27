@@ -225,10 +225,6 @@ export default function AboutPageClient({ initialAbout, initialSettings, initial
                   <div className={styles.expBadgeNum}>{data?.badgeNum || "7+"}</div>
                   <div className={styles.expBadgeLabel}>Years of Excellence</div>
                 </div>
-                <div className={styles.ratingFloat}>
-                  <div className={styles.ratingStars}><IconStar /><IconStar /><IconStar /><IconStar /><IconStar /></div>
-                  <div className={styles.ratingText}>Trusted by 2000+ Clients</div>
-                </div>
               </div>
             </div>
 
