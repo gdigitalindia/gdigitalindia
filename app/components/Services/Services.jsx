@@ -181,38 +181,60 @@ export default function Services({ initialData }) {
               ))}
             </div>
 
-            {/* Info Card below service list */}
-            <div className={styles["sv-info-card"]}>
-              <div className={styles["sv-info-glow"]} />
-              <div className={styles["sv-info-top"]}>
-                <span className={styles["sv-info-num"]}>{services.length < 10 ? `0${services.length}` : services.length}</span>
-                <span className={styles["sv-info-label"]}>Service Categories</span>
+            {/* 3D Animated Card below service list */}
+            <div className={styles["sv-card3d"]}>
+              {/* Animated gradient border */}
+              <div className={styles["sv-card3d-border"]} />
+              {/* Floating orbs */}
+              <div className={styles["sv-card3d-orb1"]} />
+              <div className={styles["sv-card3d-orb2"]} />
+              <div className={styles["sv-card3d-orb3"]} />
+
+              <div className={styles["sv-card3d-inner"]}>
+                {/* Animated ring with number */}
+                <div className={styles["sv-ring-wrap"]}>
+                  <svg className={styles["sv-ring-svg"]} viewBox="0 0 120 120">
+                    <defs>
+                      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#e8b86d" />
+                        <stop offset="50%" stopColor="#f5d89a" />
+                        <stop offset="100%" stopColor="#e86d9f" />
+                      </linearGradient>
+                    </defs>
+                    <circle cx="60" cy="60" r="52" className={styles["sv-ring-bg"]} />
+                    <circle cx="60" cy="60" r="52" className={styles["sv-ring-progress"]} />
+                    <circle cx="60" cy="60" r="42" className={styles["sv-ring-inner"]} />
+                  </svg>
+                  <div className={styles["sv-ring-content"]}>
+                    <span className={styles["sv-ring-num"]}>{services.length < 10 ? `0${services.length}` : services.length}</span>
+                    <span className={styles["sv-ring-label"]}>Services</span>
+                  </div>
+                </div>
+
+                {/* Stats Row */}
+                <div className={styles["sv-card3d-stats"]}>
+                  <div className={styles["sv-card3d-stat"]}>
+                    <span className={styles["sv-card3d-val"]}>2000+</span>
+                    <span className={styles["sv-card3d-lbl"]}>Clients</span>
+                  </div>
+                  <div className={styles["sv-card3d-stat"]}>
+                    <span className={styles["sv-card3d-val"]}>95%</span>
+                    <span className={styles["sv-card3d-lbl"]}>Retention</span>
+                  </div>
+                  <div className={styles["sv-card3d-stat"]}>
+                    <span className={styles["sv-card3d-val"]}>10+</span>
+                    <span className={styles["sv-card3d-lbl"]}>Years</span>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <Link href="/services" className={styles["sv-card3d-cta"]}>
+                  <span>Explore All Services</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </Link>
               </div>
-              <p className={styles["sv-info-text"]}>
-                End-to-end digital solutions — from marketing to development, we handle it all under one roof.
-              </p>
-              <div className={styles["sv-info-stats"]}>
-                <div className={styles["sv-info-stat"]}>
-                  <span className={styles["sv-info-stat-num"]}>2000+</span>
-                  <span className={styles["sv-info-stat-label"]}>Happy Clients</span>
-                </div>
-                <div className={styles["sv-info-stat-divider"]} />
-                <div className={styles["sv-info-stat"]}>
-                  <span className={styles["sv-info-stat-num"]}>95%</span>
-                  <span className={styles["sv-info-stat-label"]}>Retention</span>
-                </div>
-                <div className={styles["sv-info-stat-divider"]} />
-                <div className={styles["sv-info-stat"]}>
-                  <span className={styles["sv-info-stat-num"]}>10+</span>
-                  <span className={styles["sv-info-stat-label"]}>Years</span>
-                </div>
-              </div>
-              <Link href="/services" className={styles["sv-info-link"]}>
-                View All Services
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
-                </svg>
-              </Link>
             </div>
 
           </div>

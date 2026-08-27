@@ -58,20 +58,129 @@
 /* Left Column Wrapper */
 .sv-left { display:flex; flex-direction:column; gap:0; }
 
-/* Info Card */
-.sv-info-card { position:relative; margin-top:24px; padding:28px 24px; background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); overflow:hidden; }
-.sv-info-glow { position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle, rgba(232,184,109,0.15), transparent 70%); pointer-events:none; }
-.sv-info-top { display:flex; align-items:baseline; gap:12px; margin-bottom:14px; }
-.sv-info-num { font-family:'Syne',sans-serif; font-size:2.4rem; font-weight:900; color:#e8b86d; line-height:1; }
-.sv-info-label { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(240,236,228,.4); font-weight:500; }
-.sv-info-text { font-size:13.5px; line-height:1.7; color:rgba(240,236,228,.45); margin:0 0 20px; }
-.sv-info-stats { display:flex; align-items:center; gap:16px; margin-bottom:20px; padding:14px 0; border-top:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); }
-.sv-info-stat { flex:1; text-align:center; }
-.sv-info-stat-num { display:block; font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; color:#f0ece4; line-height:1.2; }
-.sv-info-stat-label { display:block; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(240,236,228,.35); margin-top:4px; }
-.sv-info-stat-divider { width:1px; height:28px; background:rgba(255,255,255,.08); flex-shrink:0; }
-.sv-info-link { display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#e8b86d; font-weight:600; text-decoration:none; transition:gap .25s, opacity .25s; }
-.sv-info-link:hover { gap:12px; opacity:.8; }
+/* ═══ 3D ANIMATED CARD ═══ */
+.sv-card3d {
+  position:relative; margin-top:24px; padding:2px; overflow:hidden;
+  perspective:800px; border-radius:16px;
+}
+.sv-card3d:hover { transform:translateY(-4px); }
+.sv-card3d { transition:transform .4s ease; }
+
+/* Animated rotating gradient border */
+.sv-card3d-border {
+  position:absolute; inset:-50%; width:200%; height:200%;
+  background:conic-gradient(from 0deg, #e8b86d, #6d9fe8, #e86d9f, #6de8b8, #b86de8, #e8b86d);
+  animation:svBorderSpin 4s linear infinite;
+  z-index:0;
+}
+@keyframes svBorderSpin { to { transform:rotate(360deg); } }
+
+/* Floating orbs */
+.sv-card3d-orb1, .sv-card3d-orb2, .sv-card3d-orb3 {
+  position:absolute; border-radius:50%; pointer-events:none; z-index:2; filter:blur(20px);
+}
+.sv-card3d-orb1 {
+  width:80px; height:80px; top:10%; left:10%;
+  background:rgba(232,184,109,0.3);
+  animation:svOrbFloat1 6s ease-in-out infinite;
+}
+.sv-card3d-orb2 {
+  width:60px; height:60px; bottom:15%; right:10%;
+  background:rgba(109,159,232,0.25);
+  animation:svOrbFloat2 8s ease-in-out infinite;
+}
+.sv-card3d-orb3 {
+  width:40px; height:40px; top:50%; left:60%;
+  background:rgba(232,109,159,0.2);
+  animation:svOrbFloat3 7s ease-in-out infinite;
+}
+@keyframes svOrbFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-15px)} }
+@keyframes svOrbFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-15px,10px)} }
+@keyframes svOrbFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-10px,-20px)} }
+
+/* Inner card */
+.sv-card3d-inner {
+  position:relative; z-index:1; padding:32px 24px;
+  background:rgba(6,8,16,0.92);
+  backdrop-filter:blur(20px);
+  border-radius:14px;
+  display:flex; flex-direction:column; align-items:center; gap:24px;
+}
+
+/* Animated Ring */
+.sv-ring-wrap { position:relative; width:110px; height:110px; }
+.sv-ring-svg { width:100%; height:100%; transform:rotate(-90deg); }
+.sv-ring-bg {
+  fill:none; stroke:rgba(255,255,255,0.06); stroke-width:3;
+}
+.sv-ring-progress {
+  fill:none; stroke:url(#ringGrad); stroke-width:3.5;
+  stroke-linecap:round;
+  stroke-dasharray:327; stroke-dashoffset:80;
+  animation:svRingDraw 2s ease-out forwards, svRingPulse 3s ease-in-out 2s infinite;
+}
+.sv-ring-inner {
+  fill:none; stroke:rgba(232,184,109,0.06); stroke-width:1;
+}
+@keyframes svRingDraw { from { stroke-dashoffset:327; } to { stroke-dashoffset:80; } }
+@keyframes svRingPulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+.sv-ring-content {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.sv-ring-num {
+  font-family:'Syne',sans-serif; font-size:2rem; font-weight:900;
+  background:linear-gradient(135deg, #e8b86d, #f5d89a);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text; line-height:1;
+}
+.sv-ring-label {
+  font-size:9px; letter-spacing:0.25em; text-transform:uppercase;
+  color:rgba(240,236,228,0.4); margin-top:2px;
+}
+
+/* Stats Row */
+.sv-card3d-stats {
+  display:flex; gap:0; width:100%;
+  border-top:1px solid rgba(255,255,255,0.06);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.sv-card3d-stat {
+  flex:1; text-align:center; padding:16px 8px;
+  position:relative;
+  animation:svStatFadeIn .6s ease-out both;
+}
+.sv-card3d-stat:nth-child(1) { animation-delay:.3s; }
+.sv-card3d-stat:nth-child(2) { animation-delay:.5s; border-left:1px solid rgba(255,255,255,0.06); border-right:1px solid rgba(255,255,255,0.06); }
+.sv-card3d-stat:nth-child(3) { animation-delay:.7s; }
+@keyframes svStatFadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+.sv-card3d-val {
+  display:block; font-family:'Syne',sans-serif; font-size:1.3rem;
+  font-weight:800; color:#f0ece4; line-height:1.2;
+}
+.sv-card3d-lbl {
+  display:block; font-size:9px; letter-spacing:0.15em;
+  text-transform:uppercase; color:rgba(240,236,228,0.3); margin-top:4px;
+}
+
+/* CTA Button */
+.sv-card3d-cta {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:12px 28px; border-radius:50px;
+  background:linear-gradient(135deg, rgba(232,184,109,0.15), rgba(232,184,109,0.05));
+  border:1px solid rgba(232,184,109,0.25);
+  color:#e8b86d; font-size:12px; font-weight:600;
+  letter-spacing:0.1em; text-transform:uppercase;
+  text-decoration:none;
+  transition:all .3s ease;
+}
+.sv-card3d-cta:hover {
+  background:linear-gradient(135deg, rgba(232,184,109,0.25), rgba(232,184,109,0.1));
+  border-color:rgba(232,184,109,0.5);
+  gap:14px; box-shadow:0 0 20px rgba(232,184,109,0.15);
+}
 
 /* ══════════════════════════════════════════
    RESPONSIVE — ALL SECTIONS
@@ -88,8 +197,7 @@
   .sv-detail { position:static; }
   .sv-header { flex-direction:column; align-items:flex-start; gap:20px; }
   .sv-header-desc { text-align:left; max-width:100%; }
-  .sv-info-card { margin-top:16px; }
-  .sv-info-stats { gap:12px; }
+  .sv-card3d { margin-top:16px; }
 }
 
 @media (max-width: 640px) {
