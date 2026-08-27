@@ -52,9 +52,26 @@
 .sv-tag { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; padding:5px 12px; border:1px solid rgba(255,255,255,.1); color:rgba(240,236,228,.45); transition:all .2s; }
 .sv-tag:hover { border-color:var(--svc-color); color:var(--svc-color); }
 
-.sv-cta { display:inline-flex; align-items:center; gap:8px; padding:13px 28px; background:var(--svc-color); border:none; color:#060810; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; cursor:pointer; transition:opacity .25s,transform .25s; }
+.sv-cta { display:inline-flex; align-items:center; gap:8px; padding:13px 28px; background:var(--svc-color); border:none; color:#060810; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; cursor:pointer; transition:opacity .25s,transform .25s; text-decoration:none; }
 .sv-cta:hover { opacity:.85; transform:translateX(3px); }
 
+/* Left Column Wrapper */
+.sv-left { display:flex; flex-direction:column; gap:0; }
+
+/* Info Card */
+.sv-info-card { position:relative; margin-top:24px; padding:28px 24px; background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); overflow:hidden; }
+.sv-info-glow { position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle, rgba(232,184,109,0.15), transparent 70%); pointer-events:none; }
+.sv-info-top { display:flex; align-items:baseline; gap:12px; margin-bottom:14px; }
+.sv-info-num { font-family:'Syne',sans-serif; font-size:2.4rem; font-weight:900; color:#e8b86d; line-height:1; }
+.sv-info-label { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(240,236,228,.4); font-weight:500; }
+.sv-info-text { font-size:13.5px; line-height:1.7; color:rgba(240,236,228,.45); margin:0 0 20px; }
+.sv-info-stats { display:flex; align-items:center; gap:16px; margin-bottom:20px; padding:14px 0; border-top:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); }
+.sv-info-stat { flex:1; text-align:center; }
+.sv-info-stat-num { display:block; font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; color:#f0ece4; line-height:1.2; }
+.sv-info-stat-label { display:block; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(240,236,228,.35); margin-top:4px; }
+.sv-info-stat-divider { width:1px; height:28px; background:rgba(255,255,255,.08); flex-shrink:0; }
+.sv-info-link { display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#e8b86d; font-weight:600; text-decoration:none; transition:gap .25s, opacity .25s; }
+.sv-info-link:hover { gap:12px; opacity:.8; }
 
 /* ══════════════════════════════════════════
    RESPONSIVE — ALL SECTIONS
@@ -71,6 +88,8 @@
   .sv-detail { position:static; }
   .sv-header { flex-direction:column; align-items:flex-start; gap:20px; }
   .sv-header-desc { text-align:left; max-width:100%; }
+  .sv-info-card { margin-top:16px; }
+  .sv-info-stats { gap:12px; }
 }
 
 @media (max-width: 640px) {

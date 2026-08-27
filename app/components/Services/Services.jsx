@@ -159,25 +159,61 @@ export default function Services({ initialData }) {
 
         <div className={styles["sv-grid"]}>
 
-          <div className={styles["sv-list"]}>
+          <div className={styles["sv-left"]}>
 
-            {services.map((s, i) => (
+            <div className={styles["sv-list"]}>
+              {services.map((s, i) => (
 
-              <button
-                key={s._id}
-                className={`${styles["sv-item"]} ${i === active ? styles["sv-item-active"] : ""}`}
-                onClick={() => handleSelect(i)}
-                style={{ "--svc-color": s.color }}
-              >
+                <button
+                  key={s._id}
+                  className={`${styles["sv-item"]} ${i === active ? styles["sv-item-active"] : ""}`}
+                  onClick={() => handleSelect(i)}
+                  style={{ "--svc-color": s.color }}
+                >
 
-                <span className={styles["sv-item-num"]}>{s.id}</span>
-                <span className={styles["sv-item-short"]}>{s.short}</span>
-                <span className={styles["sv-item-name"]}>{s.title}</span>
-                <span className={styles["sv-item-arrow"]}>→</span>
+                  <span className={styles["sv-item-num"]}>{s.id}</span>
+                  <span className={styles["sv-item-short"]}>{s.short}</span>
+                  <span className={styles["sv-item-name"]}>{s.title}</span>
+                  <span className={styles["sv-item-arrow"]}>→</span>
 
-              </button>
+                </button>
 
-            ))}
+              ))}
+            </div>
+
+            {/* Info Card below service list */}
+            <div className={styles["sv-info-card"]}>
+              <div className={styles["sv-info-glow"]} />
+              <div className={styles["sv-info-top"]}>
+                <span className={styles["sv-info-num"]}>{services.length < 10 ? `0${services.length}` : services.length}</span>
+                <span className={styles["sv-info-label"]}>Service Categories</span>
+              </div>
+              <p className={styles["sv-info-text"]}>
+                End-to-end digital solutions — from marketing to development, we handle it all under one roof.
+              </p>
+              <div className={styles["sv-info-stats"]}>
+                <div className={styles["sv-info-stat"]}>
+                  <span className={styles["sv-info-stat-num"]}>2000+</span>
+                  <span className={styles["sv-info-stat-label"]}>Happy Clients</span>
+                </div>
+                <div className={styles["sv-info-stat-divider"]} />
+                <div className={styles["sv-info-stat"]}>
+                  <span className={styles["sv-info-stat-num"]}>95%</span>
+                  <span className={styles["sv-info-stat-label"]}>Retention</span>
+                </div>
+                <div className={styles["sv-info-stat-divider"]} />
+                <div className={styles["sv-info-stat"]}>
+                  <span className={styles["sv-info-stat-num"]}>10+</span>
+                  <span className={styles["sv-info-stat-label"]}>Years</span>
+                </div>
+              </div>
+              <Link href="/services" className={styles["sv-info-link"]}>
+                View All Services
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+                </svg>
+              </Link>
+            </div>
 
           </div>
 
