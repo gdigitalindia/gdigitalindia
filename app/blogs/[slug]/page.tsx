@@ -45,7 +45,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   // A plain-HTML renderer approach since we allow HTML in the admin panel
   const createMarkup = (htmlContent: string) => {
-    return { __html: htmlContent }
+    if (!htmlContent) return { __html: "" };
+    const cleaned = htmlContent
+      .replace(/&nbsp;/gi, " ")
+      .replace(/margin-left\s*:\s*-[^; "']+/gi, "margin-left:0")
+      .replace(/margin\s*:\s*-[^; "']+/gi, "margin:0")
+      .replace(/text-indent\s*:\s*-[^; "']+/gi, "text-indent:0");
+    return { __html: cleaned };
   }
 
   return (
@@ -124,11 +130,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           }
           .blog-content h2 { font-size: 28px; }
           .blog-content h3 { font-size: 24px; }
-          .blog-content p {
+          .blog-content p, .blog-content div, .blog-content span, .blog-content li {
             margin-bottom: 1.5em;
             overflow-wrap: break-word;
             word-wrap: break-word;
-            word-break: break-word;
+            word-break: normal;
+            hyphens: manual;
+            -webkit-hyphens: manual;
           }
           .blog-content a {
             color: #4f46e5;
