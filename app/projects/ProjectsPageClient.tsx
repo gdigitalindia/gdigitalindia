@@ -167,7 +167,7 @@ export default function ProjectsPageClient({ initialProjects }: { initialProject
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                       </svg>
-                      <span>{liveUrl ? liveUrl.replace(/^https?:\/\//, "").replace(/\/$/, "") : `${slug}.gdigitalindia.com`}</span>
+                      <span>{liveUrl ? liveUrl.replace(/^https?:\/\//, "").replace(/\/$/, "") : `${(project.title || "project").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}.com`}</span>
                     </div>
                     <div className={styles.cardIndex}>{(i + 1).toString().padStart(2, "0")}</div>
                   </div>
