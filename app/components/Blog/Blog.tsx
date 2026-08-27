@@ -62,12 +62,8 @@ export default function BlogSection({ initialData }: { initialData?: Blog[] }) {
     return null; // hide section if no blogs exist
   }
 
-  // Find featured post (or just pick the first one if none explicitly featured)
-  let featured = blogs.find((p) => p.featured)
-  if (!featured) featured = blogs[0]
-
-  // Filter out the featured post from the rest and limit to 3 to show exactly 4 blogs total
-  const rest = blogs.filter((p) => p._id !== featured?._id).slice(0, 3)
+  // Display top 3 latest blogs in grid
+  const displayBlogs = blogs.slice(0, 3)
 
   return (
     <section className={styles.bl}>
@@ -109,50 +105,9 @@ export default function BlogSection({ initialData }: { initialData?: Blog[] }) {
           </p>
         </div>
 
-        {/* Featured post */}
-        {featured && (
-            <Link href={`/blogs/${featured.slug}`} className={styles["bl-featured"]}>
-            <div className={styles["bl-feat-img-wrap"]}>
-                <Image
-                src={featured.image}
-                alt={featured.title}
-                width={800}
-                height={500}
-                className={styles["bl-feat-img"]}
-                />
-                <div className={styles["bl-feat-overlay"]} />
-                <div className={styles["bl-feat-badge"]}>
-                <span className={styles["bl-badge-num"]}>01</span>
-                <span className={styles["bl-badge-txt"]}>
-                    Featured<br />Post
-                </span>
-                </div>
-                <span className={styles["bl-cat-pill"]}>{featured.category}</span>
-            </div>
-
-            <div className={styles["bl-feat-content"]}>
-                <div className={styles["bl-feat-meta"]}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '4px', color: '#c8a05a' }}>
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                    <line x1="16" y1="2" x2="16" y2="6" />
-                    <line x1="8" y1="2" x2="8" y2="6" />
-                    <line x1="3" y1="10" x2="21" y2="10" />
-                  </svg>
-                  <span>{featured.date}</span>
-                </div>
-                <h3 className={styles["bl-feat-title"]}>{featured.title}</h3>
-                <p className={styles["bl-feat-excerpt"]}>{featured.excerpt}</p>
-                <div className={styles["bl-feat-footer"]}>
-                <span className={styles["bl-feat-author"]}>By {featured.author}</span>
-                <span className={styles["bl-read-more"]}>Read Article →</span>
-                </div>
-            </div>
-            </Link>
-        )}
-
-        {/* Grid */}
+        {/* Grid — Top 3 Latest Blogs */}
         <div className={styles["bl-grid-posts"]}>
-          {rest.map((post, i) => (
+          {displayBlogs.map((post) => (
             <Link href={`/blogs/${post.slug}`} key={post.slug} className={styles["bl-card"]}>
               <div className={styles["bl-card-img-wrap"]}>
                 <Image
