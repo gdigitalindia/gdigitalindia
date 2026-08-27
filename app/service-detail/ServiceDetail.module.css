@@ -343,7 +343,7 @@
   margin: 0 0 16px;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: normal;
 }
 
 .contentImg {
@@ -496,7 +496,7 @@
   margin: 0;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: normal;
 }
 
 /* ── PROCESS STEPS ── */
@@ -545,7 +545,7 @@
   margin: 0;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: normal;
 }
 
 /* ── FAQ ── */
@@ -600,7 +600,7 @@
   display: none;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: normal;
 }
 
 .faqAOpen { display: block; }

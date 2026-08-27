@@ -128,7 +128,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             margin-bottom: 1.5em;
             overflow-wrap: break-word;
             word-wrap: break-word;
-            word-break: break-word;
+            word-break: normal;
           }
           .blog-content a {
             color: #4f46e5;
