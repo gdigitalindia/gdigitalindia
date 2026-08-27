@@ -1,4 +1,4 @@
-.sv { position:relative; background:#060810; padding:130px 0; overflow:hidden; }
+.sv { position:relative; background:#060810; padding:100px 0 80px; overflow:hidden; }
 .sv-canvas { position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 .sv-wrap { position:relative; z-index:1; max-width:1280px; margin:0 auto; padding:0 40px; font-family:'DM Sans',sans-serif; }
 
@@ -11,7 +11,7 @@
 
 .sv-grid { display:grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap:48px; align-items:start; }
 
-.sv-list { display:flex; flex-direction:column; border-top:1px solid rgba(255,255,255,.06); }
+.sv-list { display:flex; flex-direction:column; border-top:1px solid rgba(255,255,255,.06); align-self:start; }
 .sv-item { position:relative; display:flex; align-items:center; gap:18px; padding:22px 16px; border:none; border-bottom:1px solid rgba(255,255,255,.06); background:transparent; cursor:pointer; text-align:left; transition:background .25s ease; overflow:hidden; }
 .sv-item:hover { background:rgba(255,255,255,.03); }
 .sv-item-active { background:rgba(255,255,255,.04) !important; }
