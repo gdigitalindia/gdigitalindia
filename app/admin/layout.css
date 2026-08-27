@@ -34,7 +34,7 @@
   box-sizing: border-box;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: normal;
+  word-break: break-word;
 }
 
 /* ===== WRAPPER ===== */
