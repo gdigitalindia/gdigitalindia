@@ -201,7 +201,7 @@ export default function AboutPageClient({ initialAbout, initialSettings, initial
             <span className={styles.heroTrustDivider} />
             <div className={styles.heroTrustItem}>🏆 <span>Award Winning Agency</span></div>
             <span className={styles.heroTrustDivider} />
-            <div className={styles.heroTrustItem}>✅ <span>7+ Years Experience</span></div>
+            <div className={styles.heroTrustItem}>✅ <span>10+ Years Experience</span></div>
           </div>
         </div>
 
